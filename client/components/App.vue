@@ -1,28 +1,14 @@
 <template>
   <div class="application">
-    <ul>
-      <li v-for="note in notes">
-        {{ note.title }}
-      </li>
-    </ul>
+    <div class="content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
-import NoteService from '../services/NoteService';
-
 export default {
   name: 'app',
-  data() {
-    return {
-      notes: [],
-    };
-  },
-  created: function () {
-    (new NoteService).getNotes().then(d => {
-      this.notes = d;
-    });
-  },
 }
 </script>
 
@@ -30,6 +16,10 @@ export default {
   .application {
     box-sizing: border-box;
     width: 100%;
+  }
+  .content {
+    width: 600px;
+    margin: 0 auto;
     margin-top: 60px;
     margin-bottom: 40px;
   }

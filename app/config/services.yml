@@ -33,3 +33,10 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+    # AppBundle\Service\MarkdownService:
+    #   arguments:
+    #     $parsedown: \Parsedown
+
+    Parsedown:
+      class: \Parsedown
