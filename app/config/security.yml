@@ -2,23 +2,35 @@
 # https://symfony.com/doc/current/security.html
 security:
 
-    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
-    providers:
-        in_memory:
-            memory: ~
+  # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+  providers:
+    in_memory:
+      memory:
+        users:
+          av:
+            password: $2y$12$PdwIviYLJBJDu75WQKC58O6yF59DUdF/0.d7swtkAdmyikEW1guSi
+            roles: ROLE_USER
 
-    firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+  encoders:
+    Symfony\Component\Security\Core\User\User:
+      algorithm: bcrypt
+      cost: 12
 
-        main:
-            anonymous: ~
-            # activate different ways to authenticate
+  firewalls:
+    # disables authentication for assets and the profiler, adapt it according to your needs
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
 
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-            #http_basic: ~
+    main:
+      anonymous: ~
+      form_login:
+        login_path: /login
+        check_path: /login
+      logout:
+        path: /logout
+        target: /login
 
-            # https://symfony.com/doc/current/security/form_login_setup.html
-            #form_login: ~
+  access_control:
+    - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/, roles: ROLE_USER }
