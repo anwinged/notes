@@ -14,6 +14,9 @@
 - src: geerlingguy.mysql
   version: 2.8.0
 
+- src: geerlingguy.nodejs
+  version: 4.1.1
+
 - src: geerlingguy.composer
   version: 1.6.1
 

@@ -46,6 +46,9 @@
         password: "{{ application_name }}"
         priv: "{{ application_name }}.*:ALL"
 
+    # nodejs settings
+    # none
+
   pre_tasks:
     - name: Ensure that PHP PPA is added.
       apt_repository: repo=ppa:ondrej/php state=present
@@ -63,6 +66,7 @@
     - geerlingguy.php-versions
     - geerlingguy.php
     - geerlingguy.mysql
+    - geerlingguy.nodejs
     - geerlingguy.composer
 
   post_tasks:
@@ -76,3 +80,6 @@
         working_dir: "{{ application_root }}"
         no_dev: no
         optimize_autoloader: no
+    - name: Install NPM packages.
+      npm:
+        path: "{{ application_root }}"

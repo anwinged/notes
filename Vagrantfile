@@ -32,6 +32,7 @@ Vagrant.configure("2") do |config|
    :group => 'www-data',
    :mount_options => ["dmode=775","fmode=666"]
 
+  # For correct session handling
   config.vm.synced_folder "./var/sessions", "/vagrant/var/sessions",
    :owner => 'www-data',
    :group => 'www-data',

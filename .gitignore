@@ -15,7 +15,11 @@
 !var/sessions/.gitkeep
 !var/SymfonyRequirements.php
 
+/node_modules/
 /vendor/
+
+/web/assets/
 /web/bundles/
+
 .php_cs.cache
 *.log

@@ -29,7 +29,7 @@ security:
         check_path: /login
       logout:
         path: /logout
-        target: /login
+        target: /
 
   access_control:
     - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
