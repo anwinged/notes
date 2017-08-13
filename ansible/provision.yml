@@ -1,0 +1,59 @@
+---
+- hosts: all
+
+  vars:
+    application_name: note
+    application_root: /vagrant
+    application_env: vagrant
+    application_user: ubuntu
+
+    # timezone settings
+
+    timezone: UTC
+
+    # nginx settings
+
+    nginx_remove_default_vhost: true
+    nginx_vhosts:
+      - server_name: note.loc
+        template: "{{ playbook_dir }}/templates/app.vhost.j2"
+
+    # php settings
+
+    php_version: "7.1"
+    php_packages:
+      - php7.1
+      - php7.1-fpm
+    php_install_recommends: no
+    php_webserver_daemon: nginx
+    php_enable_php_fpm: true
+    php_date_timezone: "{{ timezone }}"
+    php_fpm_listen: /run/php/php{{ php_version }}-fpm.sock
+
+    # mysql settings
+
+    mysql_databases:
+      - name: "{{ application_name }}"
+    mysql_users:
+      - name: "{{ application_name }}"
+        password: "{{ application_name }}"
+        priv: "{{ application_name }}.*:ALL"
+
+  pre_tasks:
+    - name: Ensure that PHP PPA is added.
+      apt_repository: repo=ppa:ondrej/php state=present
+
+  roles:
+    - yatesr.timezone
+    - geerlingguy.nginx
+    - geerlingguy.php-versions
+    - geerlingguy.php
+    - geerlingguy.mysql
+    - geerlingguy.composer
+    # - application
+
+  post_tasks:
+    - name: Add cd to {{ application_root }} in shell startup file.
+      lineinfile:
+        dest: '/home/{{ application_user }}/.bashrc'
+        line: "cd '{{ application_root }}'"
