@@ -22,6 +22,7 @@
     "require": {
         "php": ">=7.1",
         "doctrine/doctrine-bundle": "^1.6",
+        "doctrine/doctrine-migrations-bundle": "^1.2",
         "doctrine/orm": "^2.5",
         "erusev/parsedown": "^1.6",
         "incenteev/composer-parameter-handler": "^2.0",

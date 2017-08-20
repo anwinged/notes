@@ -1,7 +1,7 @@
 <template>
   <form>
+    <button v-on:click="save">Save</button>
     <textarea v-model.trim="text" class="input"></textarea>
-    <button>Save</button>
   </form>
 </template>
 
@@ -24,6 +24,11 @@ export default {
       });
     }
   },
+  methods: {
+    save: function () {
+      (new NoteService).create(this.text);
+    }
+  }
 }
 </script>
 

@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Note;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Service\MarkdownService;
 
+/**
+ * @Route("/notes")
+ */
 class NoteController extends Controller
 {
     /**
-     * @Route("/notes", name="note_index")
+     * @Route("/", name="note_index")
+     * @Method({"GET"})
      */
     public function indexAction(Request $request, MarkdownService $markdownService)
     {
@@ -36,7 +42,8 @@ class NoteController extends Controller
     }
 
     /**
-     * @Route("/notes/{id}", name="note_view", requirements={"id": "\d+"})
+     * @Route("/{id}", name="note_view", requirements={"id": "\d+"})
+     * @Method({"GET"})
      */
     public function viewAction(Request $request, MarkdownService $markdownService, int $id)
     {
@@ -48,5 +55,26 @@ class NoteController extends Controller
         ];
 
         return new JsonResponse($data);
+    }
+
+    /**
+     * @Route("/", name="note_create")
+     * @Method({"POST"})
+     */
+    public function createAction(Request $request, MarkdownService $markdownService)
+    {
+        $source = $request->request->get('source');
+
+        $note = new Note();
+        $note->setSource($source);
+        $note->setHtml($markdownService->convert($source));
+        $note->setCreatedAt(new \DateTime());
+        $note->setUpdatedAt(new \DateTime());
+
+        $em = $this->getDoctrine()->getManagerForClass(Note::class);
+        $em->persist($note);
+        $em->flush();
+
+        return new JsonResponse(['result' => 'success']);
     }
 }

@@ -43,6 +43,7 @@
       - name: "{{ application_name }}"
     mysql_users:
       - name: "{{ application_name }}"
+        host: '%'
         password: "{{ application_name }}"
         priv: "{{ application_name }}.*:ALL"
 
