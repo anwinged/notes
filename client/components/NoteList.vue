@@ -1,11 +1,10 @@
 <template>
   <article>
     <template v-for="note in notes">
-      <section>
-        <h2>
-          <router-link :to="note.url">{{ note.title }}</router-link>
-        </h2>
+      <section class="note-preview">
         <div v-html="note.html"></div>
+        <router-link :to="note.url_view">View</router-link>
+        <router-link :to="note.url_edit">Edit</router-link>
       </section>
     </template>
   </article>
@@ -23,9 +22,20 @@ export default {
   created: function () {
     (new NoteService).getNotes().then(d => {
       this.notes = d.map(n => {
-        return Object.assign({},  n, { url: '/notes/' + n.id });
+        return Object.assign({},  n, {
+          url_view: '/notes/' + n.id,
+          url_edit: '/notes/' + n.id + '/edit',
+        });
       });
     });
   },
 }
 </script>
+
+<style scoped>
+  .note-preview + .note-preview {
+    margin-top: 10px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+  }
+</style>

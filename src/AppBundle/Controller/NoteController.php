@@ -11,6 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Service\MarkdownService;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/notes")
@@ -23,38 +26,35 @@ class NoteController extends Controller
      */
     public function indexAction(Request $request, MarkdownService $markdownService)
     {
-        $data = [
-            [
-                'id' => 1,
-                'title' => 'First',
-                'source' => "# First\nSome text",
-                'html' => $markdownService->convert("# First\nSome text"),
-            ],
-            [
-                'id' => 2,
-                'title' => 'Second',
-                'source' => "# Second\nAnother text",
-                'html' => $markdownService->convert("# Second\nAnother text"),
-            ],
-        ];
+        $rep = $this->getDoctrine()->getRepository('AppBundle:Note');
+        $notes = $rep->findAll();
 
-        return new JsonResponse($data);
+        /** @var SerializerInterface $serializer */
+        $serializer = $this->container->get('serializer');
+
+        $jsonString = $serializer->serialize($notes, 'json');
+
+        return JsonResponse::fromJsonString($jsonString);
     }
 
     /**
      * @Route("/{id}", name="note_view", requirements={"id": "\d+"})
      * @Method({"GET"})
      */
-    public function viewAction(Request $request, MarkdownService $markdownService, int $id)
+    public function viewAction(Request $request, int $id)
     {
-        $data = [
-            'id' => $id,
-            'title' => 'First',
-            'source' => "# First\n\nSome text",
-            'html' => $markdownService->convert("# First\n\nSome text"),
-        ];
+        $rep = $this->getDoctrine()->getRepository('AppBundle:Note');
+        $note = $rep->find($id);
 
-        return new JsonResponse($data);
+        if ($note === null) {
+            throw $this->createNotFoundException();
+        }
+
+        /** @var SerializerInterface $serializer */
+        $serializer = $this->container->get('serializer');
+        $jsonString = $serializer->serialize($note, 'json');
+
+        return JsonResponse::fromJsonString($jsonString);
     }
 
     /**
@@ -64,6 +64,9 @@ class NoteController extends Controller
     public function createAction(Request $request, MarkdownService $markdownService)
     {
         $source = $request->request->get('source');
+        if ($source === null) {
+            throw new HttpException(400);
+        }
 
         $note = new Note();
         $note->setSource($source);
@@ -75,6 +78,36 @@ class NoteController extends Controller
         $em->persist($note);
         $em->flush();
 
-        return new JsonResponse(['result' => 'success']);
+        return new Response('', Response::HTTP_CREATED);
+    }
+
+    /**
+     * @Route("/{id}", name="note_update", requirements={"id": "\d+"})
+     * @Method({"PUT"})
+     */
+    public function updateAction(Request $request, int $id)
+    {
+        $source = $request->request->get('source');
+        if ($source === null) {
+            throw new HttpException(400);
+        }
+
+        $rep = $this->getDoctrine()->getRepository('AppBundle:Note');
+        $note = $rep->find($id);
+        if ($note === null) {
+            throw $this->createNotFoundException();
+        }
+
+        $markdownService = $this->container->get(MarkdownService::class);
+
+        $note->setSource($source);
+        $note->setHtml($markdownService->convert($source));
+        $note->setUpdatedAt(new \DateTime());
+
+        $em = $this->getDoctrine()->getManagerForClass(Note::class);
+        $em->persist($note);
+        $em->flush();
+
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 }

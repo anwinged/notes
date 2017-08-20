@@ -1,7 +1,7 @@
 <template>
   <form>
     <button v-on:click="save">Save</button>
-    <textarea v-model.trim="text" class="input"></textarea>
+    <textarea v-model="text" class="input" title="Input"></textarea>
   </form>
 </template>
 
@@ -26,7 +26,12 @@ export default {
   },
   methods: {
     save: function () {
-      (new NoteService).create(this.text);
+      const service = new NoteService();
+      if (this.id) {
+        service.update(this.id, this.text);
+      } else {
+        service.create(this.text);
+      }
     }
   }
 }
