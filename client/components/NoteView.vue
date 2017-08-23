@@ -1,13 +1,13 @@
 <template>
   <article>
     <div v-html="note.html"></div>
-    <router-link :to="note.edit_url">Edit</router-link>
+    <router-link :to="{ name: 'note_edit', params: { id: note.id }}">Edit</router-link> /
+    <router-link :to="{ name: 'note_index' }">Index</router-link>
   </article>
 </template>
 
 <script>
 import NoteService from '../services/NoteService';
-
 export default {
   name: 'note-view',
   props: ['id'],
@@ -17,9 +17,8 @@ export default {
     };
   },
   created() {
-    (new NoteService).getNote(this.id).then(d => {
-      this.note = d;
-      this.note.edit_url = '/notes/' + d.id + '/edit'
+    (new NoteService).getNote(this.id).then(note => {
+      this.note = note;
     });
   },
 }

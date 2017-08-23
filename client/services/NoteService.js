@@ -14,25 +14,27 @@ export default class NoteService
         return response.json();
     }
 
-    async create(text) {
+    async create({ source }) {
         const response = await fetch('/notes/', {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
-            body: 'source=' + encodeURI(text),
+            body: 'source=' + encodeURI(source),
         });
+        return response.json();
     }
 
-    async update(id, text) {
+    async update({ id, source }) {
         const response = await fetch(`/notes/${id}`, {
             method: 'PUT',
             credentials: 'same-origin',
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
-            body: 'source=' + encodeURI(text),
+            body: 'source=' + encodeURI(source),
         });
+        return response.json();
     }
 }

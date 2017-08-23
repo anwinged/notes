@@ -78,7 +78,11 @@ class NoteController extends Controller
         $em->persist($note);
         $em->flush();
 
-        return new Response('', Response::HTTP_CREATED);
+        /** @var SerializerInterface $serializer */
+        $serializer = $this->container->get('serializer');
+        $jsonString = $serializer->serialize($note, 'json');
+
+        return JsonResponse::fromJsonString($jsonString, Response::HTTP_CREATED);
     }
 
     /**
@@ -108,6 +112,10 @@ class NoteController extends Controller
         $em->persist($note);
         $em->flush();
 
-        return new Response('', Response::HTTP_NO_CONTENT);
+        /** @var SerializerInterface $serializer */
+        $serializer = $this->container->get('serializer');
+        $jsonString = $serializer->serialize($note, 'json');
+
+        return JsonResponse::fromJsonString($jsonString, Response::HTTP_OK);
     }
 }

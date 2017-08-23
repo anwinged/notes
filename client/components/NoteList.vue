@@ -1,10 +1,13 @@
 <template>
   <article>
+    <router-link :to="{ name: 'note_create' }">Create</router-link>
+    <hr>
     <template v-for="note in notes">
       <section class="note-preview">
+        <div class="note-id"># {{ note.id }}</div>
         <div v-html="note.html"></div>
-        <router-link :to="note.url_view">View</router-link>
-        <router-link :to="note.url_edit">Edit</router-link>
+        <router-link :to="{ name: 'note_view', params: { id: note.id }}">View</router-link> /
+        <router-link :to="{ name: 'note_edit', params: { id: note.id }}">Edit</router-link>
       </section>
     </template>
   </article>
@@ -20,22 +23,26 @@ export default {
     };
   },
   created: function () {
-    (new NoteService).getNotes().then(d => {
-      this.notes = d.map(n => {
-        return Object.assign({},  n, {
-          url_view: '/notes/' + n.id,
-          url_edit: '/notes/' + n.id + '/edit',
-        });
-      });
+    (new NoteService).getNotes().then(notes => {
+      this.notes = notes;
     });
   },
 }
 </script>
 
 <style scoped>
+  .note-preview {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    position: relative;
+  }
+  .note-id {
+    position: absolute;
+    top: 0;
+    left: -45px;
+    color: #bbb;
+  }
   .note-preview + .note-preview {
-    margin-top: 10px;
     border-top: 1px solid #ccc;
-    padding-top: 10px;
   }
 </style>

@@ -5,13 +5,31 @@ import NoteList from './components/NoteList.vue'
 import NoteView from './components/NoteView.vue'
 import NoteForm from './components/NoteForm.vue'
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
-    { path: '/', component: NoteList },
-    { path: '/notes/new', component: NoteForm },
-    { path: '/notes/:id/edit', component: NoteForm, props: true },
-    { path: '/notes/:id', component: NoteView, props: true },
+    {
+        path: '/',
+        name: 'note_index' ,
+        component: NoteList,
+    },
+    {
+        path: '/notes/new',
+        name: 'note_create' ,
+        component: NoteForm,
+    },
+    {
+        path: '/notes/:id/edit',
+        name: 'note_edit',
+        component: NoteForm,
+        props: true
+    },
+    {
+        path: '/notes/:id',
+        name: 'note_view',
+        component: NoteView,
+        props: true
+    },
 ];
 
 const router = new VueRouter({
