@@ -1,7 +1,7 @@
 <template>
   <article>
     <div v-html="note.html"></div>
-    <router-link :to="{ name: 'note_edit', params: { id: note.id }}">Edit</router-link> /
+    <router-link v-if="note.id" :to="{ name: 'note_edit', params: { id: note.id }}">Edit</router-link> /
     <router-link :to="{ name: 'note_index' }">Index</router-link>
   </article>
 </template>

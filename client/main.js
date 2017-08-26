@@ -14,7 +14,7 @@ const routes = [
         component: NoteList,
     },
     {
-        path: '/notes/new',
+        path: '/notes/create',
         name: 'note_create' ,
         component: NoteForm,
     },

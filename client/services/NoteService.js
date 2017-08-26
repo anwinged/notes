@@ -1,19 +1,37 @@
+import Note from '../models/Note.js';
+
 export default class NoteService
 {
+    /**
+     * @returns {Promise.<Note>}
+     */
     async getNotes() {
         const response = await fetch('/notes', {
             credentials: 'same-origin'
         });
-        return response.json();
+
+        const data = await response.json();
+
+        return data.map(obj => {
+            return Object.assign(new Note(), obj);
+        });
     }
 
+    /**
+     * @param {Number} id
+     * @returns {Promise.<Note>}
+     */
     async getNote(id) {
         const response = await fetch(`/notes/${id}`, {
             credentials: 'same-origin'
         });
-        return response.json();
+
+        return Object.assign(new Note(), await response.json());
     }
 
+    /**
+     * @returns {Promise.<Note>}
+     */
     async create({ source }) {
         const response = await fetch('/notes/', {
             method: 'POST',
@@ -23,9 +41,13 @@ export default class NoteService
             },
             body: 'source=' + encodeURI(source),
         });
-        return response.json();
+
+        return Object.assign(new Note(), await response.json());
     }
 
+    /**
+     * @returns {Promise.<Note>}
+     */
     async update({ id, source }) {
         const response = await fetch(`/notes/${id}`, {
             method: 'PUT',
@@ -35,6 +57,7 @@ export default class NoteService
             },
             body: 'source=' + encodeURI(source),
         });
-        return response.json();
+
+        return Object.assign(new Note(), await response.json());
     }
 }
