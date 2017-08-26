@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import NoteList from './components/NoteList.vue'
 import NoteView from './components/NoteView.vue'
 import NoteForm from './components/NoteForm.vue'
+import NotFound from './components/NotFound.vue'
 
 Vue.use(VueRouter);
 
@@ -29,6 +30,11 @@ const routes = [
         component: NoteView,
         props: true,
     },
+    {
+        path: '*',
+        name: 'not_found',
+        component: NotFound,
+    }
 ];
 
 const router = new VueRouter({

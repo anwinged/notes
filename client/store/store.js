@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import logger from 'vuex/dist/logger';
 import NoteService from '../services/NoteService.js';
 
 Vue.use(Vuex);
@@ -9,6 +10,7 @@ const ADD_NOTE = 'add_note';
 const REPLACE_NOTE = 'replace_note';
 
 const store = new Vuex.Store({
+    plugins: [logger()],
     state: {
         notes: [],
     },
@@ -56,7 +58,6 @@ const store = new Vuex.Store({
             return draft;
         },
         async saveNote({ commit }, note) {
-            console.log('SAVE NOTE', JSON.stringify(note));
             const service = new NoteService;
             const updated = note.draft
                 ? await service.create(note)
@@ -64,7 +65,7 @@ const store = new Vuex.Store({
             ;
             commit(REPLACE_NOTE, { id: note.id, note: updated });
             return updated;
-        }
+        },
     },
 });
 

@@ -1,21 +1,30 @@
 <template>
-  <form>
-    <button v-on:click="save">Save</button> /
-    <router-link v-if="this.id" :to="{ name: 'note_view', params: { id: note.id }}">View</router-link> /
-    <router-link :to="{ name: 'note_index' }">Index</router-link>
-    <textarea v-model="note.source" class="input" title="Input"></textarea>
-  </form>
+  <article>
+    <loader v-if="loading"></loader>
+    <not-found v-if="missed"></not-found>
+    <form v-if="found">
+      <button v-on:click="save">Save</button> /
+      <router-link v-if="this.id" :to="{ name: 'note_view', params: { id: note.id }}">View</router-link> /
+      <router-link :to="{ name: 'note_index' }">Index</router-link>
+      <textarea v-model="note.source" class="input" title="Input"></textarea>
+    </form>
+  </article>
 </template>
 
 <script>
-import NoteService from '../services/NoteService';
+import LoaderMixin from '../mixins/LoaderMixin';
 export default {
-  name: 'note-form',
   props: ['id'],
+  mixins: [LoaderMixin],
   data() {
     return {
-      note: { source: '' },
+      note: 'loading',
     };
+  },
+  computed: {
+    loadingItem() {
+      return this.note;
+    },
   },
   created: function () {
     if (this.id) {
@@ -30,8 +39,8 @@ export default {
   },
   methods: {
     save: function () {
-      this.$store.dispatch('saveNote', this.note).then(note => {
-        this.$router.push({ name: 'note_view', params: { id: note.id }});
+      this.$store.dispatch('saveNote', this.note).then(() => {
+        this.$router.push({ name: 'note_index' });
       });
     }
   }

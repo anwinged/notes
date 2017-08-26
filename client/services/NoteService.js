@@ -15,11 +15,18 @@ export default class NoteService
             credentials: 'same-origin'
         });
 
-        const data = await response.json();
+        if (response.status === 200) {
+            const data = await response.json();
+            return data.map(obj => {
+                return Object.assign(new Note(), obj);
+            });
+        }
 
-        return data.map(obj => {
-            return Object.assign(new Note(), obj);
-        });
+        if (response.status === 404) {
+            return [];
+        }
+
+        throw new Error(`Unexpected answer ${response.status} ${response.statusText}`);
     }
 
     /**
@@ -31,7 +38,15 @@ export default class NoteService
             credentials: 'same-origin'
         });
 
-        return Object.assign(new Note(), await response.json());
+        if (response.status === 200) {
+            return Object.assign(new Note(), await response.json());
+        }
+
+        if (response.status === 404) {
+            return null;
+        }
+
+        throw new Error(`Unexpected answer ${response.status} ${response.statusText}`);
     }
 
     /**
