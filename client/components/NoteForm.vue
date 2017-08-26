@@ -2,7 +2,7 @@
   <form>
     <button v-on:click="save">Save</button> /
     <router-link v-if="this.id" :to="{ name: 'note_view', params: { id: note.id }}">View</router-link> /
-    <router-link v-if="this.id" :to="{ name: 'note_index' }">Index</router-link>
+    <router-link :to="{ name: 'note_index' }">Index</router-link>
     <textarea v-model="note.source" class="input" title="Input"></textarea>
   </form>
 </template>
@@ -19,21 +19,18 @@ export default {
   },
   created: function () {
     if (this.id) {
-      (new NoteService).getNote(this.id).then(note => {
+      this.$store.dispatch('getNote', this.id).then(note => {
         this.note = note;
       });
     } else {
-      this.note = { source: '' };
+      this.$store.dispatch('createDraftNote').then(note => {
+        this.note = note;
+      });
     }
   },
   methods: {
     save: function () {
-      const service = new NoteService();
-      const response = this.id
-        ? service.update(this.note)
-        : service.create(this.note)
-      ;
-      response.then(note => {
+      this.$store.dispatch('saveNote', this.note).then(note => {
         this.$router.push({ name: 'note_view', params: { id: note.id }});
       });
     }

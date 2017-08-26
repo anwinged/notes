@@ -5,4 +5,9 @@ export default class Note
     html;
     createdAt;
     updatedAt;
+
+    /**
+     * @type {Boolean}
+     */
+    draft = false;
 }

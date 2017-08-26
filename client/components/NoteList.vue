@@ -4,9 +4,9 @@
     <hr>
     <template v-for="note in notes">
       <section class="note-preview">
-        <div class="note-id"># {{ note.id }}</div>
+        <span>{{ note.id }}, {{ note.updatedAt }}</span>
         <div v-html="note.html"></div>
-        <router-link :to="{ name: 'note_view', params: { id: note.id }}">View</router-link> /
+        <router-link v-if="!note.draft" :to="{ name: 'note_view', params: { id: note.id }}">View</router-link> /
         <router-link :to="{ name: 'note_edit', params: { id: note.id }}">Edit</router-link>
       </section>
     </template>
@@ -14,18 +14,12 @@
 </template>
 
 <script>
-import NoteService from '../services/NoteService';
 export default {
   name: 'note-list',
-  data() {
-    return {
-      notes: [],
-    };
-  },
-  created: function () {
-    (new NoteService).getNotes().then(notes => {
-      this.notes = notes;
-    });
+  computed: {
+    notes() {
+      return this.$store.getters.newest;
+    },
   },
 }
 </script>

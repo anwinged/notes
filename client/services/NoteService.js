@@ -3,6 +3,11 @@ import Note from '../models/Note.js';
 export default class NoteService
 {
     /**
+     * @type {Number}
+     */
+    static draftId = 1;
+
+    /**
      * @returns {Promise.<Note>}
      */
     async getNotes() {
@@ -59,5 +64,16 @@ export default class NoteService
         });
 
         return Object.assign(new Note(), await response.json());
+    }
+
+    /**
+     * @returns {Note}
+     */
+    createDraft() {
+        const note = new Note();
+        note.draft = true;
+        note.id = `draft_${this.constructor.draftId}`;
+        this.constructor.draftId += 1;
+        return note;
     }
 }
