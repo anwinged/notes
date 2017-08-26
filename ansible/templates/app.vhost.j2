@@ -23,6 +23,10 @@ server {
         # for more information).
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+        {% for name, value in app_envs.iteritems() %}
+        fastcgi_param {{ name }} "{{ value }}";
+        {% endfor %}
     }
 
     # return 404 for all other php files not matching the front controller

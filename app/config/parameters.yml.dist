@@ -2,11 +2,11 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host: 127.0.0.1
-    database_port: 3306
-    database_name: note
-    database_user: note
-    database_password: note
+    database_host: '%env(NOTES_DATABASE_HOST)%'
+    database_port: '%env(NOTES_DATABASE_PORT)%'
+    database_name: '%env(NOTES_DATABASE_NAME)%'
+    database_user: '%env(NOTES_DATABASE_USER)%'
+    database_password: '%env(NOTES_DATABASE_PASSWORD)%'
 
     mailer_transport: smtp
     mailer_host: 127.0.0.1
@@ -14,4 +14,11 @@ parameters:
     mailer_password: ~
 
     # A secret key that's used to generate certain security-related tokens
-    secret: ThisTokenIsNotSoSecretChangeIt
+    secret: '%env(NOTES_SECRET_TOKEN)%'
+
+    env(NOTES_SECRET_TOKEN): ThisTokenIsNotSoSecretChangeIt
+    env(NOTES_DATABASE_HOST): 127.0.0.1
+    env(NOTES_DATABASE_PORT): 3306
+    env(NOTES_DATABASE_NAME): note
+    env(NOTES_DATABASE_USER): note
+    env(NOTES_DATABASE_PASSWORD): note

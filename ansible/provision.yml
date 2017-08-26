@@ -7,6 +7,15 @@
     application_env: dev
     application_user: ubuntu
 
+    app_envs:
+      NOTES_SECRET_TOKEN: ThisTokenIsNotSoSecretChangeIt
+      NOTES_DATABASE_HOST: 127.0.0.1
+      NOTES_DATABASE_PORT: 3306
+      NOTES_DATABASE_NAME: note
+      NOTES_DATABASE_USER: note
+      NOTES_DATABASE_PASSWORD: note
+      SYMFONY_ENV: dev
+
     # timezone settings
 
     timezone: UTC
@@ -31,7 +40,6 @@
       - php7.1-xml
       - php7.1-intl
       - php7.1-zip
-    php_install_recommends: no
     php_webserver_daemon: nginx
     php_enable_php_fpm: true
     php_date_timezone: "{{ timezone }}"
@@ -49,6 +57,8 @@
 
     # nodejs settings
     # none
+
+  environment: "{{ app_envs }}"
 
   pre_tasks:
     - name: Ensure that PHP PPA is added.
@@ -71,6 +81,12 @@
     - geerlingguy.composer
 
   post_tasks:
+    - name: Create system environment variables.
+      lineinfile:
+        path: /etc/environment
+        regexp: '^{{ item.key }}='
+        line: '{{ item.key }}="{{ item.value }}"'
+      with_dict: "{{ app_envs }}"
     - name: Add cd to {{ application_root }} in shell startup file.
       lineinfile:
         dest: "/home/{{ application_user }}/.bashrc"
