@@ -16,6 +16,8 @@ Vagrant.configure("2") do |config|
     v.cpus = 2
   end
 
+  config.ssh.forward_agent = true
+
   config.vm.provision "ansible_local" do |ansible|
     ansible.playbook = "ansible/provision.yml"
     ansible.galaxy_role_file = "ansible/requirements.yml"
