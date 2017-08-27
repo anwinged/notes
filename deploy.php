@@ -5,7 +5,7 @@ require 'recipe/common.php';
 
 // Hosts
 
-host('anwinged.ru')
+host('notes.anwinged.ru')
     ->user('deployer')
     ->stage('production')
     ->set('deploy_path', '/var/www/notes')
@@ -176,7 +176,6 @@ task('release', [
     'deploy:release',
     'upload',
     'deploy:shared',
-    'deploy:writable',
     'deploy:cache:clear',
     'deploy:cache:warmup',
     'database:migrate',
