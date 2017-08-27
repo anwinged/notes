@@ -85,21 +85,6 @@ set('bin/npm', function () {
 set('build_dir', '/tmp/build-notes');
 
 /**
- * Create cache dir
- */
-task('deploy:create_cache_dir', function () {
-    // Set cache dir
-    set('cache_dir', '{{release_path}}/' . trim(get('var_dir'), '/') . '/cache');
-    // Remove cache dir if it exist
-    run('if [ -d "{{cache_dir}}" ]; then rm -rf {{cache_dir}}; fi');
-    // Create cache dir
-    run('mkdir -p {{cache_dir}}');
-    // Set rights
-    run("chmod -R g+w {{cache_dir}}");
-    run("chgr -R www-data {{cache_dir}}");
-})->desc('Create cache dir');
-
-/**
  * Clear Cache
  */
 task('deploy:cache:clear', function () {

@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Note it!</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script src="/assets/app.js?t={{ date().timestamp }}"></script>
-  </body>
-</html>
+{% extends '::base.html.twig' %}
+
+{% block body %}
+  <div id="app"></div>
+{% endblock %}
+
+{% block javascripts %}
+  <script src="/assets/app.js?t={{ date().timestamp }}"></script>
+{% endblock %}
