@@ -58,9 +58,6 @@ set('upload_excluded_dirs', [
     'node_modules',
 ]);
 
-// Requires non symfony-core package `kriswallsmith/assetic` to be installed
-set('dump_assets', false);
-
 // Environment vars
 set('env', function () {
     return [
@@ -99,6 +96,7 @@ task('deploy:create_cache_dir', function () {
     run('mkdir -p {{cache_dir}}');
     // Set rights
     run("chmod -R g+w {{cache_dir}}");
+    run("chgr -R www-data {{cache_dir}}");
 })->desc('Create cache dir');
 
 /**
