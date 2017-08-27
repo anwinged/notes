@@ -25,6 +25,9 @@ set('application', 'Notes');
 // Project repository
 set('repository', 'git@github.com:anwinged/note.git');
 
+// Saved releases
+set('keep_releases', 2);
+
 // [Optional] Allocate tty for git clone. Default value is false.
 set('git_tty', true);
 
