@@ -10,6 +10,7 @@ parameters:
 
     mailer_transport: smtp
     mailer_host: '%env(NOTES_MAILER_HOST)%'
+    mailer_port: '%env(NOTES_MAILER_PORT)%'
     mailer_user: '%env(NOTES_MAILER_USER)%'
     mailer_password: '%env(NOTES_MAILER_PASSWORD)%'
 
@@ -23,5 +24,6 @@ parameters:
     env(NOTES_DATABASE_USER): note
     env(NOTES_DATABASE_PASSWORD): note
     env(NOTES_MAILER_HOST): 127.0.0.1
+    env(NOTES_MAILER_PORT): 25
     env(NOTES_MAILER_USER): noreply@notes.tld
     env(NOTES_MAILER_PASSWORD): ~
