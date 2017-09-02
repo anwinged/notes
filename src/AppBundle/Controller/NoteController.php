@@ -6,15 +6,14 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Note;
 use AppBundle\Service\NoteService;
+use AppBundle\View\View;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/notes")
@@ -27,13 +26,7 @@ class NoteController extends Controller
      */
     public function indexAction(NoteService $noteService)
     {
-        $notes = $noteService->allForUser();
-
-        /** @var SerializerInterface $serializer */
-        $serializer = $this->container->get('serializer');
-        $jsonString = $serializer->serialize($notes, 'json');
-
-        return JsonResponse::fromJsonString($jsonString);
+        return $noteService->allForUser();
     }
 
     /**
@@ -44,11 +37,7 @@ class NoteController extends Controller
      */
     public function viewAction(Note $note)
     {
-        /** @var SerializerInterface $serializer */
-        $serializer = $this->container->get('serializer');
-        $jsonString = $serializer->serialize($note, 'json');
-
-        return JsonResponse::fromJsonString($jsonString);
+        return $note;
     }
 
     /**
@@ -64,11 +53,7 @@ class NoteController extends Controller
 
         $note = $noteService->create($source);
 
-        /** @var SerializerInterface $serializer */
-        $serializer = $this->container->get('serializer');
-        $jsonString = $serializer->serialize($note, 'json');
-
-        return JsonResponse::fromJsonString($jsonString, Response::HTTP_CREATED);
+        return View::create($note, Response::HTTP_CREATED);
     }
 
     /**
@@ -84,12 +69,6 @@ class NoteController extends Controller
             throw new HttpException(400);
         }
 
-        $updated = $noteService->update($note, $source);
-
-        /** @var SerializerInterface $serializer */
-        $serializer = $this->container->get('serializer');
-        $jsonString = $serializer->serialize($updated, 'json');
-
-        return JsonResponse::fromJsonString($jsonString, Response::HTTP_OK);
+        return $noteService->update($note, $source);
     }
 }
