@@ -20,5 +20,5 @@
 - src: geerlingguy.composer
   version: 1.6.1
 
-# - src: geerlingguy.mailhog
-#   version: 2.1.1
+- src: geerlingguy.mailhog
+  version: 2.1.3

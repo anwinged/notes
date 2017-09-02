@@ -9,9 +9,9 @@ parameters:
     database_password: '%env(NOTES_DATABASE_PASSWORD)%'
 
     mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: ~
-    mailer_password: ~
+    mailer_host: '%env(NOTES_MAILER_HOST)%'
+    mailer_user: '%env(NOTES_MAILER_USER)%'
+    mailer_password: '%env(NOTES_MAILER_PASSWORD)%'
 
     # A secret key that's used to generate certain security-related tokens
     secret: '%env(NOTES_SECRET_TOKEN)%'
@@ -22,3 +22,6 @@ parameters:
     env(NOTES_DATABASE_NAME): note
     env(NOTES_DATABASE_USER): note
     env(NOTES_DATABASE_PASSWORD): note
+    env(NOTES_MAILER_HOST): 127.0.0.1
+    env(NOTES_MAILER_USER): noreply@notes.tld
+    env(NOTES_MAILER_PASSWORD): ~

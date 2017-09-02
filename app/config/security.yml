@@ -1,18 +1,11 @@
-# To get started with security, check out the documentation:
-# https://symfony.com/doc/current/security.html
 security:
 
-  # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
   providers:
-    in_memory:
-      memory:
-        users:
-          av:
-            password: $2y$12$PdwIviYLJBJDu75WQKC58O6yF59DUdF/0.d7swtkAdmyikEW1guSi
-            roles: ROLE_USER
+    fos_userbundle:
+      id: fos_user.user_provider.username
 
   encoders:
-    Symfony\Component\Security\Core\User\User:
+    FOS\UserBundle\Model\UserInterface:
       algorithm: bcrypt
       cost: 12
 
@@ -23,15 +16,14 @@ security:
       security: false
 
     main:
-      anonymous: ~
+      anonymous: true
+      logout: true
       form_login:
-        login_path: /login
-        check_path: /login
+        provider: fos_userbundle
         csrf_token_generator: security.csrf.token_manager
-      logout:
-        path: /logout
-        target: /
 
   access_control:
     - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/, roles: ROLE_USER }

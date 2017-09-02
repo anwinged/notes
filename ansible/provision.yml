@@ -14,6 +14,9 @@
       NOTES_DATABASE_NAME: note
       NOTES_DATABASE_USER: note
       NOTES_DATABASE_PASSWORD: note
+      NOTES_MAILER_HOST: 127.0.0.1
+      NOTES_MAILER_USER: noreply@notes.tld
+      NOTES_MAILER_PASSWORD: ''
       SYMFONY_ENV: dev
 
     # timezone settings
@@ -42,8 +45,9 @@
       - php7.1-zip
     php_webserver_daemon: nginx
     php_enable_php_fpm: true
-    php_date_timezone: "{{ timezone }}"
     php_fpm_listen: /run/php/php{{ php_version }}-fpm.sock
+    php_date_timezone: "{{ timezone }}"
+    php_sendmail_path: "/usr/local/bin/mhsendmail"
 
     # mysql settings
 
@@ -79,6 +83,7 @@
     - geerlingguy.mysql
     - geerlingguy.nodejs
     - geerlingguy.composer
+    - geerlingguy.mailhog
 
   post_tasks:
     - name: Create system environment variables.
