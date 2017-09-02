@@ -10,6 +10,7 @@ use AppBundle\View\View;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +35,7 @@ class NoteController extends Controller
      * @Method({"GET"})
      *
      * @ParamConverter("note")
+     * @Security("is_granted('ACCESS', note)")
      */
     public function viewAction(Note $note)
     {
@@ -61,6 +63,7 @@ class NoteController extends Controller
      * @Method({"PUT"})
      *
      * @ParamConverter("note")
+     * @Security("is_granted('ACCESS', note)")
      */
     public function updateAction(Request $request, NoteService $noteService, Note $note)
     {
