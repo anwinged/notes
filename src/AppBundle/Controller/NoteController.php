@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Note;
-use AppBundle\Service\MarkdownService;
+use AppBundle\Service\NoteService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,14 +25,12 @@ class NoteController extends Controller
      * @Route("/", name="note_index")
      * @Method({"GET"})
      */
-    public function indexAction(Request $request, MarkdownService $markdownService)
+    public function indexAction(NoteService $noteService)
     {
-        $rep = $this->getDoctrine()->getRepository('AppBundle:Note');
-        $notes = $rep->findAll();
+        $notes = $noteService->allForUser();
 
         /** @var SerializerInterface $serializer */
         $serializer = $this->container->get('serializer');
-
         $jsonString = $serializer->serialize($notes, 'json');
 
         return JsonResponse::fromJsonString($jsonString);
@@ -40,16 +39,11 @@ class NoteController extends Controller
     /**
      * @Route("/{id}", name="note_view", requirements={"id": "\d+"})
      * @Method({"GET"})
+     *
+     * @ParamConverter("note")
      */
-    public function viewAction(Request $request, int $id)
+    public function viewAction(Note $note)
     {
-        $rep = $this->getDoctrine()->getRepository('AppBundle:Note');
-        $note = $rep->find($id);
-
-        if ($note === null) {
-            throw $this->createNotFoundException();
-        }
-
         /** @var SerializerInterface $serializer */
         $serializer = $this->container->get('serializer');
         $jsonString = $serializer->serialize($note, 'json');
@@ -61,22 +55,14 @@ class NoteController extends Controller
      * @Route("/", name="note_create")
      * @Method({"POST"})
      */
-    public function createAction(Request $request, MarkdownService $markdownService)
+    public function createAction(Request $request, NoteService $noteService)
     {
         $source = $request->request->get('source');
         if ($source === null) {
             throw new HttpException(400);
         }
 
-        $note = new Note();
-        $note->setSource($source);
-        $note->setHtml($markdownService->convert($source));
-        $note->setCreatedAt(new \DateTime());
-        $note->setUpdatedAt(new \DateTime());
-
-        $em = $this->getDoctrine()->getManagerForClass(Note::class);
-        $em->persist($note);
-        $em->flush();
+        $note = $noteService->create($source);
 
         /** @var SerializerInterface $serializer */
         $serializer = $this->container->get('serializer');
@@ -88,33 +74,21 @@ class NoteController extends Controller
     /**
      * @Route("/{id}", name="note_update", requirements={"id": "\d+"})
      * @Method({"PUT"})
+     *
+     * @ParamConverter("note")
      */
-    public function updateAction(Request $request, int $id)
+    public function updateAction(Request $request, NoteService $noteService, Note $note)
     {
         $source = $request->request->get('source');
         if ($source === null) {
             throw new HttpException(400);
         }
 
-        $rep = $this->getDoctrine()->getRepository('AppBundle:Note');
-        $note = $rep->find($id);
-        if ($note === null) {
-            throw $this->createNotFoundException();
-        }
-
-        $markdownService = $this->container->get(MarkdownService::class);
-
-        $note->setSource($source);
-        $note->setHtml($markdownService->convert($source));
-        $note->setUpdatedAt(new \DateTime());
-
-        $em = $this->getDoctrine()->getManagerForClass(Note::class);
-        $em->persist($note);
-        $em->flush();
+        $updated = $noteService->update($note, $source);
 
         /** @var SerializerInterface $serializer */
         $serializer = $this->container->get('serializer');
-        $jsonString = $serializer->serialize($note, 'json');
+        $jsonString = $serializer->serialize($updated, 'json');
 
         return JsonResponse::fromJsonString($jsonString, Response::HTTP_OK);
     }
