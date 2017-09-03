@@ -23,7 +23,7 @@ host('192.168.50.10')
 set('application', 'Notes');
 
 // Project repository
-set('repository', 'git@github.com:anwinged/note.git');
+set('repository', 'git@github.com:anwinged/notes.git');
 
 // Saved releases
 set('keep_releases', 2);
