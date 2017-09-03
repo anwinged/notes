@@ -3,9 +3,10 @@
     <loader v-if="loading"></loader>
     <not-found v-if="missed"></not-found>
     <form v-if="found">
-      <button v-on:click="save">Save</button> /
-      <router-link v-if="this.id" :to="{ name: 'note_view', params: { id: note.id }}">View</router-link> /
-      <router-link :to="{ name: 'note_index' }">Index</router-link>
+      <nav class="actions">
+        <button v-on:click="save">Save</button> /
+        <router-link v-if="this.id" :to="{ name: 'note_view', params: { id: note.id }}">View</router-link>
+      </nav>
       <textarea v-model="note.source" class="input" title="Input"></textarea>
     </form>
   </article>
@@ -48,6 +49,9 @@ export default {
 </script>
 
 <style scoped>
+  .actions {
+    margin-bottom: 15px;
+  }
   .input {
     width: 100%;
     height: 400px;
