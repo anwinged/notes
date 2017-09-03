@@ -37,7 +37,11 @@ module.exports = {
         test: /\.css$/, 
         loader: 'style-loader!css-loader' 
       },
-      { 
+      {
+        test: /\.scss$/,
+        loader: 'style-loader!css-loader!sass-loader'
+      },
+      {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, 
         loader: "url?limit=10000&mimetype=image/svg+xml" 
       },

@@ -6,7 +6,7 @@
       </h1>
       <nav class="navigation">
         <a class="navigation-link" href="/profile">Profile</a>
-        <a class="navigation-link" href="/logout">Logout</a>
+        <a class="navigation-link" href="/logout">Log out</a>
       </nav>
     </header>
     <div class="content">
@@ -30,8 +30,6 @@ export default {
     margin: 0 auto;
   }
   .application {
-    font-family: 'PT Serif', serif;
-    font-size: 16px;
     box-sizing: border-box;
     width: 100%;
   }

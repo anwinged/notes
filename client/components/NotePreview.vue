@@ -1,11 +1,11 @@
 <template>
   <section class="note-preview">
     <header class="header">
-      <span>{{ note.id }}, {{ note.updatedAt }}</span>
       <nav>
-        <router-link :to="{ name: 'note_edit', params: { id: note.id }}">Edit</router-link>
         <router-link v-if="!note.draft" :to="{ name: 'note_view', params: { id: note.id }}">View</router-link> /
+        <router-link :to="{ name: 'note_edit', params: { id: note.id }}">Edit</router-link>
       </nav>
+      <span class="meta">{{ note.id }}, {{ note.updatedAt }}</span>
     </header>
     <div v-html="note.html"></div>
   </section>
@@ -28,5 +28,8 @@ export default {
   .header {
     display: flex;
     justify-content: space-between;
+  }
+  .meta {
+    color: #aaa;
   }
 </style>
