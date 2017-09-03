@@ -41,9 +41,6 @@ set('var_dir', 'var');
 // Symfony shared dirs
 set('shared_dirs', ['var/logs', 'var/sessions']);
 
-// Symfony shared files
-set('shared_files', ['app/config/parameters.yml']);
-
 // Symfony writable dirs
 set('writable_dirs', ['var/cache', 'var/logs', 'var/sessions']);
 
