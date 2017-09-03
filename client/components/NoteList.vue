@@ -1,7 +1,8 @@
 <template>
   <article>
-    <router-link :to="{ name: 'note_create' }">Create</router-link>
-    <hr>
+    <nav class="actions">
+      <router-link :to="{ name: 'note_create' }">Create new</router-link>
+    </nav>
     <preview v-for="note in notes"
              :key="note.id"
              :note="note"
@@ -24,6 +25,9 @@ export default {
 </script>
 
 <style scoped>
+  .actions {
+    margin-bottom: 15px;
+  }
   .preview + .preview {
     border-top: 1px solid #ccc;
   }
