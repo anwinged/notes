@@ -12,6 +12,9 @@ const REPLACE_NOTE = 'replace_note';
 const store = new Vuex.Store({
     plugins: [logger()],
     state: {
+        user: {
+            username: window.AppData.username,
+        },
         notes: [],
     },
     mutations: {

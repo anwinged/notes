@@ -5,7 +5,7 @@
         <router-link :to="{ name: 'note_index' }">Note it</router-link>
       </h1>
       <nav class="navigation">
-        <a class="navigation-link" href="/profile">Profile</a>
+        <a class="navigation-link" href="/profile" title="Profile">{{ user.username }}</a>
         <a class="navigation-link" href="/logout">Log out</a>
       </nav>
     </header>
@@ -21,6 +21,11 @@
 <script>
 export default {
   name: 'app',
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
+  }
 }
 </script>
 
