@@ -3,11 +3,10 @@
     <loader v-if="loading"></loader>
     <not-found v-if="missed"></not-found>
     <section v-if="found">
-      <router-link v-if="!note.draft" :to="{ name: 'note_edit', params: { id: note.id }}">Edit</router-link> /
-      <router-link :to="{ name: 'note_index' }">Index</router-link>
+      <router-link v-if="note.finished" :to="{ name: 'note_edit', params: { id: note.id }}">Edit</router-link>
       <em v-if="note.draft">Draft</em>
       <code v-if="note.draft">{{ note.source }}</code>
-      <div v-if="!note.draft" v-html="note.html"></div>
+      <div v-if="note.finished" v-html="note.html"></div>
     </section>
   </article>
 </template>

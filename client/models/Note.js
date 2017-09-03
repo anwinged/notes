@@ -10,4 +10,11 @@ export default class Note
      * @type {Boolean}
      */
     draft = false;
+
+    /**
+     * @returns {Boolean}
+     */
+    get finished() {
+        return !this.draft;
+    }
 }
