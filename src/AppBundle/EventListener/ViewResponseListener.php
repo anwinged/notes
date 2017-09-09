@@ -38,7 +38,12 @@ class ViewResponseListener implements EventSubscriberInterface
             $result = View::create($result);
         }
 
-        $jsonString = $this->serializer->serialize($result->getData(), 'json');
+        $jsonString = $this->serializer->serialize($result->getData(), 'json', [
+            'groups' => [
+                'index',
+            ],
+        ]);
+
         $response = JsonResponse::fromJsonString($jsonString, $result->getStatusCode());
 
         $event->setResponse($response);

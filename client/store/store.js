@@ -39,9 +39,7 @@ const store = new Vuex.Store({
                 if (a.draft || b.draft) {
                     return 1;
                 }
-                return a.updatedAt > b.updatedAt
-                    ? -1
-                    : a.updatedAt < b.updatedAt ? 1 : 0;
+                return b.updatedAt - a.updatedAt;
             });
         },
     },

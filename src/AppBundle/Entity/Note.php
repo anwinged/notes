@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -39,6 +40,7 @@ class Note
      * @ORM\Column(name="source", type="text")
      *
      * @Assert\NotNull()
+     * @Assert\Length(max=1048576)
      */
     private $source;
 
@@ -74,6 +76,8 @@ class Note
      * Get id.
      *
      * @return int
+     *
+     * @Groups({"index"})
      */
     public function getId(): int
     {
@@ -102,6 +106,8 @@ class Note
      * @param string $source
      *
      * @return Note
+     *
+     * @Groups({"setup"})
      */
     public function setSource(string $source): self
     {
@@ -114,6 +120,8 @@ class Note
      * Get source.
      *
      * @return string
+     *
+     * @Groups({"index"})
      */
     public function getSource(): string
     {
@@ -138,6 +146,8 @@ class Note
      * Get html.
      *
      * @return string
+     *
+     * @Groups({"index"})
      */
     public function getHtml(): string
     {
@@ -162,6 +172,8 @@ class Note
      * Get createdAt.
      *
      * @return \DateTime
+     *
+     * @Groups({"index"})
      */
     public function getCreatedAt(): \DateTime
     {
@@ -186,6 +198,8 @@ class Note
      * Get updatedAt.
      *
      * @return \DateTime
+     *
+     * @Groups({"index"})
      */
     public function getUpdatedAt(): \DateTime
     {
@@ -194,6 +208,8 @@ class Note
 
     /**
      * @return bool
+     *
+     * @Groups({"index"})
      */
     public function isArchived(): bool
     {

@@ -14,7 +14,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * @Route("/notes")
@@ -52,13 +51,15 @@ class NoteController extends Controller
         $serializer = $this->get('serializer');
 
         /** @var Note $blank */
-        $blank = $serializer->deserialize($content, Note::class, 'json');
+        $blank = $serializer->deserialize($content, Note::class, 'json', [
+            'groups' => ['setup'],
+        ]);
 
         $validator = $this->get('validator');
         $violations = $validator->validate($blank);
 
         if (count($violations) > 0) {
-            throw new HttpException(400);
+            return View::create($violations, Response::HTTP_BAD_REQUEST);
         }
 
         $note = $noteService->create($blank);
@@ -81,13 +82,14 @@ class NoteController extends Controller
         /** @var Note $blank */
         $blank = $serializer->deserialize($content, Note::class, 'json', [
             'object_to_populate' => $note,
+            'groups' => ['setup'],
         ]);
 
         $validator = $this->get('validator');
         $violations = $validator->validate($blank);
 
         if (count($violations) > 0) {
-            throw new HttpException(400);
+            return View::create($violations, Response::HTTP_BAD_REQUEST);
         }
 
         return $noteService->update($blank);

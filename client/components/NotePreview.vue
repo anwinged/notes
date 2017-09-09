@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
   name: 'note-preview',
   props: ['note'],
@@ -21,7 +22,8 @@ export default {
       if (this.note.draft) {
         return 'draft';
       }
-      return `#${this.note.id}, ${this.note.updatedAt}`;
+      const date = moment.unix(this.note.createdAt);
+      return `#${this.note.id}, ${date.fromNow()}`;
     },
   },
 }
