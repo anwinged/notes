@@ -6,13 +6,13 @@ require 'recipe/common.php';
 // Hosts
 
 host('notes.anwinged.ru')
-    ->user('deployer')
+    ->user('notes_owner')
     ->stage('production')
     ->set('deploy_path', '/var/www/notes')
 ;
 
-host('192.168.50.10')
-    ->user('deployer_test')
+host('notes.loc')
+    ->user('notes_owner')
     ->stage('testing')
     ->set('deploy_path', '/var/www/notes')
     ->addSshOption('UserKnownHostsFile', '/dev/null')
