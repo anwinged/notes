@@ -60,10 +60,9 @@ export default class NoteService {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
-                'Content-type':
-                    'application/x-www-form-urlencoded; charset=UTF-8',
+                'Content-type': 'application/json; charset=UTF-8',
             },
-            body: 'source=' + encodeURI(source),
+            body: JSON.stringify({ source }),
         });
 
         return Object.assign(new Note(), await response.json());
@@ -80,7 +79,7 @@ export default class NoteService {
                 'Content-type':
                     'application/x-www-form-urlencoded; charset=UTF-8',
             },
-            body: 'source=' + encodeURI(source),
+            body: JSON.stringify({ source }),
         });
 
         return Object.assign(new Note(), await response.json());

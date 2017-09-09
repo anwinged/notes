@@ -27,7 +27,7 @@ class NoteController extends Controller
      */
     public function indexAction(NoteService $noteService)
     {
-        return $noteService->allForUser();
+        return $noteService->getActiveNotes();
     }
 
     /**
@@ -48,12 +48,20 @@ class NoteController extends Controller
      */
     public function createAction(Request $request, NoteService $noteService)
     {
-        $source = $request->request->get('source');
-        if ($source === null) {
+        $content = $request->getContent();
+        $serializer = $this->get('serializer');
+
+        /** @var Note $blank */
+        $blank = $serializer->deserialize($content, Note::class, 'json');
+
+        $validator = $this->get('validator');
+        $violations = $validator->validate($blank);
+
+        if (count($violations) > 0) {
             throw new HttpException(400);
         }
 
-        $note = $noteService->create($source);
+        $note = $noteService->create($blank);
 
         return View::create($note, Response::HTTP_CREATED);
     }
@@ -67,11 +75,49 @@ class NoteController extends Controller
      */
     public function updateAction(Request $request, NoteService $noteService, Note $note)
     {
-        $source = $request->request->get('source');
-        if ($source === null) {
+        $content = $request->getContent();
+        $serializer = $this->get('serializer');
+
+        /** @var Note $blank */
+        $blank = $serializer->deserialize($content, Note::class, 'json', [
+            'object_to_populate' => $note,
+        ]);
+
+        $validator = $this->get('validator');
+        $violations = $validator->validate($blank);
+
+        if (count($violations) > 0) {
             throw new HttpException(400);
         }
 
-        return $noteService->update($note, $source);
+        return $noteService->update($blank);
+    }
+
+    /**
+     * @Route("/{id}/archive", name="note_archive", requirements={"id": "\d+"})
+     * @Method({"POST"})
+     *
+     * @ParamConverter("note")
+     * @Security("is_granted('ACCESS', note)")
+     */
+    public function archiveAction(NoteService $noteService, Note $note)
+    {
+        $noteService->archive($note);
+
+        return View::create(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @Route("/{id}/restore", name="note_restore", requirements={"id": "\d+"})
+     * @Method({"POST"})
+     *
+     * @ParamConverter("note")
+     * @Security("is_granted('ACCESS', note)")
+     */
+    public function restoreAction(NoteService $noteService, Note $note)
+    {
+        $noteService->restore($note);
+
+        return View::create(null, Response::HTTP_NO_CONTENT);
     }
 }

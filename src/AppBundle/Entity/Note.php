@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Note.
@@ -36,6 +37,8 @@ class Note
      * @var string
      *
      * @ORM\Column(name="source", type="text")
+     *
+     * @Assert\NotNull()
      */
     private $source;
 
@@ -59,6 +62,13 @@ class Note
      * @ORM\Column(name="updatedAt", type="datetime")
      */
     private $updatedAt;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="archived", type="boolean")
+     */
+    private $archived = false;
 
     /**
      * Get id.
@@ -180,5 +190,25 @@ class Note
     public function getUpdatedAt(): \DateTime
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isArchived(): bool
+    {
+        return $this->archived;
+    }
+
+    /**
+     * @param bool $archived
+     *
+     * @return $this
+     */
+    public function setArchived(bool $archived): self
+    {
+        $this->archived = $archived;
+
+        return $this;
     }
 }

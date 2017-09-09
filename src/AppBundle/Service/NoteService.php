@@ -7,7 +7,7 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Note;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class NoteService
+final class NoteService
 {
     private $markdownService;
 
@@ -28,29 +28,49 @@ class NoteService
     /**
      * @return Note[]
      */
-    public function allForUser(): array
+    public function getActiveNotes(): array
     {
         $user = $this->userService->getUser();
         $repository = $this->registry->getRepository('AppBundle:Note');
 
-        return $repository->findBy(['user' => $user]);
+        return $repository->findBy([
+            'user' => $user,
+            'archived' => false,
+        ]);
     }
 
     /**
-     * @param string $markdownSource
+     * @param Note $blank
      *
      * @return Note
      */
-    public function create(string $markdownSource): Note
+    public function create(Note $blank): Note
     {
         $user = $this->userService->getUser();
-        $html = $this->markdownService->convert($markdownSource);
+        $html = $this->markdownService->convert($blank->getSource());
 
-        $note = new Note();
-        $note->setUser($user);
-        $note->setSource($markdownSource);
+        $blank->setUser($user);
+        $blank->setHtml($html);
+        $blank->setCreatedAt(new \DateTime());
+        $blank->setUpdatedAt(new \DateTime());
+
+        $em = $this->registry->getManagerForClass(Note::class);
+        $em->persist($blank);
+        $em->flush();
+
+        return $blank;
+    }
+
+    /**
+     * @param Note $note
+     *
+     * @return Note
+     */
+    public function update(Note $note): Note
+    {
+        $html = $this->markdownService->convert($note->getSource());
+
         $note->setHtml($html);
-        $note->setCreatedAt(new \DateTime());
         $note->setUpdatedAt(new \DateTime());
 
         $em = $this->registry->getManagerForClass(Note::class);
@@ -61,18 +81,29 @@ class NoteService
     }
 
     /**
-     * @param Note   $note
-     * @param string $source
+     * @param Note $note
      *
      * @return Note
      */
-    public function update(Note $note, string $source): Note
+    public function archive(Note $note): Note
     {
-        $html = $this->markdownService->convert($source);
+        $note->setArchived(true);
 
-        $note->setSource($source);
-        $note->setHtml($html);
-        $note->setUpdatedAt(new \DateTime());
+        $em = $this->registry->getManagerForClass(Note::class);
+        $em->persist($note);
+        $em->flush();
+
+        return $note;
+    }
+
+    /**
+     * @param Note $note
+     *
+     * @return Note
+     */
+    public function restore(Note $note): Note
+    {
+        $note->setArchived(false);
 
         $em = $this->registry->getManagerForClass(Note::class);
         $em->persist($note);
