@@ -1,5 +1,4 @@
-export default class Note
-{
+export default class Note {
     id;
     source;
     html;

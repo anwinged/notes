@@ -1,7 +1,6 @@
 import Note from '../models/Note.js';
 
-export default class NoteService
-{
+export default class NoteService {
     /**
      * @type {Number}
      */
@@ -12,7 +11,7 @@ export default class NoteService
      */
     async getNotes() {
         const response = await fetch('/notes', {
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
 
         if (response.status === 200) {
@@ -26,7 +25,9 @@ export default class NoteService
             return [];
         }
 
-        throw new Error(`Unexpected answer ${response.status} ${response.statusText}`);
+        throw new Error(
+            `Unexpected answer ${response.status} ${response.statusText}`
+        );
     }
 
     /**
@@ -35,7 +36,7 @@ export default class NoteService
      */
     async getNote(id) {
         const response = await fetch(`/notes/${id}`, {
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
 
         if (response.status === 200) {
@@ -46,7 +47,9 @@ export default class NoteService
             return null;
         }
 
-        throw new Error(`Unexpected answer ${response.status} ${response.statusText}`);
+        throw new Error(
+            `Unexpected answer ${response.status} ${response.statusText}`
+        );
     }
 
     /**
@@ -57,7 +60,8 @@ export default class NoteService
             method: 'POST',
             credentials: 'same-origin',
             headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                'Content-type':
+                    'application/x-www-form-urlencoded; charset=UTF-8',
             },
             body: 'source=' + encodeURI(source),
         });
@@ -73,7 +77,8 @@ export default class NoteService
             method: 'PUT',
             credentials: 'same-origin',
             headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                'Content-type':
+                    'application/x-www-form-urlencoded; charset=UTF-8',
             },
             body: 'source=' + encodeURI(source),
         });

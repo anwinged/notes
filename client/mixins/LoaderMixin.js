@@ -3,12 +3,12 @@ import NotFound from '../components/NotFound.vue';
 
 export default {
     components: {
-        'loader': Loader,
+        loader: Loader,
         'not-found': NotFound,
     },
     computed: {
         loadingItem() {
-            return { id: 'id' }
+            return { id: 'id' };
         },
         loading() {
             return this.loadingItem === 'loading';
@@ -18,6 +18,6 @@ export default {
         },
         missed() {
             return this.loadingItem === null;
-        }
+        },
     },
-}
+};

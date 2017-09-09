@@ -18,20 +18,20 @@ const store = new Vuex.Store({
         notes: [],
     },
     mutations: {
-        [SET_NOTES] (state, notes) {
+        [SET_NOTES](state, notes) {
             state.notes = state.notes.concat(notes);
         },
-        [ADD_NOTE] (state, note) {
+        [ADD_NOTE](state, note) {
             state.notes.push(note);
         },
-        [REPLACE_NOTE] (state, { id, note }) {
+        [REPLACE_NOTE](state, { id, note }) {
             const index = state.notes.findIndex(n => n.id === id);
             if (index < 0) {
                 state.notes.push(note);
             } else {
                 state.notes.splice(index, 1, note);
             }
-        }
+        },
     },
     getters: {
         newest(state) {
@@ -39,13 +39,15 @@ const store = new Vuex.Store({
                 if (a.draft || b.draft) {
                     return 1;
                 }
-                return a.updatedAt > b.updatedAt ? -1 : a.updatedAt < b.updatedAt ? 1 : 0;
+                return a.updatedAt > b.updatedAt
+                    ? -1
+                    : a.updatedAt < b.updatedAt ? 1 : 0;
             });
         },
     },
     actions: {
         async loadStartNotes({ commit }) {
-            const notes = await (new NoteService).getNotes();
+            const notes = await new NoteService().getNotes();
             commit(SET_NOTES, notes);
         },
         async getNote({ state }, id) {
@@ -53,19 +55,18 @@ const store = new Vuex.Store({
             if (founded !== undefined) {
                 return founded;
             }
-            return (new NoteService).getNote(id);
+            return new NoteService().getNote(id);
         },
         async createDraftNote({ commit }) {
-            const draft = (new NoteService).createDraft();
+            const draft = new NoteService().createDraft();
             commit(ADD_NOTE, draft);
             return draft;
         },
         async saveNote({ commit }, note) {
-            const service = new NoteService;
+            const service = new NoteService();
             const updated = note.draft
                 ? await service.create(note)
-                : await service.update(note)
-            ;
+                : await service.update(note);
             commit(REPLACE_NOTE, { id: note.id, note: updated });
             return updated;
         },
