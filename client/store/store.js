@@ -1,13 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import logger from 'vuex/dist/logger';
-import NoteService from '../services/NoteService.js';
+import container from '../container.js';
 
 Vue.use(Vuex);
 
 const SET_NOTES = 'set_notes';
 const ADD_NOTE = 'add_note';
 const REPLACE_NOTE = 'replace_note';
+
+/** @var NoteService {NoteService} */
+const NoteService = container.NoteService;
 
 const store = new Vuex.Store({
     plugins: [logger()],
@@ -45,7 +48,7 @@ const store = new Vuex.Store({
     },
     actions: {
         async loadStartNotes({ commit }) {
-            const notes = await new NoteService().getNotes();
+            const notes = await NoteService.getNotes();
             commit(SET_NOTES, notes);
         },
         async getNote({ state }, id) {
@@ -53,18 +56,17 @@ const store = new Vuex.Store({
             if (founded !== undefined) {
                 return founded;
             }
-            return new NoteService().getNote(id);
+            return NoteService.getNote(id);
         },
         async createDraftNote({ commit }) {
-            const draft = new NoteService().createDraft();
+            const draft = NoteService.createDraft();
             commit(ADD_NOTE, draft);
             return draft;
         },
         async saveNote({ commit }, note) {
-            const service = new NoteService();
             const updated = note.draft
-                ? await service.create(note)
-                : await service.update(note);
+                ? await NoteService.create(note)
+                : await NoteService.update(note);
             commit(REPLACE_NOTE, { id: note.id, note: updated });
             return updated;
         },
