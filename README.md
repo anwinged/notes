@@ -11,7 +11,7 @@ Symfony и Vue.js.
 
 Для разработки можно использовать Vagrant.
 
-  $ vagrant up
+    $ vagrant up
   
 
 ## Развертывание
@@ -20,7 +20,7 @@ Symfony и Vue.js.
 [Deployer](https://deployer.org). Сокращенные версии его команд 
 находятся в Makefile.
 
-  $ make deploy-prod
+    $ make deploy-prod
 
 
 ## Другие приложения
