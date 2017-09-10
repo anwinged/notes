@@ -5,7 +5,7 @@
     <form v-if="found">
       <nav class="actions">
         <button v-on:click="save">Save</button>
-        <router-link v-if="this.finished" :to="{ name: 'note_view', params: { id: note.id }}">View</router-link>
+        <router-link v-if="note.finished" :to="{ name: 'note_view', params: { id: note.id }}">View</router-link>
       </nav>
       <textarea v-model="note.source" class="input" title="Input"></textarea>
     </form>
