@@ -24,7 +24,7 @@ const routes = [
                 components: {
                     list: NoteList,
                     view: NoteView,
-                }
+                },
             },
             {
                 path: 'create',
