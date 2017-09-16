@@ -2,8 +2,10 @@
   <section class="note-preview">
     <header class="header">
       <nav class="actions">
-        <router-link class="action" v-if="note.finished" :to="{ name: 'note_view', params: { id: note.id }}">View</router-link>
-        <router-link class="action" :to="{ name: 'note_edit', params: { id: note.id }}">Edit</router-link>
+        <router-link class="action" v-if="note.finished"
+                     :to="{ name: 'note_view', params: { id: note.id }}">View</router-link>
+        <router-link class="action"
+                     :to="{ name: 'note_edit', params: { id: note.id }}">Edit</router-link>
       </nav>
       <span class="meta">{{ meta }}</span>
     </header>
@@ -29,12 +31,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .note-preview {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    position: relative;
-    border-top: 1px solid #ccc;
+    padding: 10px 20px;
   }
   .header {
     display: flex;

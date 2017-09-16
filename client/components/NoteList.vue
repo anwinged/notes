@@ -1,21 +1,17 @@
 <template>
-  <article>
-    <nav class="actions">
-      <router-link :to="{ name: 'note_create' }">Create new</router-link>
-    </nav>
-    <preview v-for="note in notes"
-             :key="note.id"
-             :note="note"
-             class="preview">
-    </preview>
-  </article>
+  <ul class="list">
+    <li v-for="note in notes" :key="note.id" class="item">
+      <preview :note="note"/>
+    </li>
+  </ul>
 </template>
 
 <script>
 import NotePreview from './NotePreview.vue';
 export default {
-  name: 'note-list',
-  components: { preview: NotePreview },
+  components: {
+    preview: NotePreview,
+  },
   computed: {
     notes() {
       return this.$store.getters.newest;
@@ -24,11 +20,18 @@ export default {
 }
 </script>
 
-<style scoped>
-  .actions {
-    margin-bottom: 15px;
+<style lang="scss" scoped>
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
   }
-  .preview + .preview {
-    border-top: 1px solid #ccc;
+  .item {
+    margin: 0;
+    padding: 0;
+    &:not(:first-child) {
+      border-top: 1px solid #bbb;
+    }
   }
 </style>

@@ -20,6 +20,19 @@ const store = new Vuex.Store({
         },
         notes: [],
     },
+    getters: {
+        newest(state) {
+            return state.notes.slice().sort((a, b) => {
+                if (a.draft || b.draft) {
+                    return 1;
+                }
+                return b.updatedAt - a.updatedAt;
+            });
+        },
+        first(state) {
+            return state.notes.length ? state.notes[0] : null;
+        },
+    },
     mutations: {
         [SET_NOTES](state, notes) {
             state.notes = state.notes.concat(notes);
@@ -36,16 +49,6 @@ const store = new Vuex.Store({
             }
         },
     },
-    getters: {
-        newest(state) {
-            return state.notes.slice().sort((a, b) => {
-                if (a.draft || b.draft) {
-                    return 1;
-                }
-                return b.updatedAt - a.updatedAt;
-            });
-        },
-    },
     actions: {
         async loadStartNotes({ commit }) {
             const notes = await NoteService.getNotes();
@@ -53,6 +56,7 @@ const store = new Vuex.Store({
         },
         async getNote({ state }, id) {
             const founded = state.notes.find(note => note.id === id);
+            console.log('GET NOTE', id, founded);
             if (founded !== undefined) {
                 return founded;
             }

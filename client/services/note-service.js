@@ -111,7 +111,7 @@ export default class NoteService {
         const response = await this._execute({
             method: 'post',
             path: '/notes',
-            body: source,
+            body: { source },
         });
 
         if (response.status === 201) {
@@ -128,7 +128,7 @@ export default class NoteService {
         const response = await this._execute({
             method: 'put',
             path: `/notes/${id}`,
-            body: source,
+            body: { source },
         });
 
         if (response.status === 200) {
