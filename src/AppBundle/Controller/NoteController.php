@@ -22,7 +22,7 @@ class NoteController extends Controller
 {
     /**
      * @Route("/", name="note_index")
-     * @Method({"GET"})
+     * @Method("GET")
      */
     public function indexAction(NoteService $noteService)
     {
@@ -31,7 +31,7 @@ class NoteController extends Controller
 
     /**
      * @Route("/{id}", name="note_view", requirements={"id": "\d+"})
-     * @Method({"GET"})
+     * @Method("GET")
      *
      * @ParamConverter("note")
      * @Security("is_granted('ACCESS', note)")
@@ -43,7 +43,7 @@ class NoteController extends Controller
 
     /**
      * @Route("/", name="note_create")
-     * @Method({"POST"})
+     * @Method("POST")
      */
     public function createAction(Request $request, NoteService $noteService)
     {
@@ -69,7 +69,7 @@ class NoteController extends Controller
 
     /**
      * @Route("/{id}", name="note_update", requirements={"id": "\d+"})
-     * @Method({"PUT"})
+     * @Method("PUT")
      *
      * @ParamConverter("note")
      * @Security("is_granted('ACCESS', note)")
@@ -97,7 +97,7 @@ class NoteController extends Controller
 
     /**
      * @Route("/{id}/archive", name="note_archive", requirements={"id": "\d+"})
-     * @Method({"POST"})
+     * @Method("POST")
      *
      * @ParamConverter("note")
      * @Security("is_granted('ACCESS', note)")
@@ -111,7 +111,7 @@ class NoteController extends Controller
 
     /**
      * @Route("/{id}/restore", name="note_restore", requirements={"id": "\d+"})
-     * @Method({"POST"})
+     * @Method("POST")
      *
      * @ParamConverter("note")
      * @Security("is_granted('ACCESS', note)")

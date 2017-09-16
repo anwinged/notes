@@ -70,7 +70,7 @@ export default class NoteService {
      */
     async getNotes() {
         const response = await this._execute({
-            path: '/notes',
+            path: '/notes/',
         });
 
         if (response.status === 200) {
@@ -110,7 +110,7 @@ export default class NoteService {
     async create({ source }) {
         const response = await this._execute({
             method: 'post',
-            path: '/notes',
+            path: '/notes/',
             body: { source },
         });
 

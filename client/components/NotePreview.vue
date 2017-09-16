@@ -1,12 +1,6 @@
 <template>
-  <section class="note-preview">
+  <section class="note-preview" v-on:click="goToView()">
     <header class="header">
-      <nav class="actions">
-        <router-link class="action" v-if="note.finished"
-                     :to="{ name: 'note_view', params: { id: note.id }}">View</router-link>
-        <router-link class="action"
-                     :to="{ name: 'note_edit', params: { id: note.id }}">Edit</router-link>
-      </nav>
       <span class="meta">{{ meta }}</span>
     </header>
     <div v-if="note.finished" v-html="note.html"></div>
@@ -24,16 +18,25 @@ export default {
       if (this.note.draft) {
         return 'draft';
       }
-      const date = moment.unix(this.note.createdAt);
+      const date = moment.unix(this.note.updatedAt);
       return `#${this.note.id}, ${date.fromNow()}`;
     },
   },
+  methods: {
+    goToView() {
+      this.$router.push({ name: 'note_view', params: { id: this.note.id }});
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
   .note-preview {
     padding: 10px 20px;
+    cursor: pointer;
+  }
+  .note-preview:hover {
+    background-color: gainsboro;
   }
   .header {
     display: flex;
@@ -44,6 +47,7 @@ export default {
     margin-right: 0.5em;
   }
   .meta {
+    font-size: 85%;
     color: #aaa;
   }
 </style>
