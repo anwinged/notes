@@ -5,12 +5,11 @@ import router from './router.js';
 
 import './style/common.scss';
 
-new Vue({
-    el: '#app',
-    store,
-    router,
-    render: h => h(App),
-    created() {
-        this.$store.dispatch('loadStartNotes');
-    },
+store.dispatch('init').then(() => {
+    new Vue({
+        el: '#app',
+        store,
+        router,
+        render: h => h(App),
+    });
 });

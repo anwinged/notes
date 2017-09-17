@@ -1,7 +1,7 @@
 <template>
   <ul class="actions">
     <li class="action">
-      <router-link :to="{ name: 'note_edit', params: { note_id: note.id }}"
+      <router-link :to="{ name: 'note_edit', params: { id: note.id }}"
                    class="action-link"
                    title="Edit"
       >

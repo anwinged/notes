@@ -30,8 +30,9 @@ const store = new Vuex.Store({
                 return b.updatedAt - a.updatedAt;
             });
         },
-        first(state) {
-            return state.notes.length ? state.notes[0] : null;
+        first(state, getters) {
+            const notes = getters.newest;
+            return notes.length ? notes[0] : null;
         },
     },
     mutations: {
@@ -57,7 +58,7 @@ const store = new Vuex.Store({
         },
     },
     actions: {
-        async loadStartNotes({ commit }) {
+        async init({ commit }) {
             const notes = await NoteService.getNotes();
             commit(SET_NOTES, notes);
         },
