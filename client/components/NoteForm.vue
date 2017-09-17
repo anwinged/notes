@@ -50,8 +50,11 @@ export default {
       }
     },
     save: function () {
-      this.$store.dispatch('saveNote', this.note).then(() => {
-        this.$router.push({ name: 'note_index' });
+      this.$store.dispatch('saveNote', this.note).then((note) => {
+        this.$router.push({
+          name: 'note_view',
+          params: { id: note.id },
+        });
       });
     }
   }
