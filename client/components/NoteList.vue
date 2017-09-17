@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="actions">
-      <router-link :to="{ name: 'note_create' }">Create</router-link>
+      <router-link :to="{ name: 'note_create' }">Create new</router-link>
     </nav>
     <ul class="list">
       <li v-for="note in notes" :key="note.id" class="item">
