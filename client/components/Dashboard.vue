@@ -20,10 +20,12 @@
     width: 400px;
     height: 100%;
     flex-grow: 0;
+    overflow-y: scroll;
   }
   .view {
     height: 100%;
     flex-grow: 1;
     border-left: 1px solid #ccc;
+    overflow-y: scroll;
   }
 </style>
