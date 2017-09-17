@@ -1,6 +1,8 @@
+@import "./vars.scss";
+
 body {
   font-family: 'PT Serif', serif;
-  font-size: 16px;
+  font-size: $font-size;
 }
 
 html,
@@ -13,7 +15,7 @@ body {
 }
 
 a {
-  color: #267cb5;
+  color: $link-color;
   text-decoration: none;
 }
 

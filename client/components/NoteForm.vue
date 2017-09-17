@@ -1,24 +1,34 @@
 <template>
-  <div class="component">
-    <div class="content">
-      <loader v-if="loading"></loader>
-      <not-found v-if="missed"></not-found>
-      <form v-if="found">
-        <nav class="actions">
-          <button v-on:click="save">Save</button>
-          <router-link v-if="note.finished" :to="{ name: 'note_view', params: { id: note.id }}">View</router-link>
-        </nav>
-        <textarea v-model="note.source" class="input" title="Input"></textarea>
-      </form>
-    </div>
-  </div>
+  <form class="form">
+    <loader v-if="loading"></loader>
+    <not-found v-if="missed"></not-found>
+    <!--<nav class="actions">-->
+      <!--<button v-on:click="save">Save</button>-->
+      <!--<router-link v-if="note.finished" :to="{ name: 'note_view', params: { id: note.id }}">View</router-link>-->
+    <!--</nav>-->
+    <form-actions v-if="found"
+                  :note="note"
+                  class="form-actions"
+    />
+    <textarea v-if="found"
+              v-model="note.source"
+              class="input"
+              title="Input"
+              autofocus
+              placeholder="Type here"
+    ></textarea>
+  </form>
 </template>
 
 <script>
 import LoaderMixin from '../mixins/LoaderMixin';
+import FormActions from './FormActions.vue';
 export default {
   props: ['id'],
   mixins: [LoaderMixin],
+  components: {
+    'form-actions': FormActions,
+  },
   data() {
     return {
       note: 'loading',
@@ -49,34 +59,40 @@ export default {
         });
       }
     },
-    save: function () {
-      this.$store.dispatch('saveNote', this.note).then((note) => {
-        this.$router.push({
-          name: 'note_view',
-          params: { id: note.id },
-        });
-      });
-    }
   }
 }
 </script>
 
-<style scoped>
-  .component {
+<style lang="scss" scoped>
+  @import "../style/vars.scss";
+  .form {
     width: 100%;
     box-sizing: border-box;
-    padding: 20px;
-    overflow-y: scroll;
   }
-  .content {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  .actions {
-    margin-bottom: 15px;
+  .form-actions {
+    top: 0;
+    right: 0;
+    position: fixed;
+    width: 80px;
+    @media (max-width: $width) {
+      top: auto;
+      bottom: 0;
+      left: 0;
+    }
   }
   .input {
+    margin: 0;
+    box-sizing: border-box;
     width: 100%;
-    height: 400px;
+    height: 100vh;
+    border: none;
+    border-radius: 0;
+    font-size: $editor-font;
+    line-height: 1.5;
+    padding: 20px calc((100% - 600px) / 2);
+    resize: none;
+    @media (max-width: $width) {
+      padding: 10px 10px 85px;
+    }
   }
 </style>

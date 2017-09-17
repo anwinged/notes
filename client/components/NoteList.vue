@@ -30,7 +30,6 @@ export default {
     list-style: none;
     margin: 0;
     padding: 0;
-    overflow-y: scroll;
   }
   .actions {
     padding: 10px 20px;

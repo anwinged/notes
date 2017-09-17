@@ -61,15 +61,12 @@ export default {
     box-sizing: border-box;
     padding: 20px;
   }
-  .content {
-    max-width: 600px;
-    margin: 0 auto;
-  }
   .view {
     position: relative;
   }
   .view-text {
-    margin-right: 85px;
+    max-width: 600px;
+    margin: 0 auto;
     @media (max-width: $width) {
       margin-right: auto;
       margin-bottom: 85px;

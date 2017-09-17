@@ -34,17 +34,19 @@ export default {
   .dashboard {
     box-sizing: border-box;
     width: 100%;
-    height: 100%;
-    display: flex;
+    height: 100vh;
     @media (max-width: $width) {
       display: block;
       height: auto;
     }
   }
   %list {
+    box-sizing: border-box;
     width: 400px;
-    height: 100%;
-    flex-grow: 0;
+    min-width: 400px;
+    height: 100vh;
+    display: block;
+    position: fixed;
     overflow-y: scroll;
   }
   .index-list {
@@ -52,6 +54,7 @@ export default {
     @media (max-width: $width) {
       width: 100%;
       height: auto;
+      position: static;
       overflow-y: auto;
     }
   }
@@ -62,10 +65,11 @@ export default {
     }
   }
   %view {
-    height: 100%;
-    flex-grow: 1;
+    min-height: 100vh;
+    box-sizing: border-box;
+    margin-left: 400px;
     border-left: 1px solid #ccc;
-    overflow-y: scroll;
+    flex-grow: 1;
   }
   .index-view {
     @extend %view;
@@ -76,9 +80,9 @@ export default {
   .item-view {
     @extend %view;
     @media (max-width: $width) {
-      height: auto;
+      margin-left: 0;
       border-left: none;
-      overflow-y: auto;
+      height: auto;
     }
   }
 </style>
