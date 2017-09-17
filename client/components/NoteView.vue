@@ -3,12 +3,9 @@
     <div class="content">
       <loader v-if="loading"></loader>
       <not-found v-if="missed"></not-found>
-      <div v-if="found">
-        <router-link v-if="note.finished"
-                     :to="{ name: 'note_edit', params: { note_id: note.id }}">Edit</router-link>
-        <em v-if="note.draft">Draft</em>
-        <code v-if="note.draft">{{ note.source }}</code>
-        <div v-if="note.finished" v-html="note.html"></div>
+      <div v-if="found" class="view">
+        <note-actions class="view-acts" :note="note"/>
+        <note-content class="view-text" :note="note"/>
       </div>
     </div>
   </div>
@@ -16,9 +13,15 @@
 
 <script>
 import LoaderMixin from '../mixins/LoaderMixin';
+import NoteContent from './NoteContent.vue';
+import NoteActions from './NoteActions.vue';
 export default {
   props: ['id'],
   mixins: [LoaderMixin],
+  components: {
+    'note-content': NoteContent,
+    'note-actions': NoteActions,
+  },
   data() {
     return {
       note: 'loading',
@@ -56,10 +59,21 @@ export default {
     width: 100%;
     box-sizing: border-box;
     padding: 20px;
-    overflow-y: scroll;
   }
   .content {
     max-width: 600px;
     margin: 0 auto;
+  }
+  .view {
+    position: relative;
+  }
+  .view-text {
+    margin-right: 85px;
+  }
+  .view-acts {
+    top: 0;
+    right: 0;
+    position: fixed;
+    width: 80px;
   }
 </style>
