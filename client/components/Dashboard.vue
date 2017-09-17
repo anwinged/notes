@@ -52,7 +52,8 @@ export default {
   .index-list {
     @extend %list;
     @media (max-width: $width) {
-      width: 100%;
+      min-width: initial;
+      width: auto;
       height: auto;
       position: static;
       overflow-y: auto;
