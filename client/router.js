@@ -17,6 +17,7 @@ const routes = [
     {
         path: '/notes',
         component: Dashboard,
+        props: true,
         children: [
             {
                 path: '',

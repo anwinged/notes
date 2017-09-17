@@ -64,7 +64,6 @@ const store = new Vuex.Store({
         },
         async getNote({ state }, id) {
             const founded = state.notes.find(note => note.id === id);
-            console.log('GET NOTE', id, founded);
             if (founded !== undefined) {
                 return founded;
             }

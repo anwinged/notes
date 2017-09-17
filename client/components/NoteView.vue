@@ -54,7 +54,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  @import "../style/vars.scss";
   .component {
     width: 100%;
     box-sizing: border-box;
@@ -69,11 +70,20 @@ export default {
   }
   .view-text {
     margin-right: 85px;
+    @media (max-width: $width) {
+      margin-right: auto;
+      margin-bottom: 85px;
+    }
   }
   .view-acts {
     top: 0;
     right: 0;
     position: fixed;
     width: 80px;
+    @media (max-width: $width) {
+      top: auto;
+      bottom: 0;
+      left: 0;
+    }
   }
 </style>
