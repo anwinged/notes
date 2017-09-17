@@ -8,6 +8,7 @@ Vue.use(Vuex);
 const SET_NOTES = 'set_notes';
 const ADD_NOTE = 'add_note';
 const REPLACE_NOTE = 'replace_note';
+const REMOVE_NOTE = 'remove_note';
 
 /** @var NoteService {NoteService} */
 const NoteService = container.NoteService;
@@ -48,6 +49,12 @@ const store = new Vuex.Store({
                 state.notes.splice(index, 1, note);
             }
         },
+        [REMOVE_NOTE](state, { id }) {
+            const index = state.notes.findIndex(n => n.id === id);
+            if (index >= 0) {
+                state.notes.splice(index, 1);
+            }
+        },
     },
     actions: {
         async loadStartNotes({ commit }) {
@@ -74,6 +81,16 @@ const store = new Vuex.Store({
             commit(REPLACE_NOTE, { id: note.id, note: updated });
             return updated;
         },
+        async archive({ commit }, note) {
+            const archived = await NoteService.archive(note);
+            commit(REMOVE_NOTE, { id: note.id });
+            return archived;
+        },
+        async restore({ commit }, note) {
+            const restored = await NoteService.restore(note);
+            commit(ADD_NOTE, restored);
+            return restored;
+        }
     },
 });
 

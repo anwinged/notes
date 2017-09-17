@@ -104,9 +104,9 @@ class NoteController extends Controller
      */
     public function archiveAction(NoteService $noteService, Note $note)
     {
-        $noteService->archive($note);
+        $note = $noteService->archive($note);
 
-        return View::create(null, Response::HTTP_NO_CONTENT);
+        return View::create($note, Response::HTTP_OK);
     }
 
     /**
@@ -118,8 +118,8 @@ class NoteController extends Controller
      */
     public function restoreAction(NoteService $noteService, Note $note)
     {
-        $noteService->restore($note);
+        $note = $noteService->restore($note);
 
-        return View::create(null, Response::HTTP_NO_CONTENT);
+        return View::create($note, Response::HTTP_OK);
     }
 }

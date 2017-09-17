@@ -8,11 +8,18 @@
         <i class="fa fa-pencil-square-o"></i>
       </router-link>
     </li>
-    <li class="action">
+    <li v-if="note.active" class="action">
       <a class="action-link" title="Archive"
          v-on:click.prevent.stop="archive()"
       >
         <i class="fa fa-trash-o"></i>
+      </a>
+    </li>
+    <li v-if="note.archived" class="action">
+      <a class="action-link" title="Restore"
+         v-on:click.prevent.stop="restore()"
+      >
+        <i class="fa fa-repeat"></i>
       </a>
     </li>
   </ul>
@@ -23,7 +30,14 @@ export default {
   props: ['note'],
   methods: {
     archive() {
-      console.log('archive!');
+      this.$store.dispatch('archive', this.note).then(archived => {
+        Object.assign(this.note, archived);
+      });
+    },
+    restore() {
+      this.$store.dispatch('restore', this.note).then(restored => {
+        Object.assign(this.note, restored);
+      });
     }
   }
 }

@@ -88,6 +88,7 @@ final class NoteService
     public function archive(Note $note): Note
     {
         $note->setArchived(true);
+        $note->setUpdatedAt(new \DateTime());
 
         $em = $this->registry->getManagerForClass(Note::class);
         $em->persist($note);
@@ -104,6 +105,7 @@ final class NoteService
     public function restore(Note $note): Note
     {
         $note->setArchived(false);
+        $note->setUpdatedAt(new \DateTime());
 
         $em = $this->registry->getManagerForClass(Note::class);
         $em->persist($note);

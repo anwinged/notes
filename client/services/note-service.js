@@ -139,6 +139,40 @@ export default class NoteService {
     }
 
     /**
+     * @param id
+     * @return {Promise.<void>}
+     */
+    async archive({ id }) {
+        const response = await this._execute({
+            method: 'post',
+            path: `/notes/${id}/archive`,
+        });
+
+        if (response.status === 200) {
+            return this._fetchObject(response, 'Note');
+        }
+
+        this._error(response);
+    }
+
+    /**
+     * @param id
+     * @return {Promise.<void>}
+     */
+    async restore({ id }) {
+        const response = await this._execute({
+            method: 'post',
+            path: `/notes/${id}/restore`,
+        });
+
+        if (response.status === 200) {
+            return this._fetchObject(response, 'Note');
+        }
+
+        this._error(response);
+    }
+
+    /**
      * @returns {Note}
      */
     createDraft() {
