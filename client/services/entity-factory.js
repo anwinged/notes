@@ -12,32 +12,37 @@ export default class EntityFactory {
     }
 
     /**
-     * @param {object} data
+     * @param {object} responseData
      * @param {string} name
      * @return {object}
      */
-    entity(data, name) {
-        return this._create(data, name);
+    entity(responseData, name) {
+        const value = responseData.data || {};
+        const meta = responseData.meta || {};
+        return this._create(name, value, meta);
     }
 
     /**
-     * @param {Array} data
+     * @param {Array} responseData
      * @param {string} name
      * @return {Array}
      */
-    collection(data, name) {
-        return data.map(i => this._create(i, name));
+    collection(responseData, name) {
+        const values = responseData.data || [];
+        const meta = responseData.meta || {};
+        return values.map(i => this._create(name, i, meta));
     }
 
     /**
      * @param {object} data
      * @param {string} name
+     * @param {object} meta
      * @return {object}
      * @private
      */
-    _create(data, name) {
+    _create(name, data, meta) {
         const factory = this.container.Entity[name];
         const instance = factory.instance();
-        return Object.assign(instance, data);
+        return Object.assign(instance, data, { _meta: meta });
     }
 }

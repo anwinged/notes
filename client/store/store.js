@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import logger from 'vuex/dist/logger';
 import container from '../container.js';
+import NoteState from '../entity/NoteState.js';
 
 Vue.use(Vuex);
 
@@ -43,7 +44,7 @@ const store = new Vuex.Store({
             state.notes.push(note);
         },
         [REPLACE_NOTE](state, { id, note }) {
-            const index = state.notes.findIndex(n => n.id === id);
+            const index = state.notes.findIndex(n => n.id === +id);
             if (index < 0) {
                 state.notes.push(note);
             } else {
@@ -62,12 +63,14 @@ const store = new Vuex.Store({
             const notes = await NoteService.getNotes();
             commit(SET_NOTES, notes);
         },
-        async getNote({ state }, id) {
+        async getNote({ state, commit }, id) {
             const founded = state.notes.find(note => note.id === id);
-            if (founded !== undefined) {
+            if (founded !== undefined && founded.is.full) {
                 return founded;
             }
-            return NoteService.getNote(id);
+            const note = await NoteService.getNote(id);
+            commit(REPLACE_NOTE, { id, note });
+            return note;
         },
         async createDraftNote({ commit }) {
             const draft = NoteService.createDraft();
@@ -75,7 +78,7 @@ const store = new Vuex.Store({
             return draft;
         },
         async saveNote({ commit }, note) {
-            const updated = note.draft
+            const updated = note.is.draft
                 ? await NoteService.create(note)
                 : await NoteService.update(note);
             commit(REPLACE_NOTE, { id: note.id, note: updated });

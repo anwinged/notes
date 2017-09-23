@@ -14,29 +14,29 @@ final class View
     private $data;
 
     /**
-     * @var int
+     * @var string
      */
-    private $statusCode;
+    private $options = [];
 
     /**
      * @param $data
-     * @param int $statusCode
+     * @param array $options
      *
      * @return self
      */
-    public static function create($data, int $statusCode = Response::HTTP_OK): self
+    public static function create($data, array $options = []): self
     {
-        return new self($data, $statusCode);
+        return new self($data, $options);
     }
 
     /**
      * @param $data
-     * @param int $statusCode
+     * @param array $options
      */
-    private function __construct($data, int $statusCode)
+    private function __construct($data, array $options)
     {
         $this->data = $data;
-        $this->statusCode = $statusCode;
+        $this->options = $options;
     }
 
     /**
@@ -48,10 +48,26 @@ final class View
     }
 
     /**
+     * @return string[]
+     */
+    public function getGroups(): array
+    {
+        return $this->options['groups'] ?? [];
+    }
+
+    /**
      * @return int
      */
     public function getStatusCode(): int
     {
-        return $this->statusCode;
+        return $this->options['status_code'] ?? Response::HTTP_OK;
+    }
+
+    /**
+     * @return string
+     */
+    public function getState(): string
+    {
+        return $this->options['state'] ?? 'unknown';
     }
 }

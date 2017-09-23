@@ -4,8 +4,8 @@
       <h2 class="title" :title="note.title">{{ note.title }}</h2>
       <span class="meta">{{ meta }}</span>
     </header>
-    <div v-if="note.finished" v-html="note.short"></div>
-    <div v-if="note.draft"><p>{{ note.source }}</p></div>
+    <div v-if="note.is.finished" v-html="note.short"></div>
+    <div v-if="note.is.draft"><p>{{ note.source }}</p></div>
   </section>
 </template>
 
@@ -16,7 +16,7 @@ export default {
   props: ['note'],
   computed: {
     meta() {
-      if (this.note.draft) {
+      if (this.note.is.draft) {
         return 'draft';
       }
       const date = moment.unix(this.note.updatedAt);

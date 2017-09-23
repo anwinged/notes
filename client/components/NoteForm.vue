@@ -1,12 +1,12 @@
 <template>
   <form class="form">
-    <loader v-if="loading"></loader>
-    <not-found v-if="missed"></not-found>
-    <form-actions v-if="found"
+    <not-found v-if="!this.note"></not-found>
+    <loader v-if="note.is.preview"></loader>
+    <form-actions v-if="note.is.full"
                   :note="note"
                   class="form-actions"
     />
-    <textarea v-if="found"
+    <textarea v-if="note.is.full"
               v-model="note.source"
               v-on:keyup.enter.ctrl="save"
               ref="input"
@@ -19,23 +19,20 @@
 </template>
 
 <script>
-import LoaderMixin from '../mixins/LoaderMixin';
 import FormActions from './FormActions.vue';
+import Loader from './Loader.vue';
+import NotFound from './NotFound.vue';
 export default {
   props: ['id'],
-  mixins: [LoaderMixin],
   components: {
     'form-actions': FormActions,
+    'loader': Loader,
+    'not-found': NotFound,
   },
   data() {
     return {
-      note: 'loading',
+      note: { is: { preview: true } },
     };
-  },
-  computed: {
-    loadingItem() {
-      return this.note;
-    },
   },
   created: function () {
     this.load();
@@ -46,12 +43,18 @@ export default {
     }
   },
   updated() {
-    this.$refs.input.focus();
+    if (this.$refs.input) {
+      this.$refs.input.focus();
+    }
   },
   methods: {
     load() {
       if (this.id) {
-        this.$store.dispatch('getNote', this.id).then(note => {
+        if (this.note.id === +this.id) {
+          return;
+        }
+        this.note = { is: { preview: true } };
+        this.$store.dispatch('getNote', +this.id).then(note => {
           this.note = note;
         });
       } else {

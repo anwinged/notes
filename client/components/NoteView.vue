@@ -1,9 +1,9 @@
 <template>
   <div class="component">
     <div class="content">
-      <loader v-if="loading"></loader>
-      <not-found v-if="missed"></not-found>
-      <div v-if="found" class="view">
+      <not-found v-if="!this.note"></not-found>
+      <loader v-if="note.is.preview"></loader>
+      <div v-if="note.is.full" class="view">
         <note-actions class="view-acts" :note="note"/>
         <note-content class="view-text" :note="note"/>
       </div>
@@ -12,25 +12,22 @@
 </template>
 
 <script>
-import LoaderMixin from '../mixins/LoaderMixin';
 import NoteContent from './NoteContent.vue';
 import NoteActions from './NoteActions.vue';
+import Loader from './Loader.vue';
+import NotFound from './NotFound.vue';
 export default {
   props: ['id'],
-  mixins: [LoaderMixin],
   components: {
     'note-content': NoteContent,
     'note-actions': NoteActions,
+    'loader': Loader,
+    'not-found': NotFound,
   },
   data() {
     return {
-      note: 'loading',
+      note: { is: { preview: true } },
     };
-  },
-  computed: {
-    loadingItem() {
-      return this.note;
-    },
   },
   watch: {
     id() {
@@ -42,11 +39,16 @@ export default {
   },
   methods: {
     loadNote() {
-      if (!this.id) {
-        this.note = this.$store.getters.first;
+      if (this.note.id === this.id) {
         return;
       }
-      this.$store.dispatch('getNote', this.id).then(note => {
+      this.note = { is: { preview: true } };
+      const id = this.id || (this.$store.getters.first || {}).id;
+      if (!id) {
+        this.note = null;
+        return;
+      }
+      this.$store.dispatch('getNote', +id).then(note => {
         this.note = note;
       });
     }

@@ -1,4 +1,5 @@
 import Note from '../entity/Note.js';
+import NoteState from '../entity/NoteState';
 
 export default class NoteService {
     /**
@@ -39,24 +40,22 @@ export default class NoteService {
 
     /**
      * @param {Response} response
-     * @param {string} name
      * @return {Promise.<Object>}
      * @private
      */
-    async _fetchObject(response, name) {
+    async _fetchObject(response) {
         const data = await response.json();
-        return this.entityFactory.entity(data, name);
+        return this.entityFactory.entity(data, 'Note');
     }
 
     /**
      * @param {Response} response
-     * @param {string} name
      * @return {Promise.<Object[]>}
      * @private
      */
-    async _fetchList(response, name) {
+    async _fetchList(response) {
         const data = await response.json();
-        return this.entityFactory.collection(data, name);
+        return this.entityFactory.collection(data, 'Note');
     }
 
     _error(response) {
@@ -177,7 +176,7 @@ export default class NoteService {
      */
     createDraft() {
         const note = new Note();
-        note.draft = true;
+        note._meta.state = NoteState.DRAFT;
         note.id = `draft_${this.constructor.draftId}`;
         this.constructor.draftId += 1;
         return note;

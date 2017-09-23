@@ -29,19 +29,30 @@ class ViewResponseListener implements EventSubscriberInterface
 
     /**
      * @param GetResponseForControllerResultEvent $event
+     *
+     * @throws \Exception
      */
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
         $result = $event->getControllerResult();
 
         if (!($result instanceof View)) {
-            $result = View::create($result);
+            throw new \Exception(sprintf(
+                'Controller result must be instance of %s, %s given',
+                View::class,
+                get_class($result)
+            ));
         }
 
-        $jsonString = $this->serializer->serialize($result->getData(), 'json', [
-            'groups' => [
-                'index',
+        $responseData = [
+            'meta' => [
+                'state' => $result->getState(),
             ],
+            'data' => $result->getData(),
+        ];
+
+        $jsonString = $this->serializer->serialize($responseData, 'json', [
+            'groups' => $result->getGroups(),
         ]);
 
         $response = JsonResponse::fromJsonString($jsonString, $result->getStatusCode());

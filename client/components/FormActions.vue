@@ -10,7 +10,7 @@
           <i class="fa fa-sticky-note-o"></i>
         </router-link>
       </li>
-      <li v-if="note.active" class="action">
+      <li v-if="note.is.active" class="action">
         <a class="action-link" title="Save"
            v-on:click.prevent.stop="save"
         >

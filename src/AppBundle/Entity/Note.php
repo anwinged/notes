@@ -91,7 +91,7 @@ class Note
      *
      * @return int
      *
-     * @Groups({"index"})
+     * @Groups({"full", "preview"})
      */
     public function getId(): int
     {
@@ -135,7 +135,7 @@ class Note
      *
      * @return string
      *
-     * @Groups({"index"})
+     * @Groups({"full"})
      */
     public function getSource(): string
     {
@@ -145,7 +145,7 @@ class Note
     /**
      * @return string
      *
-     * @Groups({"index"})
+     * @Groups({"full", "preview"})
      */
     public function getTitle(): string
     {
@@ -163,7 +163,7 @@ class Note
     /**
      * @return string
      *
-     * @Groups({"index"})
+     * @Groups({"full", "preview"})
      */
     public function getShort(): string
     {
@@ -197,7 +197,7 @@ class Note
      *
      * @return string
      *
-     * @Groups({"index"})
+     * @Groups({"full"})
      */
     public function getHtml(): string
     {
@@ -223,7 +223,7 @@ class Note
      *
      * @return \DateTime
      *
-     * @Groups({"index"})
+     * @Groups({"full", "preview"})
      */
     public function getCreatedAt(): \DateTime
     {
@@ -249,7 +249,7 @@ class Note
      *
      * @return \DateTime
      *
-     * @Groups({"index"})
+     * @Groups({"full", "preview"})
      */
     public function getUpdatedAt(): \DateTime
     {
@@ -259,7 +259,7 @@ class Note
     /**
      * @return bool
      *
-     * @Groups({"index"})
+     * @Groups({"full", "preview"})
      */
     public function isArchived(): bool
     {

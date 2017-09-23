@@ -1,3 +1,5 @@
+import NoteState from './NoteState.js';
+
 export default class Note {
     /**
      * @type {Number}
@@ -40,21 +42,46 @@ export default class Note {
     archived;
 
     /**
-     * @type {Boolean}
+     * @type {{state: string}}
      */
-    draft = false;
+    _meta = {
+        state: NoteState.EMPTY,
+    };
 
     /**
-     * @returns {Boolean}
+     * @return {{
+     *  full: boolean,
+     *  preview: boolean,
+     *  draft: boolean,
+     *  finished: boolean,
+     *  archived: Boolean,
+     *  active: boolean
+     * }}
      */
-    get finished() {
-        return !this.draft;
+    get is() {
+        const state = this._meta.state;
+        return {
+            full: state === NoteState.DRAFT || state === NoteState.FULL,
+            preview: state === NoteState.PREVIEW,
+            draft: state === NoteState.DRAFT,
+            finished: state !== NoteState.DRAFT,
+            archived: this.archived,
+            active: !this.archived,
+        };
     }
 
     /**
-     * @return {Boolean}
+     *
+     * @return {{state: string}}
      */
-    get active() {
-        return !this.archived;
+    get meta() {
+        return this._meta;
+    }
+
+    /**
+     * @return {string}
+     */
+    get state() {
+        return this._meta.state || '';
     }
 }

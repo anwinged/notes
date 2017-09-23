@@ -10,14 +10,14 @@
           <i class="fa fa-pencil-square-o"></i>
         </router-link>
       </li>
-      <li v-if="note.active" class="action">
+      <li v-if="note.is.active" class="action">
         <a class="action-link" title="Archive"
            v-on:click.prevent.stop="archive()"
         >
           <i class="fa fa-trash-o"></i>
         </a>
       </li>
-      <li v-if="note.archived" class="action">
+      <li v-if="note.is.archived" class="action">
         <a class="action-link" title="Restore"
            v-on:click.prevent.stop="restore()"
         >

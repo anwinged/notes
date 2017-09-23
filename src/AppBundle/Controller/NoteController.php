@@ -26,7 +26,11 @@ class NoteController extends Controller
      */
     public function indexAction(NoteService $noteService)
     {
-        return $noteService->getActiveNotes();
+        return View::create($noteService->getActiveNotes(), [
+            'status_code' => Response::HTTP_OK,
+            'state' => 'preview',
+            'groups' => ['preview'],
+        ]);
     }
 
     /**
@@ -38,7 +42,11 @@ class NoteController extends Controller
      */
     public function viewAction(Note $note)
     {
-        return $note;
+        return View::create($note, [
+            'status_code' => Response::HTTP_OK,
+            'state' => 'full',
+            'groups' => ['full'],
+        ]);
     }
 
     /**
@@ -59,12 +67,16 @@ class NoteController extends Controller
         $violations = $validator->validate($blank);
 
         if (count($violations) > 0) {
-            return View::create($violations, Response::HTTP_BAD_REQUEST);
+            return $this->responseWithViolations($violations);
         }
 
         $note = $noteService->create($blank);
 
-        return View::create($note, Response::HTTP_CREATED);
+        return View::create($note, [
+            'status_code' => Response::HTTP_CREATED,
+            'state' => 'full',
+            'groups' => ['full'],
+        ]);
     }
 
     /**
@@ -89,10 +101,14 @@ class NoteController extends Controller
         $violations = $validator->validate($blank);
 
         if (count($violations) > 0) {
-            return View::create($violations, Response::HTTP_BAD_REQUEST);
+            return $this->responseWithViolations($violations);
         }
 
-        return $noteService->update($blank);
+        return View::create($noteService->update($blank), [
+            'status_code' => Response::HTTP_OK,
+            'state' => 'full',
+            'groups' => ['full'],
+        ]);
     }
 
     /**
@@ -106,7 +122,11 @@ class NoteController extends Controller
     {
         $note = $noteService->archive($note);
 
-        return View::create($note, Response::HTTP_OK);
+        return View::create($note, [
+            'status_code' => Response::HTTP_OK,
+            'state' => 'full',
+            'groups' => ['full'],
+        ]);
     }
 
     /**
@@ -120,6 +140,22 @@ class NoteController extends Controller
     {
         $note = $noteService->restore($note);
 
-        return View::create($note, Response::HTTP_OK);
+        return View::create($note, [
+            'status_code' => Response::HTTP_OK,
+            'state' => 'full',
+            'groups' => ['full'],
+        ]);
+    }
+
+    /**
+     * @param $violations
+     *
+     * @return View
+     */
+    private function responseWithViolations($violations): View
+    {
+        return View::create($violations, [
+            'status_code' => Response::HTTP_BAD_REQUEST,
+        ]);
     }
 }
