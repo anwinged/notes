@@ -24,7 +24,11 @@ export default {
   },
   methods: {
     goToView() {
-      this.$router.push({ name: 'note_view', params: { id: this.note.id }});
+      if (this.note.draft) {
+        this.$router.push({ name: 'note_edit', params: { id: this.note.id }});
+      } else {
+        this.$router.push({ name: 'note_view', params: { id: this.note.id }});
+      }
     }
   }
 }

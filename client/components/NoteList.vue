@@ -1,7 +1,10 @@
 <template>
   <div>
     <nav class="actions">
-      <router-link :to="{ name: 'note_create' }">Create new</router-link>
+      <a v-on:click.prevent="create"
+         href="#"
+         title="Create new note"
+      >Create new</a>
     </nav>
     <ul class="list">
       <li v-for="note in notes" :key="note.id" class="item">
@@ -22,6 +25,16 @@ export default {
       return this.$store.getters.newest;
     },
   },
+  methods: {
+    create() {
+      this.$store.dispatch('createDraftNote').then(note => {
+        this.$router.push({
+          name: 'note_edit',
+          params: { id: note.id },
+        });
+      });
+    }
+  }
 }
 </script>
 

@@ -28,14 +28,6 @@ const routes = [
                 },
             },
             {
-                path: 'create',
-                name: 'note_create',
-                components: {
-                    list: NoteList,
-                    view: NoteForm,
-                },
-            },
-            {
                 path: ':id',
                 name: 'note_view',
                 components: {

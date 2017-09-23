@@ -2,16 +2,14 @@
   <form class="form">
     <loader v-if="loading"></loader>
     <not-found v-if="missed"></not-found>
-    <!--<nav class="actions">-->
-      <!--<button v-on:click="save">Save</button>-->
-      <!--<router-link v-if="note.finished" :to="{ name: 'note_view', params: { id: note.id }}">View</router-link>-->
-    <!--</nav>-->
     <form-actions v-if="found"
                   :note="note"
                   class="form-actions"
     />
     <textarea v-if="found"
               v-model="note.source"
+              v-on:keyup.enter.ctrl="save"
+              ref="input"
               class="input"
               title="Input"
               autofocus
@@ -47,6 +45,9 @@ export default {
       this.load();
     }
   },
+  updated() {
+    this.$refs.input.focus();
+  },
   methods: {
     load() {
       if (this.id) {
@@ -59,6 +60,14 @@ export default {
         });
       }
     },
+    save: function () {
+      this.$store.dispatch('saveNote', this.note).then((note) => {
+        this.$router.push({
+          name: 'note_view',
+          params: { id: note.id },
+        });
+      });
+    }
   }
 }
 </script>

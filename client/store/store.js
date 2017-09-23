@@ -90,7 +90,7 @@ const store = new Vuex.Store({
             const restored = await NoteService.restore(note);
             commit(ADD_NOTE, restored);
             return restored;
-        }
+        },
     },
 });
 
