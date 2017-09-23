@@ -47,12 +47,10 @@ final class NoteService
     public function create(Note $blank): Note
     {
         $user = $this->userService->getUser();
-        $result = $this->markdownService->convert($blank->getSource());
-
         $blank->setUser($user);
-        $blank->setTitle($result->getTitle());
-        $blank->setShort($result->getShort());
-        $blank->setHtml($result->getFull());
+
+        $this->parseMarkdown($blank);
+
         $blank->setCreatedAt(new \DateTime());
         $blank->setUpdatedAt(new \DateTime());
 
@@ -70,11 +68,8 @@ final class NoteService
      */
     public function update(Note $note): Note
     {
-        $result = $this->markdownService->convert($note->getSource());
+        $this->parseMarkdown($note);
 
-        $note->setTitle($result->getTitle());
-        $note->setShort($result->getShort());
-        $note->setHtml($result->getFull());
         $note->setUpdatedAt(new \DateTime());
 
         $em = $this->registry->getManagerForClass(Note::class);
@@ -116,5 +111,27 @@ final class NoteService
         $em->flush();
 
         return $note;
+    }
+
+    public function reparseAllNotes()
+    {
+        $em = $this->registry->getManagerForClass(Note::class);
+        $rep = $this->registry->getRepository('AppBundle:Note');
+        $notes = $rep->findAll();
+        foreach ($notes as $note) {
+            $this->parseMarkdown($note);
+            $em->persist($note);
+        }
+
+        $em->flush();
+    }
+
+    private function parseMarkdown(Note $note)
+    {
+        $result = $this->markdownService->convert($note->getSource());
+
+        $note->setTitle($result->getTitle());
+        $note->setShort($result->getShort());
+        $note->setHtml($result->getFull());
     }
 }

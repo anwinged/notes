@@ -1,9 +1,10 @@
 <template>
   <section class="note-preview" v-on:click="goToView()">
     <header class="header">
+      <h2 class="title" :title="note.title">{{ note.title }}</h2>
       <span class="meta">{{ meta }}</span>
     </header>
-    <div v-if="note.finished" v-html="note.html"></div>
+    <div v-if="note.finished" v-html="note.short"></div>
     <div v-if="note.draft"><p>{{ note.source }}</p></div>
   </section>
 </template>
@@ -45,13 +46,19 @@ export default {
   .header {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 0.4em;
   }
-  .action {
-    display: inline-block;
-    margin-right: 0.5em;
+  .title {
+    font-size: 100%;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .meta {
     font-size: 85%;
     color: #aaa;
+    min-width: 150px;
+    text-align: right;
   }
 </style>
