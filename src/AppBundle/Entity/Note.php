@@ -47,6 +47,20 @@ class Note
     /**
      * @var string
      *
+     * @ORM\Column(name="title", type="string", length=1024, options={"default": ""})
+     */
+    private $title = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="short", type="string", length=1024, options={"default": ""})
+     */
+    private $short = '';
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="html", type="text")
      */
     private $html;
@@ -126,6 +140,42 @@ class Note
     public function getSource(): string
     {
         return $this->source;
+    }
+
+    /**
+     * @return string
+     *
+     * @Groups({"index"})
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return string
+     *
+     * @Groups({"index"})
+     */
+    public function getShort(): string
+    {
+        return $this->short;
+    }
+
+    /**
+     * @param string $short
+     */
+    public function setShort(string $short)
+    {
+        $this->short = $short;
     }
 
     /**

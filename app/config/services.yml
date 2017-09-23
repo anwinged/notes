@@ -33,6 +33,3 @@ services:
         class: AppBundle\Service\Serializer\DateTimeNormalizer
         tags:
             - { name: serializer.normalizer }
-
-    Parsedown:
-      class: \Parsedown

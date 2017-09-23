@@ -47,10 +47,12 @@ final class NoteService
     public function create(Note $blank): Note
     {
         $user = $this->userService->getUser();
-        $html = $this->markdownService->convert($blank->getSource());
+        $result = $this->markdownService->convert($blank->getSource());
 
         $blank->setUser($user);
-        $blank->setHtml($html);
+        $blank->setTitle($result->getTitle());
+        $blank->setShort($result->getShort());
+        $blank->setHtml($result->getFull());
         $blank->setCreatedAt(new \DateTime());
         $blank->setUpdatedAt(new \DateTime());
 
@@ -68,9 +70,11 @@ final class NoteService
      */
     public function update(Note $note): Note
     {
-        $html = $this->markdownService->convert($note->getSource());
+        $result = $this->markdownService->convert($note->getSource());
 
-        $note->setHtml($html);
+        $note->setTitle($result->getTitle());
+        $note->setShort($result->getShort());
+        $note->setHtml($result->getFull());
         $note->setUpdatedAt(new \DateTime());
 
         $em = $this->registry->getManagerForClass(Note::class);

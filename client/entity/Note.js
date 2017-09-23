@@ -12,6 +12,16 @@ export default class Note {
     /**
      * @type {String}
      */
+    title;
+
+    /**
+     * @type {String}
+     */
+    short;
+
+    /**
+     * @type {String}
+     */
     html;
 
     /**
