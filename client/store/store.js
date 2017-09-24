@@ -25,7 +25,7 @@ const store = new Vuex.Store({
     getters: {
         newest(state) {
             return state.notes.slice().sort((a, b) => {
-                if (a.draft || b.draft) {
+                if (a.is.draft || b.is.draft) {
                     return 1;
                 }
                 return b.updatedAt - a.updatedAt;
@@ -93,6 +93,14 @@ const store = new Vuex.Store({
             const restored = await NoteService.restore(note);
             commit(ADD_NOTE, restored);
             return restored;
+        },
+        async getOrFirst({ getters, dispatch }, id) {
+            const _id = id || (getters.first || {}).id;
+            if (!_id) {
+                return NoteService.createMissing();
+            }
+
+            return dispatch('getNote', +_id);
         },
     },
 });

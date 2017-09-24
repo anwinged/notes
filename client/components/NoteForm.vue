@@ -50,14 +50,15 @@ export default {
   methods: {
     load() {
       if (this.id) {
-        if (this.note.id === +this.id) {
+        if (this.note.id === this.id) {
           return;
         }
         this.note = { is: { preview: true } };
-        this.$store.dispatch('getNote', +this.id).then(note => {
+        this.$store.dispatch('getNote', this.id).then(note => {
           this.note = note;
         });
       } else {
+        this.note = { is: { preview: true } };
         this.$store.dispatch('createDraftNote').then(note => {
           this.note = note;
         });

@@ -39,16 +39,11 @@ export default {
   },
   methods: {
     loadNote() {
-      if (this.note.id === this.id) {
+      if (this.id && this.note.id === this.id) {
         return;
       }
       this.note = { is: { preview: true } };
-      const id = this.id || (this.$store.getters.first || {}).id;
-      if (!id) {
-        this.note = null;
-        return;
-      }
-      this.$store.dispatch('getNote', +id).then(note => {
+      this.$store.dispatch('getOrFirst', this.id).then(note => {
         this.note = note;
       });
     }

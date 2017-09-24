@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     goToView() {
-      if (this.note.draft) {
+      if (this.note.is.draft) {
         this.$router.push({ name: 'note_edit', params: { id: this.note.id }});
       } else {
         this.$router.push({ name: 'note_view', params: { id: this.note.id }});

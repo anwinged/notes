@@ -181,4 +181,22 @@ export default class NoteService {
         this.constructor.draftId += 1;
         return note;
     }
+
+    /**
+     * @returns {Note}
+     */
+    createLoading() {
+        const note = new Note();
+        note._meta.state = NoteState.PREVIEW;
+        return note;
+    }
+
+    /**
+     * @returns {Note}
+     */
+    createMissing() {
+        const note = new Note();
+        note._meta.state = NoteState.MISSING;
+        return note;
+    }
 }

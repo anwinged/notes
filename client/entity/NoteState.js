@@ -1,5 +1,5 @@
 export default {
-    EMPTY: 'empty',
+    MISSING: 'missing',
     DRAFT: 'draft',
     PREVIEW: 'preview',
     FULL: 'full',
