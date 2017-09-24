@@ -73,7 +73,7 @@ export default class NoteService {
         });
 
         if (response.status === 200) {
-            return this._fetchList(response, 'Note');
+            return this._fetchList(response);
         }
 
         if (response.status === 404) {
@@ -93,7 +93,7 @@ export default class NoteService {
         });
 
         if (response.status === 200) {
-            return this._fetchObject(response, 'Note');
+            return this._fetchObject(response);
         }
 
         if (response.status === 404) {
@@ -114,7 +114,7 @@ export default class NoteService {
         });
 
         if (response.status === 201) {
-            return this._fetchObject(response, 'Note');
+            return this._fetchObject(response);
         }
 
         this._error(response);
@@ -131,7 +131,7 @@ export default class NoteService {
         });
 
         if (response.status === 200) {
-            return this._fetchObject(response, 'Note');
+            return this._fetchObject(response);
         }
 
         this._error(response);
@@ -148,7 +148,7 @@ export default class NoteService {
         });
 
         if (response.status === 200) {
-            return this._fetchObject(response, 'Note');
+            return this._fetchObject(response);
         }
 
         this._error(response);
@@ -165,7 +165,7 @@ export default class NoteService {
         });
 
         if (response.status === 200) {
-            return this._fetchObject(response, 'Note');
+            return this._fetchObject(response);
         }
 
         this._error(response);

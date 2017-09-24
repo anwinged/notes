@@ -44,7 +44,7 @@ const store = new Vuex.Store({
             state.notes.push(note);
         },
         [REPLACE_NOTE](state, { id, note }) {
-            const index = state.notes.findIndex(n => n.id === +id);
+            const index = state.notes.findIndex(n => n.id === id);
             if (index < 0) {
                 state.notes.push(note);
             } else {
