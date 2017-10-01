@@ -1,86 +1,42 @@
 import Note from '../entity/Note.js';
 import NoteState from '../entity/NoteState';
 
+const ENTITY_NAME = 'Note';
+
 export default class NoteService {
     /**
      * @type {Number}
+     * @private
      */
     static draftId = 1;
 
     /**
-     * @type {Http}
-     */
-    http;
-
-    /**
-     * @type {RequestFactory}
-     */
-    requestFactory;
-
-    /**
-     * @type {EntityFactory}
-     */
-    entityFactory;
-
-    constructor(http, requestFactory, entityFactory) {
-        this.http = http;
-        this.requestFactory = requestFactory;
-        this.entityFactory = entityFactory;
-    }
-
-    /**
-     * @param {object} options
-     * @return {Promise.<Response>}
+     * @type {EntityGate}
      * @private
      */
-    async _execute(options) {
-        const request = this.requestFactory.create(options);
-        return this.http.execute(request);
-    }
+    gate;
 
-    /**
-     * @param {Response} response
-     * @return {Promise.<Object>}
-     * @private
-     */
-    async _fetchObject(response) {
-        const data = await response.json();
-        return this.entityFactory.entity(data, 'Note');
-    }
-
-    /**
-     * @param {Response} response
-     * @return {Promise.<Object[]>}
-     * @private
-     */
-    async _fetchList(response) {
-        const data = await response.json();
-        return this.entityFactory.collection(data, 'Note');
-    }
-
-    _error(response) {
-        throw new Error(
-            `Unexpected answer ${response.status} ${response.statusText}`
-        );
+    constructor(gate) {
+        this.gate = gate;
     }
 
     /**
      * @returns {Promise.<Note[]>}
      */
     async getNotes() {
-        const response = await this._execute({
+        const response = await this.gate.execute({
             path: '/notes/',
         });
 
         if (response.status === 200) {
-            return this._fetchList(response);
+            return this.gate.fetchList(response, ENTITY_NAME);
         }
 
         if (response.status === 404) {
             return [];
         }
 
-        this._error(response);
+        this.gate.error(response);
     }
 
     /**
@@ -88,53 +44,53 @@ export default class NoteService {
      * @returns {Promise.<Note>}
      */
     async getNote(id) {
-        const response = await this._execute({
+        const response = await this.gate.execute({
             path: `/notes/${id}`,
         });
 
         if (response.status === 200) {
-            return this._fetchObject(response);
+            return this.gate.fetchObject(response, ENTITY_NAME);
         }
 
         if (response.status === 404) {
             return null;
         }
 
-        this._error(response);
+        this.gate.error(response);
     }
 
     /**
      * @returns {Promise.<Note>}
      */
     async create({ source }) {
-        const response = await this._execute({
+        const response = await this.gate.execute({
             method: 'post',
             path: '/notes/',
             body: { source },
         });
 
         if (response.status === 201) {
-            return this._fetchObject(response);
+            return this.gate.fetchObject(response, ENTITY_NAME);
         }
 
-        this._error(response);
+        this.gate.error(response);
     }
 
     /**
      * @returns {Promise.<Note>}
      */
     async update({ id, source }) {
-        const response = await this._execute({
+        const response = await this.gate.execute({
             method: 'put',
             path: `/notes/${id}`,
             body: { source },
         });
 
         if (response.status === 200) {
-            return this._fetchObject(response);
+            return this.gate.fetchObject(response, ENTITY_NAME);
         }
 
-        this._error(response);
+        this.gate.error(response);
     }
 
     /**
@@ -142,16 +98,16 @@ export default class NoteService {
      * @return {Promise.<void>}
      */
     async archive({ id }) {
-        const response = await this._execute({
+        const response = await this.gate.execute({
             method: 'post',
             path: `/notes/${id}/archive`,
         });
 
         if (response.status === 200) {
-            return this._fetchObject(response);
+            return this.gate.fetchObject(response, ENTITY_NAME);
         }
 
-        this._error(response);
+        this.gate.error(response);
     }
 
     /**
@@ -159,16 +115,16 @@ export default class NoteService {
      * @return {Promise.<void>}
      */
     async restore({ id }) {
-        const response = await this._execute({
+        const response = await this.gate.execute({
             method: 'post',
             path: `/notes/${id}/restore`,
         });
 
         if (response.status === 200) {
-            return this._fetchObject(response);
+            return this.gate.fetchObject(response, ENTITY_NAME);
         }
 
-        this._error(response);
+        this.gate.error(response);
     }
 
     /**

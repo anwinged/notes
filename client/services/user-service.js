@@ -1,48 +1,28 @@
+const ENTITY_NAME = 'User';
+
 export default class UserService {
-    constructor(http, requestFactory, entityFactory) {
-        this.http = http;
-        this.requestFactory = requestFactory;
-        this.entityFactory = entityFactory;
-    }
-
     /**
-     * @param {object} options
-     * @return {Promise.<Response>}
+     * @type {EntityGate}
      * @private
      */
-    async _execute(options) {
-        const request = this.requestFactory.create(options);
-        return this.http.execute(request);
-    }
+    gate;
 
-    /**
-     * @param {Response} response
-     * @return {Promise.<Object>}
-     * @private
-     */
-    async _fetchObject(response) {
-        const data = await response.json();
-        return this.entityFactory.entity(data, 'User');
-    }
-
-    _error(response) {
-        throw new Error(
-            `Unexpected answer ${response.status} ${response.statusText}`
-        );
+    constructor(gate) {
+        this.gate = gate;
     }
 
     /**
      * @returns {Promise.<User>}
      */
     async getProfile() {
-        const response = await this._execute({
+        const response = await this.gate.execute({
             path: `/profile/`,
         });
 
         if (response.status === 200) {
-            return this._fetchObject(response);
+            return this.gate.fetchObject(response, ENTITY_NAME);
         }
 
-        this._error(response);
+        this.gate.error(response);
     }
 }

@@ -19,6 +19,7 @@ export default class Http {
     /**
      * @param {Request} request
      * @return {object}
+     * @private
      */
     _prepare(request) {
         const options = {
