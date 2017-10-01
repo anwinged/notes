@@ -1,12 +1,15 @@
-var path = require('path')
-var webpack = require('webpack')
+var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
-  entry: './client/main.js',
+  entry: {
+      app: './client/main.js',
+      login: './client/login.js',
+  },
   output: {
     path: path.resolve(__dirname, './web/assets/'),
     publicPath: '/assets/',
-    filename: 'app.js'
+    filename: '[name].js'
   },
   module: {
     rules: [
@@ -67,7 +70,7 @@ module.exports = {
     hints: false
   },
   devtool: '#eval-source-map'
-}
+};
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'

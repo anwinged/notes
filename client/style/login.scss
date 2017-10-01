@@ -1,0 +1,76 @@
+@import './common.scss';
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+  background-color: $primary-color;
+  @media (max-width: $width) {
+    padding: 10px;
+  }
+}
+
+.login-page {
+  box-sizing: border-box;
+  background-color: white;
+  padding: 2em;
+  max-width: 480px;
+}
+
+.app-title {
+  text-align: center;
+  margin-bottom: 1.5em;
+}
+
+.form-error {
+  margin-bottom: 1em;
+  color: $error-color;
+}
+
+.form-group {
+  box-sizing: border-box;
+  max-width: 320px;
+  margin-bottom: 0.6em;
+
+  input {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #bbb;
+    border-radius: 0;
+    padding: 1em 1.6em;
+  }
+
+  .form-error {
+    font-size: 90%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      padding: 0;
+      margin: 0;
+      display: block;
+    }
+  }
+}
+
+.form-group_error {
+  input {
+    border-color: $error-color;
+  }
+}
+
+.form-actions {
+  margin-top: 1em;
+  text-align: center;
+}
+
+.form-alternate {
+  margin-top: 1.2em;
+  text-align: center;
+}

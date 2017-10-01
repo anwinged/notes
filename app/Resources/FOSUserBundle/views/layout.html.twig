@@ -1,32 +1,35 @@
 {% extends '::layout.html.twig' %}
 
+{% block head_javascripts %}
+  <script src="{{ asset('assets/login.js') }}"></script>
+{% endblock %}
+
+{% if form is defined %}
+  {% form_theme form with ['form_div_layout.html.twig', 'form_theme.html.twig'] %}
+{% endif %}
+
 {% block content %}
 
-  <div>
-    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-      {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-      <a href="{{ path('fos_user_security_logout') }}">
-        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-      </a>
-    {% else %}
-      <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-    {% endif %}
-  </div>
+  <section class="login-page">
 
-  {% if app.request.hasPreviousSession %}
-    {% for type, messages in app.session.flashbag.all() %}
-      {% for message in messages %}
-        <div class="flash-{{ type }}">
-          {{ message }}
-        </div>
+    <h1 class="app-title">
+      Notes
+    </h1>
+
+    {% if app.request.hasPreviousSession %}
+      {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+          <div class="flash-{{ type }}">
+            {{ message }}
+          </div>
+        {% endfor %}
       {% endfor %}
-    {% endfor %}
-  {% endif %}
+    {% endif %}
 
-  Overriden layout
+    <div class="login-form">
+      {% block fos_user_content %}{% endblock fos_user_content %}
+    </div>
 
-  <div>
-    {% block fos_user_content %}{% endblock fos_user_content %}
-  </div>
+  </section>
 
 {% endblock content %}

@@ -1,0 +1,37 @@
+{%- block form_label_text -%}
+  {% if label is not same as(false) -%}
+    {% if label is empty -%}
+      {%- if label_format is not empty -%}
+        {% set label = label_format|replace({
+          '%name%': name,
+          '%id%': id,
+        }) %}
+      {%- else -%}
+        {% set label = name|humanize %}
+      {%- endif -%}
+    {%- endif -%}
+    {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
+  {%- endif -%}
+{%- endblock form_label_text -%}
+
+{%- block form_row -%}
+  <div class="form-group {{ errors|length > 0 ? 'form-group_error' : '' }}">
+    {{- form_widget(form, {
+      'attr': {
+        'title': block('form_label_text'),
+        'placeholder': block('form_label_text'),
+      },
+    }) -}}
+    {{- form_errors(form) -}}
+  </div>
+{%- endblock form_row -%}
+
+{%- block form_errors -%}
+  {%- if errors|length > 0 -%}
+    <ul class="form-error">
+      {%- for error in errors -%}
+        <li>{{ error.message }}</li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+{%- endblock form_errors -%}
