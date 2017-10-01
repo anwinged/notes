@@ -5,8 +5,5 @@
 {% endblock %}
 
 {% block javascripts %}
-  <script type="application/javascript">
-    window.AppData = {{ data|json_encode|raw }};
-  </script>
   <script src="/assets/app.js?t={{ date().timestamp }}"></script>
 {% endblock %}

@@ -6,20 +6,21 @@ import NoteState from '../entity/NoteState.js';
 
 Vue.use(Vuex);
 
+const SET_USER = 'set_user';
 const SET_NOTES = 'set_notes';
 const ADD_NOTE = 'add_note';
 const REPLACE_NOTE = 'replace_note';
 const REMOVE_NOTE = 'remove_note';
 
+/** @var UserService {UserService} */
+const UserService = container.UserService;
 /** @var NoteService {NoteService} */
 const NoteService = container.NoteService;
 
 const store = new Vuex.Store({
     plugins: [logger()],
     state: {
-        user: {
-            username: window.AppData.username,
-        },
+        user: null,
         notes: [],
     },
     getters: {
@@ -37,6 +38,9 @@ const store = new Vuex.Store({
         },
     },
     mutations: {
+        [SET_USER](state, user) {
+            state.user = user;
+        },
         [SET_NOTES](state, notes) {
             state.notes = state.notes.concat(notes);
         },
@@ -60,7 +64,11 @@ const store = new Vuex.Store({
     },
     actions: {
         async init({ commit }) {
-            const notes = await NoteService.getNotes();
+            const [user, notes] = await Promise.all([
+                UserService.getProfile(),
+                NoteService.getNotes(),
+            ]);
+            commit(SET_USER, user);
             commit(SET_NOTES, notes);
         },
         async getNote({ state, commit }, id) {
