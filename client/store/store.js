@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import logger from 'vuex/dist/logger';
 import container from '../container.js';
-import NoteState from '../entity/NoteState.js';
 
 Vue.use(Vuex);
 

@@ -1,5 +1,5 @@
 import Note from '../entity/Note.js';
-import NoteState from '../entity/NoteState';
+import EntityState from '../entity/entity-state.js';
 
 const ENTITY_NAME = 'Note';
 
@@ -132,7 +132,7 @@ export default class NoteService {
      */
     createDraft() {
         const note = new Note();
-        note._meta.state = NoteState.DRAFT;
+        note._meta.state = EntityState.DRAFT;
         note.id = `draft_${this.constructor.draftId}`;
         this.constructor.draftId += 1;
         return note;
@@ -143,7 +143,7 @@ export default class NoteService {
      */
     createLoading() {
         const note = new Note();
-        note._meta.state = NoteState.PREVIEW;
+        note._meta.state = EntityState.PREVIEW;
         return note;
     }
 
@@ -152,7 +152,7 @@ export default class NoteService {
      */
     createMissing() {
         const note = new Note();
-        note._meta.state = NoteState.MISSING;
+        note._meta.state = EntityState.MISSING;
         return note;
     }
 }

@@ -1,4 +1,6 @@
-export default class User {
+import BaseEntity from './base-entity.js';
+
+export default class User extends BaseEntity {
     /**
      * @type {String}
      */

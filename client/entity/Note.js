@@ -1,6 +1,7 @@
-import NoteState from './NoteState.js';
+import EntityState from './entity-state.js';
+import BaseEntity from './base-entity.js';
 
-export default class Note {
+export default class Note extends BaseEntity {
     /**
      * @type {Number}
      */
@@ -42,13 +43,6 @@ export default class Note {
     archived;
 
     /**
-     * @type {{state: string}}
-     */
-    _meta = {
-        state: NoteState.EMPTY,
-    };
-
-    /**
      * @return {{
      *  full: boolean,
      *  preview: boolean,
@@ -61,27 +55,12 @@ export default class Note {
     get is() {
         const state = this._meta.state;
         return {
-            full: state === NoteState.DRAFT || state === NoteState.FULL,
-            preview: state === NoteState.PREVIEW,
-            draft: state === NoteState.DRAFT,
-            finished: state !== NoteState.DRAFT,
+            full: state === EntityState.DRAFT || state === EntityState.FULL,
+            preview: state === EntityState.PREVIEW,
+            draft: state === EntityState.DRAFT,
+            finished: state !== EntityState.DRAFT,
             archived: this.archived,
             active: !this.archived,
         };
-    }
-
-    /**
-     *
-     * @return {{state: string}}
-     */
-    get meta() {
-        return this._meta;
-    }
-
-    /**
-     * @return {string}
-     */
-    get state() {
-        return this._meta.state || '';
     }
 }
