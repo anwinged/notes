@@ -60,7 +60,8 @@
         priv: "{{ application_name }}.*:ALL"
 
     # nodejs settings
-    # none
+
+    nodejs_version: "8.x"
 
   environment: "{{ app_envs }}"
 
