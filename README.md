@@ -1,4 +1,4 @@
-# Notes
+# Notes [![Build Status](https://travis-ci.org/anwinged/notes.svg?branch=master)](https://travis-ci.org/anwinged/notes)
 
 Простое приложение для управления заметками. Основано на компоннетах
 Symfony и Vue.js.
