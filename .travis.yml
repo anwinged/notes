@@ -1,0 +1,11 @@
+language: php
+
+php:
+  - "7.1"
+  - nightly
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+install: travis_retry composer install --prefer-dist  --ignore-platform-reqs --no-interaction
