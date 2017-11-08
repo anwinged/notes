@@ -21,6 +21,7 @@
     },
     "require": {
         "php": ">=7.1",
+        "backup-manager/backup-manager": "dev-master#f5bbcf065358dde6688ef1a203b7100641cfeab5@dev",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-migrations-bundle": "^1.2",
         "doctrine/orm": "^2.5",
@@ -29,6 +30,7 @@
         "league/commonmark": "^0.15",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^3.0.2",
+        "srmklive/flysystem-dropbox-v2": "^1.0",
         "symfony/monolog-bundle": "^3.1.0",
         "symfony/polyfill-apcu": "^1.0",
         "symfony/serializer": "^3.3",

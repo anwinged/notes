@@ -29,6 +29,18 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
+    AppBundle\Service\BackupService:
+        arguments:
+            $environment: '%kernel.environment%'
+            $workDirectory: '%kernel.project_dir%'
+            $databaseName: '%database_name%'
+            $databaseHost: '%database_host%'
+            $databasePort: '%database_port%'
+            $databaseUser: '%database_user%'
+            $databasePassword: '%database_password%'
+            $dropboxToken: '%dropbox_token%'
+        public: true
+
     datetime_normalizer:
         class: AppBundle\Service\Serializer\DateTimeNormalizer
         tags:

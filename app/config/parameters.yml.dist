@@ -17,6 +17,8 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret: '%env(NOTES_SECRET_TOKEN)%'
 
+    dropbox_token: %env(NOTES_DROPBOX_TOKEN)%
+
     env(NOTES_SECRET_TOKEN): ThisTokenIsNotSoSecretChangeIt
     env(NOTES_DATABASE_HOST): 127.0.0.1
     env(NOTES_DATABASE_PORT): 3306
