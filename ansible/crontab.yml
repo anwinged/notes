@@ -1,0 +1,14 @@
+---
+- hosts: all
+
+  vars:
+    app_dir: /var/www/notes
+    work_dir: '{{ app_dir }}/current'
+
+  tasks:
+    - name: 'Set up backup schedule.'
+      cron:
+        name: 'Backup schedule'
+        minute: '0'
+        hour: '0'
+        job: 'php {{ work_dir }}/bin/console app:database:backup'

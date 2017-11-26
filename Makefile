@@ -15,3 +15,17 @@ deploy-prod:
 
 deploy-test:
 	dep deploy testing -v
+
+crontab-dry-run:
+	ansible-playbook \
+		--inventory "notes.anwinged.ru," \
+		--user=notes_owner \
+		--check \
+		--diff \
+		ansible/crontab.yml
+
+crontab:
+	ansible-playbook \
+		--inventory "notes.anwinged.ru," \
+		--user=notes_owner \
+		ansible/crontab.yml
