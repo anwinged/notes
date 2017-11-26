@@ -1,0 +1,16 @@
+parameters:
+    secret: '%env(NOTES_SECRET_TOKEN)%'
+
+    database_host: '%env(NOTES_DATABASE_HOST)%'
+    database_port: '%env(NOTES_DATABASE_PORT)%'
+    database_name: '%env(NOTES_DATABASE_NAME)%'
+    database_user: '%env(NOTES_DATABASE_USER)%'
+    database_password: '%env(NOTES_DATABASE_PASSWORD)%'
+
+    mailer_transport: smtp
+    mailer_host: '%env(NOTES_MAILER_HOST)%'
+    mailer_port: '%env(NOTES_MAILER_PORT)%'
+    mailer_user: '%env(NOTES_MAILER_USER)%'
+    mailer_password: '%env(NOTES_MAILER_PASSWORD)%'
+
+    dropbox_token: '%env(NOTES_DROPBOX_TOKEN)%'

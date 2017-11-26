@@ -1,5 +1,4 @@
 /ansible/galaxy.roles/
-/app/config/parameters.yml
 /build/
 /phpunit.xml
 
