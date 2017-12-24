@@ -18,4 +18,4 @@
         name: 'Backup schedule'
         minute: '0'
         hour: '0'
-        job: '{{ php_bin}} {{ work_dir }}/bin/console app:database:backup'
+        job: 'source "/home/notes_owner/.envs"; {{ php_bin}} {{ work_dir }}/bin/console app:database:backup --no-interaction >{{ work_dir }}/cron.log 2>&1'
