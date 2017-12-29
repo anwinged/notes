@@ -1,3 +1,6 @@
+analyse-php:
+	./vendor/bin/phpstan analyse --level=max --configuration=phpstan.neon ./src ./tests
+
 prepare-php:
 	./vendor/bin/php-cs-fixer fix --allow-risky=yes || true
 

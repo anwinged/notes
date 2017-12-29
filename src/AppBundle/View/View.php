@@ -14,12 +14,12 @@ final class View
     private $data;
 
     /**
-     * @var string
+     * @var array
      */
     private $options = [];
 
     /**
-     * @param $data
+     * @param mixed $data
      * @param array $options
      *
      * @return self
@@ -30,7 +30,7 @@ final class View
     }
 
     /**
-     * @param $data
+     * @param mixed $data
      * @param array $options
      */
     private function __construct($data, array $options)

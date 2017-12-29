@@ -1,0 +1,6 @@
+includes:
+  - vendor/phpstan/phpstan-doctrine/extension.neon
+
+parameters:
+  ignoreErrors:
+    - '/Parameter #4 \$compression of method BackupManager\\Procedures\\RestoreProcedure::run\(\) expects null/'

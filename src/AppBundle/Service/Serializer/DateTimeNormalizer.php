@@ -36,6 +36,10 @@ class DateTimeNormalizer implements NormalizerInterface, DenormalizerInterface
      */
     public function normalize($object, $format = null, array $context = [])
     {
+        if (!($object instanceof \DateTimeInterface)) {
+            throw new \InvalidArgumentException();
+        }
+
         return $object->getTimestamp();
     }
 

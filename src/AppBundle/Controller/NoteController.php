@@ -14,6 +14,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/notes")
@@ -58,14 +61,21 @@ class NoteController extends Controller
         $content = $request->getContent();
         $serializer = $this->get('serializer');
 
+        if (!($serializer instanceof Serializer)) {
+            throw new \InvalidArgumentException();
+        }
+
         /** @var Note $blank */
         $blank = $serializer->deserialize($content, Note::class, 'json', [
             'groups' => ['setup'],
         ]);
 
         $validator = $this->get('validator');
-        $violations = $validator->validate($blank);
+        if (!($validator instanceof ValidatorInterface)) {
+            throw new \InvalidArgumentException();
+        }
 
+        $violations = $validator->validate($blank);
         if (count($violations) > 0) {
             return $this->responseWithViolations($violations);
         }
@@ -91,6 +101,10 @@ class NoteController extends Controller
         $content = $request->getContent();
         $serializer = $this->get('serializer');
 
+        if (!($serializer instanceof Serializer)) {
+            throw new \InvalidArgumentException();
+        }
+
         /** @var Note $blank */
         $blank = $serializer->deserialize($content, Note::class, 'json', [
             'object_to_populate' => $note,
@@ -98,8 +112,11 @@ class NoteController extends Controller
         ]);
 
         $validator = $this->get('validator');
-        $violations = $validator->validate($blank);
+        if (!($validator instanceof ValidatorInterface)) {
+            throw new \InvalidArgumentException();
+        }
 
+        $violations = $validator->validate($blank);
         if (count($violations) > 0) {
             return $this->responseWithViolations($violations);
         }
@@ -148,11 +165,11 @@ class NoteController extends Controller
     }
 
     /**
-     * @param $violations
+     * @param ConstraintViolationListInterface $violations
      *
      * @return View
      */
-    private function responseWithViolations($violations): View
+    private function responseWithViolations(ConstraintViolationListInterface $violations): View
     {
         return View::create($violations, [
             'status_code' => Response::HTTP_BAD_REQUEST,
