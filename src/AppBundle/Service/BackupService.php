@@ -10,7 +10,7 @@ use BackupManager\Databases;
 use BackupManager\Filesystems;
 use BackupManager\Manager;
 
-final class BackupService
+class BackupService
 {
     private const DATABASE = 'db';
 

@@ -13,7 +13,7 @@ use League\CommonMark\HtmlRenderer;
 use League\CommonMark\Inline\Element\Text;
 use League\CommonMark\Node\Node;
 
-final class MarkdownService
+class MarkdownService
 {
     const MAX_TITLE_LENGTH = 1024;
     const SHORT_LENGTH = 50;

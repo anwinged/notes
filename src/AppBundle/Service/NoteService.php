@@ -7,7 +7,7 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Note;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-final class NoteService
+class NoteService
 {
     private $markdownService;
 

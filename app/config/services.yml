@@ -20,7 +20,7 @@ services:
         resource: '../../src/AppBundle/*'
         # you can exclude directories or files
         # but if a service is unused, it's removed anyway
-        exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
+        exclude: '../../src/AppBundle/{Entity,Helper,Repository,Tests,View}'
 
     # controllers are imported separately to make sure they're public
     # and have a tag that allows actions to type-hint services
@@ -41,7 +41,7 @@ services:
             $dropboxToken: '%dropbox_token%'
         public: true
 
-    datetime_normalizer:
+    AppBundle\Service\Serializer\DateTimeNormalizer:
         class: AppBundle\Service\Serializer\DateTimeNormalizer
         tags:
             - { name: serializer.normalizer }
