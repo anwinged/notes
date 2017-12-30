@@ -1,3 +1,10 @@
+install-dependencies:
+	composer install
+	npm install -y
+
+migrate:
+	bin/console doctrine:migrations:migrate
+
 analyse-php:
 	./vendor/bin/phpstan analyse --level=max --configuration=phpstan.neon ./src ./tests
 
