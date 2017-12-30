@@ -2,18 +2,18 @@
 - hosts: all
 
   vars:
-    application_name: note
+    application_name: notes
     application_root: /vagrant
-    application_env: dev
     application_user: ubuntu
+    application_cache_dir: /var/notes/
 
     app_envs:
       NOTES_SECRET_TOKEN: ThisTokenIsNotSoSecretChangeIt
       NOTES_DATABASE_HOST: 127.0.0.1
       NOTES_DATABASE_PORT: 3306
-      NOTES_DATABASE_NAME: note
-      NOTES_DATABASE_USER: note
-      NOTES_DATABASE_PASSWORD: note
+      NOTES_DATABASE_NAME: '{{application_name }}'
+      NOTES_DATABASE_USER: '{{application_name }}'
+      NOTES_DATABASE_PASSWORD: '{{application_name }}'
       NOTES_MAILER_HOST: 127.0.0.1
       NOTES_MAILER_PORT: 1025
       NOTES_MAILER_USER: noreply@notes.tld
@@ -28,46 +28,46 @@
 
     nginx_remove_default_vhost: true
     nginx_vhosts:
-      - server_name: note.loc
-        template: "{{ playbook_dir }}/templates/app.vhost.j2"
+      - server_name: notes.loc
+        template: '{{ playbook_dir }}/templates/app.vhost.j2'
 
     # php settings
 
-    php_version: "7.1"
-    php_packages:
-      - php7.1
-      - php7.1-curl
-      - php7.1-gd
-      - php7.1-fpm
-      - php7.1-mbstring
-      - php7.1-mysql
-      - php7.1-xml
-      - php7.1-intl
-      - php7.1-zip
+    php_version: '7.1'
+    php_packages_extra:
+      - 'php{{ php_version }}-curl'
+      - 'php{{ php_version }}-gd'
+      - 'php{{ php_version }}-fpm'
+      - 'php{{ php_version }}-mbstring'
+      - 'php{{ php_version }}-xml'
+      - 'php{{ php_version }}-intl'
+      - 'php{{ php_version }}-zip'
+      - 'php{{ php_version }}-mysql'
     php_webserver_daemon: nginx
     php_enable_php_fpm: true
     php_fpm_listen: /run/php/php{{ php_version }}-fpm.sock
-    php_date_timezone: "{{ timezone }}"
+    php_date_timezone: '{{ timezone }}'
 
     # mysql settings
 
     mysql_databases:
-      - name: "{{ application_name }}"
+      - name: '{{ application_name }}'
     mysql_users:
-      - name: "{{ application_name }}"
+      - name: '{{ application_name }}'
         host: '%'
-        password: "{{ application_name }}"
-        priv: "{{ application_name }}.*:ALL"
+        password: '{{ application_name }}'
+        priv: '{{ application_name }}.*:ALL'
 
     # nodejs settings
 
-    nodejs_version: "8.x"
+    nodejs_version: '8.x'
 
-  environment: "{{ app_envs }}"
+  environment: '{{ app_envs }}'
 
   pre_tasks:
     - name: Ensure that PHP PPA is added.
       apt_repository: repo=ppa:ondrej/php state=present
+
     - name: Install additional packages.
       apt: package={{ item }} state=latest
       with_items:
@@ -85,24 +85,4 @@
     - geerlingguy.nodejs
     - geerlingguy.composer
     - geerlingguy.mailhog
-
-  post_tasks:
-    - name: Create system environment variables.
-      lineinfile:
-        path: /etc/environment
-        regexp: '^{{ item.key }}='
-        line: '{{ item.key }}="{{ item.value }}"'
-      with_dict: "{{ app_envs }}"
-    - name: Add cd to {{ application_root }} in shell startup file.
-      lineinfile:
-        dest: "/home/{{ application_user }}/.bashrc"
-        line: "cd '{{ application_root }}'"
-    - name: Install composer dependencies.
-      composer:
-        command: install
-        working_dir: "{{ application_root }}"
-        no_dev: no
-        optimize_autoloader: no
-    - name: Install NPM packages.
-      npm:
-        path: "{{ application_root }}"
+    - application

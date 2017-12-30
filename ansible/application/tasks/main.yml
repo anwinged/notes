@@ -1,35 +1,25 @@
 ---
-- name: Create cache directory
+- name: Create cache directory.
   file:
-    path: '/tmp/{{ application_name }}/cache'
+    path: '{{ application_cache_dir }}'
     state: directory
     owner: '{{ application_user }}'
+    mode: 0777
     recurse: yes
 
-- name: Create logs directory
-  file:
-    path: '/tmp/{{ application_name }}/logs'
-    state: directory
+- name: Create environment variables.
+  template:
+    src: envs.j2
+    dest: '/home/{{ application_user }}/.envs'
     owner: '{{ application_user }}'
-    recurse: yes
+    group: '{{ application_user }}'
 
-- name: Add cd to {{ application_root }} in shell startup file
+- name: Add environment variables.
+  lineinfile:
+    dest: '/home/{{ application_user }}/.bashrc'
+    line: 'source $HOME/.envs'
+
+- name: Add cd to {{ application_root }} in shell startup file.
   lineinfile:
     dest: '/home/{{ application_user }}/.bashrc'
     line: "cd '{{ application_root }}'"
-
-- name: Add Symfony env in shell sturtup file
-  lineinfile:
-    dest: '/home/{{ application_user }}/.bashrc'
-    line: 'export SYMFONY_ENV={{ application_env }}'
-
-- name: Install composer dependencies
-  composer:
-    command: install
-    working_dir: '{{ application_root }}'
-    no_dev: no
-    optimize_autoloader: no
-  environment:
-    SYMFONY_ENV: '{{ application_env }}'
-  become: yes
-  become_user: '{{ application_user }}'

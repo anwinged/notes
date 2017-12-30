@@ -19,6 +19,8 @@ Vagrant.configure("2") do |config|
   config.ssh.forward_agent = true
 
   config.vm.provision "ansible_local" do |ansible|
+    ansible.install_mode = :pip
+    ansible.version = "2.4.2.0"
     ansible.playbook = "ansible/provision.yml"
     ansible.galaxy_role_file = "ansible/requirements.yml"
     ansible.galaxy_roles_path = "ansible/galaxy.roles"
