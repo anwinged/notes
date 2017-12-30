@@ -7,6 +7,12 @@
     mode: 0777
     recurse: yes
 
+- name: Add nginx user to app group.
+  user:
+    name: www-data
+    groups: '{{ application_user }}'
+    append: yes
+
 - name: Create environment variables.
   template:
     src: envs.j2

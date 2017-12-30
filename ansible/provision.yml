@@ -18,7 +18,8 @@
       NOTES_MAILER_PORT: 1025
       NOTES_MAILER_USER: noreply@notes.tld
       NOTES_MAILER_PASSWORD: ''
-      SYMFONY_ENV: dev
+      SYMFONY_ENV: vagrant
+      APP_ENV: vagrant
 
     # timezone settings
 

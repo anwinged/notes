@@ -34,15 +34,4 @@ Vagrant.configure("2") do |config|
   # Webserver for Mailhog
   config.vm.network "forwarded_port", guest: 8025, host: 8025, auto_correct: true
 
-  # For correct symfony cache and logs writing
-  config.vm.synced_folder "./var", "/vagrant/var",
-   :owner => 'ubuntu',
-   :group => 'www-data',
-   :mount_options => ["dmode=775","fmode=666"]
-
-  # For correct session handling
-  config.vm.synced_folder "./var/sessions", "/vagrant/var/sessions",
-   :owner => 'www-data',
-   :group => 'www-data',
-   :mount_options => ["dmode=775","fmode=666"]
 end
