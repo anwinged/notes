@@ -12,23 +12,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/backup-manager/backup-manager.git",
-                "reference": "9b59c5258b7e71b765d229033bf5d16f984cc222"
+                "reference": "4d925b5de2cc8a98d6776f5bf88ec41edd584533"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/backup-manager/backup-manager/zipball/9b59c5258b7e71b765d229033bf5d16f984cc222",
-                "reference": "9b59c5258b7e71b765d229033bf5d16f984cc222",
+                "url": "https://api.github.com/repos/backup-manager/backup-manager/zipball/4d925b5de2cc8a98d6776f5bf88ec41edd584533",
+                "reference": "4d925b5de2cc8a98d6776f5bf88ec41edd584533",
                 "shasum": ""
             },
             "require": {
-                "league/flysystem": "~1.0",
-                "php": ">=5.5.9",
-                "symfony/process": "~2.1|~3.0|~4.0"
+                "league/flysystem": "^1.0",
+                "php": "^5.5.9 || ^7.0",
+                "symfony/process": "^2.1 || ^3.0 || ^4.0"
             },
             "require-dev": {
                 "aws/aws-sdk-php": "~3.0",
                 "dropbox/dropbox-sdk": "~1.1",
                 "league/flysystem-aws-s3-v3": "~1.0",
+                "league/flysystem-dropbox": "~1.0",
                 "league/flysystem-rackspace": "~1.0",
                 "league/flysystem-sftp": "~1.0",
                 "mockery/mockery": "~0.9",
@@ -71,7 +72,7 @@
                 }
             ],
             "description": "A framework agnostic database backup manager with user-definable procedures and support for S3, Dropbox, FTP, SFTP, and more with drivers for popular frameworks.",
-            "time": "2017-11-18T14:47:33+00:00"
+            "time": "2018-01-28T20:31:36+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -5551,16 +5552,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v4.0.2",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "61c84ebdce0d4c289413a222ee545f0114e60120"
+                "reference": "c12fc01946942723ee824b5f09d241f5de15c037"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/61c84ebdce0d4c289413a222ee545f0114e60120",
-                "reference": "61c84ebdce0d4c289413a222ee545f0114e60120",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/c12fc01946942723ee824b5f09d241f5de15c037",
+                "reference": "c12fc01946942723ee824b5f09d241f5de15c037",
                 "shasum": ""
             },
             "require": {
@@ -5580,6 +5581,10 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "4.0-dev"
+                },
+                "thanks": {
+                    "name": "phpunit/phpunit",
+                    "url": "https://github.com/sebastianbergmann/phpunit"
                 }
             },
             "autoload": {
@@ -5609,7 +5614,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-12-14T19:48:22+00:00"
+            "time": "2018-01-21T19:06:11+00:00"
         },
         {
             "name": "symfony/polyfill-php72",
