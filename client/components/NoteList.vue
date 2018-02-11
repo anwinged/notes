@@ -5,7 +5,6 @@
          href="#"
          title="Create new note"
       >Create new</a>
-      <router-link :to="{ name: 'profile' }">Profile ({{ username }})</router-link>
     </nav>
     <ul class="list">
       <li v-for="note in notes" :key="note.id" class="item">

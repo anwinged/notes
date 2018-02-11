@@ -5,10 +5,8 @@ import Http from './services/http/http.js';
 import Logger from './services/logger.js';
 import NoteService from './services/note-service.js';
 import RequestFactory from './services/http/request-factory.js';
-import UserService from './services/user-service.js';
 
 // Entities
-import UserEntity from './entity/User.js';
 import NoteEntity from './entity/Note.js';
 
 // Container configuration
@@ -32,11 +30,9 @@ bottle.service(
     'EntityFactory'
 );
 bottle.service('NoteService', NoteService, 'EntityGate');
-bottle.service('UserService', UserService, 'EntityGate');
 
 // Entities
 
-bottle.instanceFactory('Entity.User', () => new UserEntity());
 bottle.instanceFactory('Entity.Note', () => new NoteEntity());
 
 // Container export

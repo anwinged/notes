@@ -11,17 +11,13 @@ class NoteService
 {
     private $markdownService;
 
-    private $userService;
-
     private $registry;
 
     public function __construct(
         MarkdownService $markdownService,
-        UserService $userService,
         RegistryInterface $registry
     ) {
         $this->markdownService = $markdownService;
-        $this->userService = $userService;
         $this->registry = $registry;
     }
 
@@ -30,11 +26,9 @@ class NoteService
      */
     public function getActiveNotes(): array
     {
-        $user = $this->userService->getUser();
         $repository = $this->registry->getRepository('AppBundle:Note');
 
         return $repository->findBy([
-            'user' => $user,
             'archived' => false,
         ]);
     }
@@ -46,9 +40,6 @@ class NoteService
      */
     public function create(Note $blank): Note
     {
-        $user = $this->userService->getUser();
-        $blank->setUser($user);
-
         $this->parseMarkdown($blank);
 
         $blank->setCreatedAt(new \DateTime());

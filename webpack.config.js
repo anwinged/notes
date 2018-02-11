@@ -4,7 +4,6 @@ var webpack = require('webpack');
 module.exports = {
   entry: {
       app: './client/main.js',
-      login: './client/login.js',
   },
   output: {
     path: path.resolve(__dirname, './web/assets/'),

@@ -4,7 +4,6 @@ import Dashboard from './components/Dashboard.vue';
 import NoteList from './components/NoteList.vue';
 import NoteView from './components/NoteView.vue';
 import NoteForm from './components/NoteForm.vue';
-import ProfileView from './components/ProfileView.vue';
 import NotFound from './components/NotFound.vue';
 
 Vue.use(VueRouter);
@@ -53,11 +52,6 @@ const routes = [
                 },
             },
         ],
-    },
-    {
-        path: '/profile',
-        name: 'profile',
-        component: ProfileView,
     },
     {
         path: '*',
