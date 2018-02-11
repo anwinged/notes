@@ -39,3 +39,6 @@ crontab:
 		--inventory "notes.anwinged.ru," \
 		--user=notes_owner \
 		ansible/crontab.yml
+
+test:
+	./vendor/bin/phpunit
