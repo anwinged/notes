@@ -64,6 +64,8 @@
 
     nodejs_version: '8.x'
 
+    deployer_version: "6.0.5"
+
   environment: '{{ app_envs }}'
 
   pre_tasks:
@@ -87,4 +89,5 @@
     - geerlingguy.nodejs
     - geerlingguy.composer
     - geerlingguy.mailhog
+    - stevenjlho.deployer
     - application
