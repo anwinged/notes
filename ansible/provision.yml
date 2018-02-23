@@ -50,6 +50,8 @@
     php_fpm_listen: /run/php/php{{ php_version }}-fpm.sock
     php_date_timezone: '{{ timezone }}'
 
+    php_xdebug_version: 2.6.0
+
     # mysql settings
 
     mysql_databases:
@@ -85,6 +87,7 @@
     - geerlingguy.nginx
     - geerlingguy.php-versions
     - geerlingguy.php
+    - geerlingguy.php-xdebug
     - geerlingguy.mysql
     - geerlingguy.nodejs
     - geerlingguy.composer

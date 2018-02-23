@@ -6,7 +6,7 @@ migrate:
 	bin/console doctrine:migrations:migrate
 
 test:
-	./vendor/bin/phpunit
+	./vendor/bin/phpunit --coverage-text --colors
 
 analyse-php:
 	./vendor/bin/phpstan analyse --level=max --configuration=phpstan.neon ./src ./tests
