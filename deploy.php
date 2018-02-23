@@ -61,7 +61,8 @@ set('upload_excluded_dirs', [
 // Environment vars
 set('env', function () {
     return [
-        'SYMFONY_ENV' => get('symfony_env')
+        'SYMFONY_ENV' => get('symfony_env'),
+        'APP_ENV' => get('symfony_env'),
     ];
 });
 
