@@ -5,6 +5,9 @@ install-dependencies:
 migrate:
 	bin/console doctrine:migrations:migrate
 
+test:
+	./vendor/bin/phpunit
+
 analyse-php:
 	./vendor/bin/phpstan analyse --level=max --configuration=phpstan.neon ./src ./tests
 
@@ -20,6 +23,8 @@ format-md:
 	./node_modules/.bin/prettier --write "./*.md" || true
 
 format-all: format-php format-client format-md
+
+prepare-code: analyse-php test format-all
 
 deploy-prod:
 	dep deploy production
@@ -40,6 +45,3 @@ crontab:
 		--inventory "notes.anwinged.ru," \
 		--user=notes_owner \
 		ansible/crontab.yml
-
-test:
-	./vendor/bin/phpunit
