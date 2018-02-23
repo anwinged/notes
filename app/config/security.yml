@@ -5,7 +5,7 @@ security:
       memory:
         users:
           admin:
-            password: password
+            password: '%app_password%'
             roles: 'ROLE_USER'
 
   encoders:

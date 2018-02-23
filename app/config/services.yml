@@ -4,6 +4,7 @@ parameters:
     locale: en
     container.autowiring.strict_mode: true
 
+    app_password: '%env(NOTES_APP_PASSWORD)%'
     secret: '%env(NOTES_SECRET_TOKEN)%'
 
     database_host: '%env(NOTES_DATABASE_HOST)%'

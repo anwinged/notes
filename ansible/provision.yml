@@ -8,6 +8,7 @@
     application_cache_dir: /var/notes/
 
     app_envs:
+      NOTES_APP_PASSWORD: password
       NOTES_SECRET_TOKEN: ThisTokenIsNotSoSecretChangeIt
       NOTES_DATABASE_HOST: 127.0.0.1
       NOTES_DATABASE_PORT: 3306
