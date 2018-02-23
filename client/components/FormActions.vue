@@ -33,57 +33,57 @@
 </template>
 
 <script>
-  export default {
-    props: ['note'],
-    methods: {
-      save: function () {
-        this.$store.dispatch('saveNote', this.note).then((note) => {
-          this.$router.push({
-            name: 'note_view',
-            params: { id: note.id },
-          });
+export default {
+  props: ['note'],
+  methods: {
+    save: function() {
+      this.$store.dispatch('saveNote', this.note).then(note => {
+        this.$router.push({
+          name: 'note_view',
+          params: { id: note.id },
         });
-      }
-    }
-  }
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  @import "../style/vars.scss";
-  .action-panel {
+@import '../style/vars.scss';
+.action-panel {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  @media (max-width: $width) {
+    width: 100%;
+  }
+}
+.actions {
+  list-style: none;
+  margin: 0;
+  padding: 20px 0 0;
+  @media (max-width: $width) {
     display: flex;
-    justify-content: space-between;
-    background-color: white;
-    @media (max-width: $width) {
-      width: 100%;
-    }
-  }
-  .actions {
-    list-style: none;
-    margin: 0;
-    padding: 20px 0 0;
-    @media (max-width: $width) {
-      display: flex;
-      padding: 0;
-    }
-  }
-  .action {
-    margin: 0;
     padding: 0;
-    cursor: pointer;
   }
-  .action-link {
-    display: inline-block;
-    padding: 8px 15px;
-    font-size: 140%;
-    @media (max-width: $width) {
-      padding: 20px;
-    }
+}
+.action {
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.action-link {
+  display: inline-block;
+  padding: 8px 15px;
+  font-size: 140%;
+  @media (max-width: $width) {
+    padding: 20px;
   }
-  .action-index {
-    display: none;
-    @media (max-width: $width) {
-      display: block;
-    }
+}
+.action-index {
+  display: none;
+  @media (max-width: $width) {
+    display: block;
   }
+}
 </style>

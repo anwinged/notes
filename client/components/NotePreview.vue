@@ -26,39 +26,39 @@ export default {
   methods: {
     goToView() {
       if (this.note.is.draft) {
-        this.$router.push({ name: 'note_edit', params: { id: this.note.id }});
+        this.$router.push({ name: 'note_edit', params: { id: this.note.id } });
       } else {
-        this.$router.push({ name: 'note_view', params: { id: this.note.id }});
+        this.$router.push({ name: 'note_view', params: { id: this.note.id } });
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  .note-preview {
-    padding: 10px 20px;
-    cursor: pointer;
-  }
-  .note-preview:hover {
-    background-color: gainsboro;
-  }
-  .header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.4em;
-  }
-  .title {
-    font-size: 100%;
-    margin: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .meta {
-    font-size: 85%;
-    color: #aaa;
-    min-width: 150px;
-    text-align: right;
-  }
+.note-preview {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+.note-preview:hover {
+  background-color: gainsboro;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.4em;
+}
+.title {
+  font-size: 100%;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.meta {
+  font-size: 85%;
+  color: #aaa;
+  min-width: 150px;
+  text-align: right;
+}
 </style>

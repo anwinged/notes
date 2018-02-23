@@ -9,5 +9,5 @@
 <script>
 export default {
   props: ['note'],
-}
+};
 </script>

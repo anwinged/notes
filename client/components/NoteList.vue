@@ -24,9 +24,6 @@ export default {
     notes() {
       return this.$store.getters.newest;
     },
-    username() {
-      return this.$store.state.user.username;
-    }
   },
   methods: {
     create() {
@@ -36,25 +33,25 @@ export default {
           params: { id: note.id },
         });
       });
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  .list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .actions {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-  }
-  .item {
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid #bbb;
-  }
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+.item {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #bbb;
+}
 </style>

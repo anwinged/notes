@@ -8,17 +8,18 @@ migrate:
 analyse-php:
 	./vendor/bin/phpstan analyse --level=max --configuration=phpstan.neon ./src ./tests
 
-prepare-php:
+format-php:
 	./vendor/bin/php-cs-fixer fix --allow-risky=yes || true
 
-prepare-client:
+format-client:
+	./node_modules/.bin/prettier --single-quote --trailing-comma es5 --tab-width 2 --write "./client/**/*.vue" || true
 	./node_modules/.bin/prettier --single-quote --trailing-comma es5 --tab-width 4 --write "./client/**/*.js" || true
 	./node_modules/.bin/prettier --single-quote --write "./client/**/*.scss" || true
 
-prepare-md:
+format-md:
 	./node_modules/.bin/prettier --write "./*.md" || true
 
-format: prepare-php prepare-client prepare-md
+format-all: format-php format-client format-md
 
 deploy-prod:
 	dep deploy production

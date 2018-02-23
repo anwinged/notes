@@ -21,7 +21,7 @@ export default {
   components: {
     'note-content': NoteContent,
     'note-actions': NoteActions,
-    'loader': Loader,
+    loader: Loader,
     'not-found': NotFound,
   },
   data() {
@@ -32,7 +32,7 @@ export default {
   watch: {
     id() {
       this.loadNote();
-    }
+    },
   },
   created() {
     this.loadNote();
@@ -46,38 +46,38 @@ export default {
       this.$store.dispatch('getOrFirst', this.id).then(note => {
         this.note = note;
       });
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  @import "../style/vars.scss";
-  .component {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 20px;
+@import '../style/vars.scss';
+.component {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+}
+.view {
+  position: relative;
+}
+.view-text {
+  max-width: 600px;
+  margin: 0 auto;
+  @media (max-width: $width) {
+    margin-right: auto;
+    margin-bottom: 85px;
   }
-  .view {
-    position: relative;
+}
+.view-acts {
+  top: 0;
+  right: 0;
+  position: fixed;
+  width: 80px;
+  @media (max-width: $width) {
+    top: auto;
+    bottom: 0;
+    left: 0;
   }
-  .view-text {
-    max-width: 600px;
-    margin: 0 auto;
-    @media (max-width: $width) {
-      margin-right: auto;
-      margin-bottom: 85px;
-    }
-  }
-  .view-acts {
-    top: 0;
-    right: 0;
-    position: fixed;
-    width: 80px;
-    @media (max-width: $width) {
-      top: auto;
-      bottom: 0;
-      left: 0;
-    }
-  }
+}
 </style>
