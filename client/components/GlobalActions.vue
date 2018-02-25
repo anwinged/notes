@@ -11,12 +11,27 @@
          title="Create new note"
       >Create new</a>
     </li>
+    <li class="action">
+      <form class="search-form" v-on:submit.prevent="search()">
+        <input class="search-input"
+               title="Search"
+               type="text"
+               v-model="query"
+               placeholder="Search"
+        >
+      </form>
+    </li>
   </ul>
 </template>
 
 <script>
 import Action from '../store/actions.js';
 export default {
+  data() {
+    return {
+      query: '',
+    };
+  },
   methods: {
     createNewNote() {
       this.$store.dispatch(Action.CREATE_DRAFT_NOTE).then(note => {
@@ -25,6 +40,9 @@ export default {
           params: { id: note.id },
         });
       });
+    },
+    search() {
+      this.$router.push({ name: 'note_index', query: { q: this.query } });
     },
   },
 };

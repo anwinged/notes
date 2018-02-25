@@ -32,6 +32,7 @@ const store = new Vuex.Store({
             const notes = getters.newest;
             return notes.length ? notes[0] : null;
         },
+        search(state) {},
     },
     mutations: {
         [SET_NOTES](state, notes) {
@@ -98,6 +99,9 @@ const store = new Vuex.Store({
             }
 
             return dispatch('getNote', +_id);
+        },
+        async [Action.SEARCH_NOTES]({ commit }, query) {
+            return NoteService.search(query);
         },
     },
 });

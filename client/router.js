@@ -23,6 +23,7 @@ const routes = [
                 path: '',
                 name: 'note_index',
                 component: NoteList,
+                props: route => ({ query: route.query.q }),
             },
             {
                 path: ':id',

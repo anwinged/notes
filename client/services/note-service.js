@@ -128,6 +128,23 @@ export default class NoteService {
     }
 
     /**
+     * @param {string} text
+     * @return {Promise<Object>}
+     */
+    async search(text) {
+        const response = await this.gate.execute({
+            method: 'get',
+            path: `/notes/search?q=${text}`,
+        });
+
+        if (response.status === 200) {
+            return this.gate.fetchList(response, ENTITY_NAME);
+        }
+
+        this.gate.error(response);
+    }
+
+    /**
      * @returns {Note}
      */
     createDraft() {
