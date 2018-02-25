@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import logger from 'vuex/dist/logger';
 import container from '../container.js';
+import Action from './actions.js';
 
 Vue.use(Vuex);
 
@@ -68,7 +69,7 @@ const store = new Vuex.Store({
             commit(REPLACE_NOTE, { id, note });
             return note;
         },
-        async createDraftNote({ commit }) {
+        async [Action.CREATE_DRAFT_NOTE]({ commit }) {
             const draft = NoteService.createDraft();
             commit(ADD_NOTE, draft);
             return draft;

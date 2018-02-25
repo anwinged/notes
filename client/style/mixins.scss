@@ -1,0 +1,7 @@
+@import 'vars.scss';
+
+@mixin panel() {
+  box-sizing: border-box;
+  background-color: white;
+  border: 1px solid $border-color;
+}

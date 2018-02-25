@@ -53,7 +53,7 @@ export default {
 .action-panel {
   display: flex;
   justify-content: space-between;
-  background-color: white;
+  background-color: $background-color;
   @media (max-width: $width) {
     width: 100%;
   }
@@ -61,7 +61,7 @@ export default {
 .actions {
   list-style: none;
   margin: 0;
-  padding: 20px 0 0;
+  padding: 0;
   @media (max-width: $width) {
     display: flex;
     padding: 0;

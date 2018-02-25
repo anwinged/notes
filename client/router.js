@@ -22,34 +22,19 @@ const routes = [
             {
                 path: '',
                 name: 'note_index',
-                components: {
-                    list: NoteList,
-                    view: NoteView,
-                },
+                component: NoteList,
             },
             {
                 path: ':id',
                 name: 'note_view',
-                components: {
-                    list: NoteList,
-                    view: NoteView,
-                },
-                props: {
-                    list: false,
-                    view: true,
-                },
+                props: true,
+                component: NoteView,
             },
             {
                 path: ':id/edit',
                 name: 'note_edit',
-                components: {
-                    list: NoteList,
-                    view: NoteForm,
-                },
-                props: {
-                    list: false,
-                    view: true,
-                },
+                props: true,
+                component: NoteForm,
             },
         ],
     },

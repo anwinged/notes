@@ -1,27 +1,26 @@
 <template>
-  <form class="form">
+  <section class="editor">
     <not-found v-if="!this.note"></not-found>
     <loader v-if="note.is.preview"></loader>
-    <form-actions v-if="note.is.full"
-                  :note="note"
-                  class="form-actions"
-    />
-    <textarea v-if="note.is.full"
-              v-model="note.source"
-              v-on:keyup.enter.ctrl="save"
-              ref="input"
-              class="input"
-              title="Input"
-              autofocus
-              placeholder="Type here"
-    ></textarea>
-  </form>
+    <form class="form" v-if="note.is.full">
+      <textarea v-model="note.source"
+                v-on:keyup.enter.ctrl="save"
+                ref="input"
+                class="input"
+                title="Input"
+                autofocus
+                placeholder="Type here"
+      ></textarea>
+    </form>
+    <form-actions v-if="note.is.full" :note="note" />
+  </section>
 </template>
 
 <script>
 import FormActions from './FormActions.vue';
 import Loader from './Loader.vue';
 import NotFound from './NotFound.vue';
+import Action from '../store/actions.js';
 export default {
   props: ['id'],
   components: {
@@ -59,7 +58,7 @@ export default {
         });
       } else {
         this.note = { is: { preview: true } };
-        this.$store.dispatch('createDraftNote').then(note => {
+        this.$store.dispatch(Action.CREATE_DRAFT_NOTE).then(note => {
           this.note = note;
         });
       }
@@ -78,20 +77,14 @@ export default {
 
 <style lang="scss" scoped>
 @import '../style/vars.scss';
-.form {
-  width: 100%;
+@import '../style/mixins.scss';
+.editor {
   box-sizing: border-box;
+  display: flex;
 }
-.form-actions {
-  top: 0;
-  right: 0;
-  position: fixed;
-  width: 80px;
-  @media (max-width: $width) {
-    top: auto;
-    bottom: 0;
-    left: 0;
-  }
+.form {
+  @include panel();
+  width: 100%;
 }
 .input {
   margin: 0;
@@ -102,7 +95,7 @@ export default {
   border-radius: 0;
   font-size: $editor-font;
   line-height: 1.5;
-  padding: 20px calc((100% - 600px) / 2);
+  padding: $gap;
   resize: none;
   @media (max-width: $width) {
     padding: 10px 10px 85px;

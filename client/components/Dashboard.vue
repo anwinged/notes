@@ -1,30 +1,23 @@
 <template>
   <main class="dashboard">
-    <section :class="listClass">
-      <router-view name="list"></router-view>
-    </section>
-    <section :class="viewClass">
-      <router-view name="view"></router-view>
-    </section>
+    <!-- Action panel -->
+    <nav class="actions">
+      <div class="actions-content">
+        <global-actions />
+      </div>
+    </nav>
+    <!-- Page content -->
+    <article class="content">
+      <router-view></router-view>
+    </article>
   </main>
 </template>
 
 <script>
+import GlobalActions from './GlobalActions.vue';
 export default {
-  props: ['id'],
-  computed: {
-    listClass() {
-      return {
-        'index-list': !this.id,
-        'item-list': !!this.id,
-      };
-    },
-    viewClass() {
-      return {
-        'index-view': !this.id,
-        'item-view': !!this.id,
-      };
-    },
+  components: {
+    'global-actions': GlobalActions,
   },
 };
 </script>
@@ -32,58 +25,27 @@ export default {
 <style lang="scss" scoped>
 @import '../style/vars.scss';
 .dashboard {
+  display: block;
   box-sizing: border-box;
   width: 100%;
-  height: 100vh;
-  @media (max-width: $width) {
-    display: block;
-    height: auto;
-  }
-}
-%list {
-  box-sizing: border-box;
-  width: 400px;
-  min-width: 400px;
-  height: 100vh;
-  display: block;
-  position: fixed;
-  overflow-y: scroll;
-}
-.index-list {
-  @extend %list;
-  @media (max-width: $width) {
-    min-width: initial;
-    width: auto;
-    height: auto;
-    position: static;
-    overflow-y: auto;
-  }
-}
-.item-list {
-  @extend %list;
-  @media (max-width: $width) {
-    display: none;
-  }
-}
-%view {
   min-height: 100vh;
+  background-color: $background-color;
+}
+.actions {
   box-sizing: border-box;
-  margin-left: 400px;
-  border-left: 1px solid #ccc;
-  flex-grow: 1;
+  width: 100%;
+  background-color: white;
+  margin-bottom: $gap;
+  border-bottom: 1px solid $border-color;
 }
-.index-view {
-  @extend %view;
-  @media (max-width: $width) {
-    display: none;
-  }
+.actions-content {
+  margin: 0 auto;
+  width: $content-width;
 }
-.item-view {
-  @extend %view;
-  @media (max-width: $width) {
-    margin-left: 0;
-    border-left: none;
-    height: auto;
-  }
+.content {
+  display: block;
+  margin: 0 auto;
+  box-sizing: border-box;
+  max-width: $content-width;
 }
 </style>

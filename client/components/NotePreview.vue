@@ -4,8 +4,8 @@
       <h2 class="title" :title="note.title">{{ note.title }}</h2>
       <span class="meta">{{ meta }}</span>
     </header>
-    <div v-if="note.is.finished" v-html="note.short"></div>
-    <div v-if="note.is.draft"><p>{{ note.source }}</p></div>
+    <div class="content" v-if="note.is.finished" v-html="note.short"></div>
+    <div class="content" v-if="note.is.draft"><p>{{ note.source }}</p></div>
   </section>
 </template>
 
@@ -36,17 +36,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../style/vars.scss';
+@import '../style/mixins.scss';
 .note-preview {
-  padding: 10px 20px;
+  @include panel();
   cursor: pointer;
 }
 .note-preview:hover {
   background-color: gainsboro;
 }
 .header {
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.4em;
+  border-bottom: 1px solid $border-color;
+  padding: ($gap / 2) $gap;
 }
 .title {
   font-size: 100%;
@@ -60,5 +64,9 @@ export default {
   color: #aaa;
   min-width: 150px;
   text-align: right;
+}
+.content {
+  box-sizing: border-box;
+  padding: $gap;
 }
 </style>

@@ -1,17 +1,9 @@
 <template>
-  <div>
-    <nav class="actions">
-      <a v-on:click.prevent="create"
-         href="#"
-         title="Create new note"
-      >Create new</a>
-    </nav>
-    <ul class="list">
-      <li v-for="note in notes" :key="note.id" class="item">
-        <preview :note="note"/>
-      </li>
-    </ul>
-  </div>
+  <ul class="list">
+    <li v-for="note in notes" :key="note.id" class="item">
+      <preview :note="note"/>
+    </li>
+  </ul>
 </template>
 
 <script>
@@ -25,33 +17,19 @@ export default {
       return this.$store.getters.newest;
     },
   },
-  methods: {
-    create() {
-      this.$store.dispatch('createDraftNote').then(note => {
-        this.$router.push({
-          name: 'note_edit',
-          params: { id: note.id },
-        });
-      });
-    },
-  },
 };
 </script>
 
 <style lang="scss" scoped>
+@import '../style/vars.scss';
 .list {
   list-style: none;
-  margin: 0;
+  margin: 0 0 $gap;
   padding: 0;
-}
-.actions {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 20px;
 }
 .item {
-  margin: 0;
   padding: 0;
-  border-top: 1px solid #bbb;
+  box-sizing: border-box;
+  margin-bottom: $gap;
 }
 </style>

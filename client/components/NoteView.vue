@@ -4,8 +4,8 @@
       <not-found v-if="!this.note"></not-found>
       <loader v-if="note.is.preview"></loader>
       <div v-if="note.is.full" class="view">
-        <note-actions class="view-acts" :note="note"/>
         <note-content class="view-text" :note="note"/>
+        <note-actions class="view-acts" :note="note"/>
       </div>
     </div>
   </div>
@@ -56,28 +56,18 @@ export default {
 .component {
   width: 100%;
   box-sizing: border-box;
-  padding: 20px;
 }
 .view {
-  position: relative;
+  display: flex;
 }
 .view-text {
-  max-width: 600px;
-  margin: 0 auto;
+  flex-grow: 1;
   @media (max-width: $width) {
     margin-right: auto;
     margin-bottom: 85px;
   }
 }
 .view-acts {
-  top: 0;
-  right: 0;
-  position: fixed;
-  width: 80px;
-  @media (max-width: $width) {
-    top: auto;
-    bottom: 0;
-    left: 0;
-  }
+  flex-grow: 0;
 }
 </style>
