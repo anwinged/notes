@@ -36,6 +36,27 @@ class NoteController extends Controller
     }
 
     /**
+     * @Route("/search", name="note_search")
+     * @Method("GET")
+     *
+     * @param Request     $request
+     * @param NoteService $noteService
+     *
+     * @return View
+     */
+    public function searchAction(Request $request, NoteService $noteService)
+    {
+        $text = $request->get('q');
+        $limit = ((int) $request->get('limit')) ?: 5;
+
+        return View::create($noteService->search($text, $limit), [
+            'status_code' => Response::HTTP_OK,
+            'state' => 'preview',
+            'groups' => ['preview'],
+        ]);
+    }
+
+    /**
      * @Route("/{id}", name="note_view", requirements={"id": "\d+"})
      * @Method("GET")
      *

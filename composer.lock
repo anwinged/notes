@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "49b4fad96575f6f1007d9f9be6aa53c3",
+    "content-hash": "29d80ce50a46f55f57d5c252c1019f63",
     "packages": [
         {
             "name": "backup-manager/backup-manager",
@@ -2151,6 +2151,46 @@
                 "simple-cache"
             ],
             "time": "2017-01-02T13:31:39+00:00"
+        },
+        {
+            "name": "s2/rose",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/parpalak/rose.git",
+                "reference": "3c77ee48ba60ab3f881a74ce42c42f61bddae920"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/parpalak/rose/zipball/3c77ee48ba60ab3f881a74ce42c42f61bddae920",
+                "reference": "3c77ee48ba60ab3f881a74ce42c42f61bddae920",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "symfony/polyfill-mbstring": "^1.2"
+            },
+            "require-dev": {
+                "codeception/codeception": "^2.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "S2\\Rose\\": "src/S2/Rose"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Parpalak",
+                    "email": "roman@written.ru"
+                }
+            ],
+            "description": "Search engine for PHP sites",
+            "time": "2018-02-11T10:55:16+00:00"
         },
         {
             "name": "sensio/distribution-bundle",

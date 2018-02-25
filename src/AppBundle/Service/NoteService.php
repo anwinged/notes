@@ -5,20 +5,24 @@ declare(strict_types=1);
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Note;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use AppBundle\Repository\NoteRepository;
 
 class NoteService
 {
+    private $noteRepository;
+
     private $markdownService;
 
-    private $registry;
+    private $searchService;
 
     public function __construct(
+        NoteRepository $noteRepository,
         MarkdownService $markdownService,
-        RegistryInterface $registry
+        SearchService $searchService
     ) {
+        $this->noteRepository = $noteRepository;
         $this->markdownService = $markdownService;
-        $this->registry = $registry;
+        $this->searchService = $searchService;
     }
 
     /**
@@ -26,11 +30,7 @@ class NoteService
      */
     public function getActiveNotes(): array
     {
-        $repository = $this->registry->getRepository('AppBundle:Note');
-
-        return $repository->findBy([
-            'archived' => false,
-        ]);
+        return $this->noteRepository->getActiveNotes();
     }
 
     /**
@@ -45,9 +45,8 @@ class NoteService
         $blank->setCreatedAt(new \DateTime());
         $blank->setUpdatedAt(new \DateTime());
 
-        $em = $this->registry->getManagerForClass(Note::class);
-        $em->persist($blank);
-        $em->flush();
+        $this->noteRepository->persist($blank);
+        $this->searchService->index($blank);
 
         return $blank;
     }
@@ -63,9 +62,8 @@ class NoteService
 
         $note->setUpdatedAt(new \DateTime());
 
-        $em = $this->registry->getManagerForClass(Note::class);
-        $em->persist($note);
-        $em->flush();
+        $this->noteRepository->persist($note);
+        $this->searchService->index($note);
 
         return $note;
     }
@@ -80,9 +78,8 @@ class NoteService
         $note->setArchived(true);
         $note->setUpdatedAt(new \DateTime());
 
-        $em = $this->registry->getManagerForClass(Note::class);
-        $em->persist($note);
-        $em->flush();
+        $this->noteRepository->persist($note);
+        $this->searchService->remove($note);
 
         return $note;
     }
@@ -97,24 +94,39 @@ class NoteService
         $note->setArchived(false);
         $note->setUpdatedAt(new \DateTime());
 
-        $em = $this->registry->getManagerForClass(Note::class);
-        $em->persist($note);
-        $em->flush();
+        $this->noteRepository->persist($note);
+        $this->searchService->index($note);
 
         return $note;
     }
 
+    /**
+     * @param string $text
+     * @param int    $limit
+     *
+     * @return Note[]
+     */
+    public function search(string $text, int $limit): array
+    {
+        $ids = $this->searchService->search($text, $limit);
+        $notes = $this->noteRepository->findBy(['id' => $ids]);
+
+        $sortIds = array_flip($ids);
+        usort($notes, function (Note $a, Note $b) use ($sortIds) {
+            return $sortIds[$a->getId()] <=> $sortIds[$b->getId()];
+        });
+
+        return $notes;
+    }
+
     public function reparseAllNotes()
     {
-        $em = $this->registry->getManagerForClass(Note::class);
-        $rep = $this->registry->getRepository('AppBundle:Note');
-        $notes = $rep->findAll();
+        $notes = $this->noteRepository->findAll();
         foreach ($notes as $note) {
             $this->parseMarkdown($note);
-            $em->persist($note);
+            $this->noteRepository->persist($note);
+            $this->searchService->index($note);
         }
-
-        $em->flush();
     }
 
     private function parseMarkdown(Note $note)

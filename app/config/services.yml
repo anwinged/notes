@@ -47,6 +47,13 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
+    AppBundle\Repository\NoteRepository:
+        class: AppBundle\Repository\NoteRepository
+        factory: Doctrine\ORM\EntityManagerInterface:getRepository
+        arguments:
+            - AppBundle\Entity\Note
+        public: true
+
     AppBundle\Service\BackupService:
         arguments:
             $environment: '%kernel.environment%'
@@ -57,6 +64,18 @@ services:
             $databaseUser: '%database_user%'
             $databasePassword: '%database_password%'
             $dropboxToken: '%dropbox_token%'
+        public: true
+
+    AppBundle\Service\SearchService:
+        arguments:
+            $host: '%database_host%'
+            $port: '%database_port%'
+            $database: '%database_name%'
+            $user: '%database_user%'
+            $password: '%database_password%'
+        calls:
+            - method: setLogger
+              arguments: ['@logger']
         public: true
 
     AppBundle\Service\Serializer\DateTimeNormalizer:

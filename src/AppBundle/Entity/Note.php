@@ -9,11 +9,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Note.
- *
- * @ORM\Table(name="note")
  * @ORM\Entity()
- * @~~ORM\Entity(repositoryClass="AppBundle\Repository\NoteRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\NoteRepository")
+ * @ORM\Table(name="note")
  */
 class Note
 {
