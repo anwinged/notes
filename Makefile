@@ -2,6 +2,9 @@ install-dependencies:
 	composer install
 	npm install -y
 
+build:
+	npm run build
+
 migrate:
 	bin/console doctrine:migrations:migrate
 
