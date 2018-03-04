@@ -9,9 +9,13 @@ use BackupManager\Config\Config;
 use BackupManager\Databases;
 use BackupManager\Filesystems;
 use BackupManager\Manager;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\NullLogger;
 
 class BackupService
 {
+    use LoggerAwareTrait;
+
     private const DATABASE = 'db';
 
     /**
@@ -36,13 +40,13 @@ class BackupService
     ) {
         $this->environment = $environment;
 
-        $storageCongig = [
+        $storageConfig = [
             'local' => [
                 'type' => 'Local',
                 'root' => $workDirectory,
             ],
             'dropbox' => [
-                'type' => 'Dropbox',
+                'type' => 'dropboxv2',
                 'token' => $dropboxToken,
                 'app' => 'vakhrushev_notes_backup',
                 'root' => '/',
@@ -61,9 +65,9 @@ class BackupService
             ],
         ];
 
-        $filesystems = new Filesystems\FilesystemProvider(new Config($storageCongig));
+        $filesystems = new Filesystems\FilesystemProvider(new Config($storageConfig));
         $filesystems->add(new Filesystems\LocalFilesystem());
-        $filesystems->add(new Filesystems\DropboxFilesystem());
+        $filesystems->add(new Filesystems\DropboxV2Filesystem());
 
         $databases = new Databases\DatabaseProvider(new Config($databaseConfig));
         $databases->add(new Databases\MysqlDatabase());
@@ -72,9 +76,11 @@ class BackupService
         $compressors->add(new Compressors\GzipCompressor());
 
         $this->manager = new Manager($filesystems, $databases, $compressors);
+
+        $this->logger = new NullLogger();
     }
 
-    public function backup(?string $filename = null)
+    public function backup(?string $filename = null): void
     {
         if ($filename === null) {
             $filename = $this->getDefaultFileName();
@@ -84,6 +90,11 @@ class BackupService
             new Filesystems\Destination('dropbox', $filename),
         ];
 
+        $this->logger->info('Backup database "{database}" to "{destination}"', [
+            'database' => self::DATABASE,
+            'destination' => $filename,
+        ]);
+
         /* @noinspection PhpUnhandledExceptionInspection */
         $this->manager
             ->makeBackup()
@@ -91,8 +102,13 @@ class BackupService
         ;
     }
 
-    public function restore(string $filename)
+    public function restore(string $filename): void
     {
+        $this->logger->info('Restore database "{database}" from "{target}"', [
+            'database' => self::DATABASE,
+            'target' => $filename,
+        ]);
+
         /* @noinspection PhpUnhandledExceptionInspection */
         $this->manager
             ->makeRestore()
@@ -103,9 +119,9 @@ class BackupService
     private function getDefaultFileName(): string
     {
         return sprintf(
-            'backup_%s_%s.sql',
+            'backup__%s__%s.sql',
             $this->environment,
-            (new \DateTime())->format('YmdHis')
+            (new \DateTime())->format('Y-m-d_H-i-s')
         );
     }
 }

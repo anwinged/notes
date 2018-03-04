@@ -70,6 +70,9 @@ services:
             $databaseUser: '%database_user%'
             $databasePassword: '%database_password%'
             $dropboxToken: '%dropbox_token%'
+        calls:
+            - method: setLogger
+              arguments: ['@logger']
         public: true
 
     AppBundle\Service\SearchService:
