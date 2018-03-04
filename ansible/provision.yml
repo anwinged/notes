@@ -7,14 +7,22 @@
     application_user: ubuntu
     application_cache_dir: /var/notes/
 
+    primary_database: '{{ application_name }}'
+    search_database: '{{ application_name }}_search'
+
     app_envs:
       NOTES_APP_PASSWORD: password
       NOTES_SECRET_TOKEN: ThisTokenIsNotSoSecretChangeIt
       NOTES_DATABASE_HOST: 127.0.0.1
       NOTES_DATABASE_PORT: 3306
-      NOTES_DATABASE_NAME: '{{application_name }}'
-      NOTES_DATABASE_USER: '{{application_name }}'
-      NOTES_DATABASE_PASSWORD: '{{application_name }}'
+      NOTES_DATABASE_NAME: '{{ primary_database }}'
+      NOTES_DATABASE_USER: '{{ primary_database }}'
+      NOTES_DATABASE_PASSWORD: '{{ primary_database }}'
+      NOTES_DATABASE_SEARCH_HOST: 127.0.0.1
+      NOTES_DATABASE_SEARCH_PORT: 3306
+      NOTES_DATABASE_SEARCH_NAME: '{{ search_database }}'
+      NOTES_DATABASE_SEARCH_USER: '{{ search_database }}'
+      NOTES_DATABASE_SEARCH_PASSWORD: '{{ search_database }}'
       NOTES_MAILER_HOST: 127.0.0.1
       NOTES_MAILER_PORT: 1025
       NOTES_MAILER_USER: noreply@notes.tld
@@ -55,12 +63,17 @@
     # mysql settings
 
     mysql_databases:
-      - name: '{{ application_name }}'
+      - name: '{{ primary_database }}'
+      - name: '{{ search_database }}'
     mysql_users:
-      - name: '{{ application_name }}'
+      - name: '{{ primary_database }}'
         host: '%'
-        password: '{{ application_name }}'
-        priv: '{{ application_name }}.*:ALL'
+        password: '{{ primary_database }}'
+        priv: '{{ primary_database }}.*:ALL'
+      - name: '{{ search_database }}'
+        host: '%'
+        password: '{{ search_database }}'
+        priv: '{{ search_database }}.*:ALL'
 
     # nodejs settings
 

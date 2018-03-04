@@ -13,6 +13,12 @@ parameters:
     database_user: '%env(NOTES_DATABASE_USER)%'
     database_password: '%env(NOTES_DATABASE_PASSWORD)%'
 
+    database_search_host: '%env(NOTES_DATABASE_SEARCH_HOST)%'
+    database_search_port: '%env(NOTES_DATABASE_SEARCH_PORT)%'
+    database_search_name: '%env(NOTES_DATABASE_SEARCH_NAME)%'
+    database_search_user: '%env(NOTES_DATABASE_SEARCH_USER)%'
+    database_search_password: '%env(NOTES_DATABASE_SEARCH_PASSWORD)%'
+
     mailer_transport: smtp
     mailer_host: '%env(NOTES_MAILER_HOST)%'
     mailer_port: '%env(NOTES_MAILER_PORT)%'
@@ -68,11 +74,11 @@ services:
 
     AppBundle\Service\SearchService:
         arguments:
-            $host: '%database_host%'
-            $port: '%database_port%'
-            $database: '%database_name%'
-            $user: '%database_user%'
-            $password: '%database_password%'
+            $host: '%database_search_host%'
+            $port: '%database_search_port%'
+            $database: '%database_search_name%'
+            $user: '%database_search_user%'
+            $password: '%database_search_password%'
         calls:
             - method: setLogger
               arguments: ['@logger']
