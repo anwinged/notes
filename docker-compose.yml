@@ -1,5 +1,10 @@
 version: '3.4'
 
+x-mysql: &mysql
+  image: mysql:5.7.26
+  user: '${CURRENT_ID}:${CURRENT_GROUP}'
+  restart: unless-stopped
+
 services:
 
   nginx:
@@ -27,9 +32,8 @@ services:
     restart: unless-stopped
 
   db:
-    image: mysql:5.7.26
+    <<: *mysql
     container_name: ${CONTAINER_NAME_PREFIX}-db
-    restart: unless-stopped
     volumes:
       - ./var/mysql/db:/var/lib/mysql
     environment:
@@ -39,9 +43,8 @@ services:
       MYSQL_ROOT_PASSWORD: ${NOTES_DATABASE_PASSWORD}
 
   db-search:
-    image: mysql:5.7.26
+    <<: *mysql
     container_name: ${CONTAINER_NAME_PREFIX}-db-search
-    restart: unless-stopped
     volumes:
       - ./var/mysql/db-search:/var/lib/mysql
     environment:

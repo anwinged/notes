@@ -19,7 +19,7 @@ build-assets:
 
 build: init install-dependencies build-assets
 
-up:
+up: init
 	docker-compose -f docker-compose.yml up --build
 
 down:
