@@ -15,8 +15,16 @@ install-dependencies: install-composer install-npm
 build-assets:
 	$(DRUN) npm run-script build
 
+build: init install-dependencies build-assets
+
+up:
+	docker-compose -f docker-compose.yml up --build
+
+down:
+	docker-compose -f docker-compose.yml down --remove-orphans
+
 migrate:
-	$(DRUN) console doctrine:migrations:migrate
+	$(DRUN) console doctrine:migrations:migrate -n
 
 test:
 	$(DRUN) php-cli ./vendor/bin/phpunit --coverage-text --colors

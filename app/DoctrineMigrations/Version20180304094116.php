@@ -15,11 +15,11 @@ class Version20180304094116 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE rose_fulltext_index');
-        $this->addSql('DROP TABLE rose_keyword_index');
-        $this->addSql('DROP TABLE rose_keyword_multiple_index');
-        $this->addSql('DROP TABLE rose_toc');
-        $this->addSql('DROP TABLE rose_word');
+        $this->addSql('DROP TABLE IF EXISTS rose_fulltext_index');
+        $this->addSql('DROP TABLE IF EXISTS rose_keyword_index');
+        $this->addSql('DROP TABLE IF EXISTS rose_keyword_multiple_index');
+        $this->addSql('DROP TABLE IF EXISTS rose_toc');
+        $this->addSql('DROP TABLE IF EXISTS rose_word');
     }
 
     public function down(Schema $schema)

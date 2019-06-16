@@ -26,14 +26,22 @@ services:
     working_dir: /app
     restart: unless-stopped
 
-#  mysql:
-#    image: mysql:5.7.21
-#    container_name: ${CONTAINER_NAME_PREFIX}-mysql
-#    restart: unless-stopped
-#    environment:
-#      MYSQL_DATABASE: ${MYSQL_DATABASE}
-#      MYSQL_USER: ${MYSQL_USER}
-#      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-#    ports:
-#      - '3306:3306'
+  db:
+    image: mysql:5.7.26
+    container_name: ${CONTAINER_NAME_PREFIX}-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${NOTES_DATABASE_NAME}
+      MYSQL_USER: ${NOTES_DATABASE_USER}
+      MYSQL_PASSWORD: ${NOTES_DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${NOTES_DATABASE_PASSWORD}
+
+  db-search:
+    image: mysql:5.7.26
+    container_name: ${CONTAINER_NAME_PREFIX}-db-search
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${NOTES_DATABASE_SEARCH_NAME}
+      MYSQL_USER: ${NOTES_DATABASE_SEARCH_USER}
+      MYSQL_PASSWORD: ${NOTES_DATABASE_SEARCH_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${NOTES_DATABASE_SEARCH_PASSWORD}
