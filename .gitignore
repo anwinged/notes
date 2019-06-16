@@ -1,3 +1,4 @@
+/.docker-cache
 /ansible/galaxy.roles/
 /build/
 /phpunit.xml
@@ -20,5 +21,6 @@
 /web/assets/
 /web/bundles/
 
+.env
 .php_cs.cache
 *.log

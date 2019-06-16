@@ -1,31 +1,40 @@
-install-dependencies:
-	composer install
-	npm install -y
+DRUN := docker-compose -f docker-compose.yml -f docker-compose.cmd.yml run
 
-build:
-	npm run build
+init:
+	mkdir -p ./.docker-cache/composer
+	mkdir -p ./.docker-cache/npm
+
+install-composer: init
+	$(DRUN) composer install
+
+install-npm: init
+	$(DRUN) npm install
+
+install-dependencies: install-composer install-npm
+
+build-assets:
+	$(DRUN) npm run-script build
 
 migrate:
-	bin/console doctrine:migrations:migrate
+	$(DRUN) console doctrine:migrations:migrate
 
 test:
-	./vendor/bin/phpunit --coverage-text --colors
+	$(DRUN) php-cli ./vendor/bin/phpunit --coverage-text --colors
 
 analyse-php:
-	./vendor/bin/phpstan analyse --level=max --configuration=phpstan.neon ./src ./tests
+	$(DRUN) php-cli ./vendor/bin/phpstan analyse --level=max --configuration=phpstan.neon ./src ./tests
 
 format-php:
-	./vendor/bin/php-cs-fixer fix --allow-risky=yes || true
+	$(DRUN) php-cli ./vendor/bin/php-cs-fixer fix --allow-risky=yes || true
 
+PRETTIER := $(DRUN) node ./node_modules/.bin/prettier
 format-client:
-	./node_modules/.bin/prettier --single-quote --trailing-comma es5 --tab-width 2 --write "./client/**/*.vue" || true
-	./node_modules/.bin/prettier --single-quote --trailing-comma es5 --tab-width 4 --write "./client/**/*.js" || true
-	./node_modules/.bin/prettier --single-quote --write "./client/**/*.scss" || true
+	$(PRETTIER) --single-quote --trailing-comma es5 --tab-width 2 --write "./client/**/*.vue" || true
+	$(PRETTIER) --single-quote --trailing-comma es5 --tab-width 4 --write "./client/**/*.js" || true
+	$(PRETTIER) --single-quote --write "./client/**/*.scss" || true
+	$(PRETTIER) --write "./*.md" || true
 
-format-md:
-	./node_modules/.bin/prettier --write "./*.md" || true
-
-format-all: format-php format-client format-md
+format-all: format-php format-client
 
 prepare-code: analyse-php test format-all
 

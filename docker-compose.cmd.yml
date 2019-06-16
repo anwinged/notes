@@ -1,0 +1,48 @@
+version: "3.4"
+
+x-comand: &command
+  user: '${CURRENT_ID}:${CURRENT_GROUP}'
+  volumes:
+    - ./:/app
+  working_dir: /app
+
+services:
+
+  php-cli:
+    <<: *command
+    image: ${IMAGE_NAME_PREFIX}-php:${IMAGE_VERSION:-latest}
+    entrypoint: php
+
+  console:
+    <<: *command
+    image: ${IMAGE_NAME_PREFIX}-php:${IMAGE_VERSION:-latest}
+    entrypoint: ./bin/console
+
+  composer:
+    <<: *command
+    image: composer:1.8.6
+    volumes:
+      - ./.docker-cache/composer:/opt/composer-cache
+      - ./:/app
+    environment:
+      COMPOSER_HOME: /opt/composer-cache
+
+  npm:
+    <<: *command
+    image: node:8.16.0
+    entrypoint: npm
+    volumes:
+      - ./.docker-cache/npm:/opt/npm-cache
+      - ./:/app
+    environment:
+      npm_config_cache: /opt/npm-cache
+
+  node:
+    <<: *command
+    image: node:8.16.0
+    entrypoint: node
+    volumes:
+      - ./.docker-cache/npm:/opt/npm-cache
+      - ./:/app
+    environment:
+      npm_config_cache: /opt/npm-cache
