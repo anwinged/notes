@@ -3,6 +3,8 @@ DRUN := docker-compose -f docker-compose.yml -f docker-compose.cmd.yml run
 init:
 	mkdir -p ./.docker-cache/composer
 	mkdir -p ./.docker-cache/npm
+	mkdir -p ./var/mysql/db
+	mkdir -p ./var/mysql/db-search
 
 install-composer: init
 	$(DRUN) composer install
@@ -25,6 +27,9 @@ down:
 
 migrate:
 	$(DRUN) console doctrine:migrations:migrate -n
+
+erase-search-db:
+	$(DRUN) console app:search:reindex -n -vv
 
 test:
 	$(DRUN) php-cli ./vendor/bin/phpunit --coverage-text --colors
