@@ -1,25 +1,12 @@
 security:
-
   providers:
     in_memory:
-      memory:
-        users:
-          admin:
-            password: '%app_password%'
-            roles: 'ROLE_USER'
-
-  encoders:
-    Symfony\Component\Security\Core\User\User: plaintext
+      memory: ~
 
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
+
     main:
       anonymous: ~
-      http_basic: ~
-      logout: true
-      logout_on_user_change: true
-
-  access_control:
-    - { path: ^/, roles: ROLE_USER }
