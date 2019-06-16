@@ -8,9 +8,12 @@ Vue.js.
 
 ## Разработка
 
-Для разработки можно использовать Vagrant.
+Для разработки можно использовать Docker.
 
-    $ vagrant up
+    $ make build
+    $ make up
+    $ make migrate
+    $ make erase-search-db
 
 ## Развертывание
 

@@ -1,9 +1,0 @@
-GET http://localhost:8080/notes
-Authorization: Basic YWRtaW46cGFzc3dvcmQ= # admin:password
-
-###
-
-GET http://localhost:8080/notes/search?q=123 456
-Authorization: Basic YWRtaW46cGFzc3dvcmQ= # admin:password
-
-###
