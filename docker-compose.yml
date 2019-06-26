@@ -2,7 +2,7 @@ version: '3.4'
 
 x-mysql: &mysql
   image: mysql:5.7.26
-  user: '${CURRENT_ID}:${CURRENT_GROUP}'
+  user: '${CURRENT_UID}:${CURRENT_GID}'
   restart: unless-stopped
 
 services:
@@ -10,8 +10,8 @@ services:
   nginx:
     build:
       context: docker/nginx
-    image: ${IMAGE_NAME_PREFIX}-nginx:${IMAGE_VERSION:-latest}
-    container_name: ${CONTAINER_NAME_PREFIX}-nginx
+    image: ${IMAGE_PREFIX}-nginx:${IMAGE_VERSION:-latest}
+    container_name: ${CONTAINER_PREFIX}-nginx
     volumes:
       - ./:/app
     working_dir: /app
@@ -24,9 +24,9 @@ services:
   php:
     build:
       context: docker/php
-    image: ${IMAGE_NAME_PREFIX}-php:${IMAGE_VERSION:-latest}
-    container_name: ${CONTAINER_NAME_PREFIX}-php
-    user: '${CURRENT_ID}:${CURRENT_GROUP}'
+    image: ${IMAGE_PREFIX}-php:${IMAGE_VERSION:-latest}
+    container_name: ${CONTAINER_PREFIX}-php
+    user: '${CURRENT_UID}:${CURRENT_GID}'
     volumes:
       - ./:/app
     working_dir: /app
@@ -34,22 +34,22 @@ services:
 
   db:
     <<: *mysql
-    container_name: ${CONTAINER_NAME_PREFIX}-db
+    container_name: ${CONTAINER_PREFIX}-db
     volumes:
       - ${DATA_DIR}/mysql/db:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: ${NOTES_DATABASE_NAME}
-      MYSQL_USER: ${NOTES_DATABASE_USER}
-      MYSQL_PASSWORD: ${NOTES_DATABASE_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${NOTES_DATABASE_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
 
   db-search:
     <<: *mysql
-    container_name: ${CONTAINER_NAME_PREFIX}-db-search
+    container_name: ${CONTAINER_PREFIX}-db-search
     volumes:
       - ${DATA_DIR}/mysql/db-search:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: ${NOTES_DATABASE_SEARCH_NAME}
-      MYSQL_USER: ${NOTES_DATABASE_SEARCH_USER}
-      MYSQL_PASSWORD: ${NOTES_DATABASE_SEARCH_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${NOTES_DATABASE_SEARCH_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_SEARCH_NAME}
+      MYSQL_USER: ${DATABASE_SEARCH_USER}
+      MYSQL_PASSWORD: ${DATABASE_SEARCH_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_SEARCH_PASSWORD}

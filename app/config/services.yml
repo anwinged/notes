@@ -4,26 +4,26 @@ parameters:
     locale: en
     container.autowiring.strict_mode: true
 
-    app_password: '%env(NOTES_APP_PASSWORD)%'
-    secret: '%env(NOTES_SECRET_TOKEN)%'
+    app_password: '%env(APP_PASSWORD)%'
+    secret: '%env(SECRET_TOKEN)%'
 
-    database_host: '%env(NOTES_DATABASE_HOST)%'
-    database_port: '%env(NOTES_DATABASE_PORT)%'
-    database_name: '%env(NOTES_DATABASE_NAME)%'
-    database_user: '%env(NOTES_DATABASE_USER)%'
-    database_password: '%env(NOTES_DATABASE_PASSWORD)%'
+    database_host: '%env(DATABASE_HOST)%'
+    database_port: '%env(DATABASE_PORT)%'
+    database_name: '%env(DATABASE_NAME)%'
+    database_user: '%env(DATABASE_USER)%'
+    database_password: '%env(DATABASE_PASSWORD)%'
 
-    database_search_host: '%env(NOTES_DATABASE_SEARCH_HOST)%'
-    database_search_port: '%env(NOTES_DATABASE_SEARCH_PORT)%'
-    database_search_name: '%env(NOTES_DATABASE_SEARCH_NAME)%'
-    database_search_user: '%env(NOTES_DATABASE_SEARCH_USER)%'
-    database_search_password: '%env(NOTES_DATABASE_SEARCH_PASSWORD)%'
+    database_search_host: '%env(DATABASE_SEARCH_HOST)%'
+    database_search_port: '%env(DATABASE_SEARCH_PORT)%'
+    database_search_name: '%env(DATABASE_SEARCH_NAME)%'
+    database_search_user: '%env(DATABASE_SEARCH_USER)%'
+    database_search_password: '%env(DATABASE_SEARCH_PASSWORD)%'
 
     mailer_transport: smtp
-    mailer_host: '%env(NOTES_MAILER_HOST)%'
-    mailer_port: '%env(NOTES_MAILER_PORT)%'
-    mailer_user: '%env(NOTES_MAILER_USER)%'
-    mailer_password: '%env(NOTES_MAILER_PASSWORD)%'
+    mailer_host: '%env(MAILER_HOST)%'
+    mailer_port: '%env(MAILER_PORT)%'
+    mailer_user: '%env(MAILER_USER)%'
+    mailer_password: '%env(MAILER_PASSWORD)%'
 
     dropbox_token: '%env(NOTES_DROPBOX_TOKEN)%'
 

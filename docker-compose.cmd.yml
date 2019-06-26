@@ -1,7 +1,7 @@
 version: "3.4"
 
 x-comand: &command
-  user: '${CURRENT_ID}:${CURRENT_GROUP}'
+  user: '${CURRENT_UID}:${CURRENT_GID}'
   volumes:
     - ./:/app
   working_dir: /app
@@ -10,12 +10,12 @@ services:
 
   php-cli:
     <<: *command
-    image: ${IMAGE_NAME_PREFIX}-php:${IMAGE_VERSION:-latest}
+    image: ${IMAGE_PREFIX}-php:${IMAGE_VERSION:-latest}
     entrypoint: php
 
   console:
     <<: *command
-    image: ${IMAGE_NAME_PREFIX}-php:${IMAGE_VERSION:-latest}
+    image: ${IMAGE_PREFIX}-php:${IMAGE_VERSION:-latest}
     entrypoint: ./bin/console
 
   composer:

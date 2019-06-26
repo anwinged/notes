@@ -1,8 +1,10 @@
 ENV_FILE ?= .env
-DRUN := docker-compose -f docker-compose.yml -f docker-compose.cmd.yml run
 
 # Include env vafiables from file (only GNU make)
 include ${ENV_FILE}
+
+DCOM := docker-compose -p "${PROJECT_NAME}" -f docker-compose.yml
+DRUN := ${DCOM} -f docker-compose.cmd.yml run
 
 init:
 	mkdir -p ${DATA_DIR}/mysql/db
@@ -11,7 +13,7 @@ init:
 	mkdir -p ${CACHE_DIR}/npm
 
 build-docker:
-	docker-compose -f docker-compose.yml build --parallel
+	docker-compose -f docker-compose.yml build
 
 composer: A ?= help
 composer:
@@ -35,10 +37,10 @@ build-assets:
 build: init build-docker install-dependencies build-assets
 
 up:
-	docker-compose -f docker-compose.yml up --remove-orphans
+	${DCOM} up --remove-orphans
 
 down:
-	docker-compose -f docker-compose.yml down --remove-orphans
+	${DCOM} down --remove-orphans
 
 migrate:
 	${DRUN} console doctrine:migrations:migrate -n -vv
