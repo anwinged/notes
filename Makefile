@@ -6,6 +6,7 @@ ENV_FILE ?= .env
 
 # Include env vafiables from file (only GNU make)
 include ${ENV_FILE}
+export $(shell sed 's/=.*//' "${ENV_FILE}")
 
 DCOM := docker-compose -p "${PROJECT_NAME}" -f docker-compose.yml
 DRUN := ${DCOM} -f docker-compose.cmd.yml run
@@ -21,6 +22,9 @@ endif
 # ----------------------------------------------------------------------------
 # Commands
 # ----------------------------------------------------------------------------
+
+list-env:
+	env
 
 init:
 	mkdir -p ${DATA_DIR}/mysql/db
