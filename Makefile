@@ -61,7 +61,7 @@ build-assets:
 build: init build-docker install-dependencies build-assets
 
 up:
-	${DCOM} up --remove-orphans
+	${DCOM} up --detach
 
 down:
 	${DCOM} down --remove-orphans
