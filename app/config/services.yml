@@ -4,7 +4,6 @@ parameters:
     locale: en
     container.autowiring.strict_mode: true
 
-    app_password: '%env(APP_PASSWORD)%'
     secret: '%env(SECRET_TOKEN)%'
 
     database_host: '%env(DATABASE_HOST)%'

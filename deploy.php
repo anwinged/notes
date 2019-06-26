@@ -5,15 +5,15 @@ require 'recipe/common.php';
 
 // Hosts
 
-host('notes.anwinged.ru')
-    ->user('notes_owner')
+host('notes.vakhrushev.ru')
+    ->user('notes')
     ->stage('production')
     ->set('deploy_path', '/var/www/notes')
 ;
 
 host('notes.loc')
-    ->user('notes_owner')
-    ->stage('testing')
+    ->user('notes')
+    ->stage('192.168.50.10')
     ->set('deploy_path', '/var/www/notes')
     ->addSshOption('UserKnownHostsFile', '/dev/null')
     ->addSshOption('StrictHostKeyChecking', 'no')
