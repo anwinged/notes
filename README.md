@@ -13,7 +13,7 @@ Vue.js.
     $ make build
     $ make up
     $ make migrate
-    $ make erase-search-db
+    $ make reindex-search-db
 
 ## Развертывание
 

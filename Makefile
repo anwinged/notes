@@ -1,4 +1,4 @@
-ENV_FILE := .env
+ENV_FILE ?= .env
 DRUN := docker-compose -f docker-compose.yml -f docker-compose.cmd.yml run
 
 # Include env vafiables from file (only GNU make)
@@ -13,11 +13,19 @@ init:
 build-docker:
 	docker-compose -f docker-compose.yml build --parallel
 
+composer: A ?= help
+composer:
+	${DRUN} composer ${A}
+
+npm: A ?= help
+npm:
+	${DRUN} npm ${A}
+
 install-composer: init
 	${DRUN} composer install
 
 install-npm: init
-	${DRUN} npm install
+	${DRUN} npm ci
 
 install-dependencies: install-composer install-npm
 
@@ -27,15 +35,15 @@ build-assets:
 build: init build-docker install-dependencies build-assets
 
 up:
-	docker-compose -f docker-compose.yml up
+	docker-compose -f docker-compose.yml up --remove-orphans
 
 down:
 	docker-compose -f docker-compose.yml down --remove-orphans
 
 migrate:
-	${DRUN} console doctrine:migrations:migrate -n
+	${DRUN} console doctrine:migrations:migrate -n -vv
 
-erase-search-db:
+reindex-search-db:
 	${DRUN} console app:search:reindex -n -vv
 
 test:
@@ -47,7 +55,7 @@ analyse-php:
 format-php:
 	${DRUN} php-cli ./vendor/bin/php-cs-fixer fix --allow-risky=yes || true
 
-PRETTIER := ${DRUN} node ./node_modules/.bin/prettier
+format-client: PRETTIER := ${DRUN} node ./node_modules/.bin/prettier
 format-client:
 	${PRETTIER} --single-quote --trailing-comma es5 --tab-width 2 --write "./client/**/*.vue" || true
 	${PRETTIER} --single-quote --trailing-comma es5 --tab-width 4 --write "./client/**/*.js" || true
