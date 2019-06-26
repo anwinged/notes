@@ -1,51 +1,58 @@
+ENV_FILE := .env
 DRUN := docker-compose -f docker-compose.yml -f docker-compose.cmd.yml run
 
+# Include env vafiables from file (only GNU make)
+include ${ENV_FILE}
+
 init:
-	mkdir -p ./.docker-cache/composer
-	mkdir -p ./.docker-cache/npm
-	mkdir -p ./var/mysql/db
-	mkdir -p ./var/mysql/db-search
+	mkdir -p ${DATA_DIR}/mysql/db
+	mkdir -p ${DATA_DIR}/mysql/db-search
+	mkdir -p ${CACHE_DIR}/composer
+	mkdir -p ${CACHE_DIR}/npm
+
+build-docker:
+	docker-compose -f docker-compose.yml build --parallel
 
 install-composer: init
-	$(DRUN) composer install
+	${DRUN} composer install
 
 install-npm: init
-	$(DRUN) npm install
+	${DRUN} npm install
 
 install-dependencies: install-composer install-npm
 
 build-assets:
-	$(DRUN) npm run-script build
+	${DRUN} npm run-script build
 
-build: init install-dependencies build-assets
+build: init build-docker install-dependencies build-assets
 
-up: init
-	docker-compose -f docker-compose.yml up --build
+up:
+	docker-compose -f docker-compose.yml up
 
 down:
 	docker-compose -f docker-compose.yml down --remove-orphans
 
 migrate:
-	$(DRUN) console doctrine:migrations:migrate -n
+	${DRUN} console doctrine:migrations:migrate -n
 
 erase-search-db:
-	$(DRUN) console app:search:reindex -n -vv
+	${DRUN} console app:search:reindex -n -vv
 
 test:
-	$(DRUN) php-cli ./vendor/bin/phpunit --coverage-text --colors
+	${DRUN} php-cli ./vendor/bin/phpunit --coverage-text --colors
 
 analyse-php:
-	$(DRUN) php-cli ./vendor/bin/phpstan analyse --level=max --configuration=phpstan.neon ./src ./tests
+	${DRUN} php-cli ./vendor/bin/phpstan analyse --level=max --configuration=phpstan.neon ./src ./tests
 
 format-php:
-	$(DRUN) php-cli ./vendor/bin/php-cs-fixer fix --allow-risky=yes || true
+	${DRUN} php-cli ./vendor/bin/php-cs-fixer fix --allow-risky=yes || true
 
-PRETTIER := $(DRUN) node ./node_modules/.bin/prettier
+PRETTIER := ${DRUN} node ./node_modules/.bin/prettier
 format-client:
-	$(PRETTIER) --single-quote --trailing-comma es5 --tab-width 2 --write "./client/**/*.vue" || true
-	$(PRETTIER) --single-quote --trailing-comma es5 --tab-width 4 --write "./client/**/*.js" || true
-	$(PRETTIER) --single-quote --write "./client/**/*.scss" || true
-	$(PRETTIER) --write "./*.md" || true
+	${PRETTIER} --single-quote --trailing-comma es5 --tab-width 2 --write "./client/**/*.vue" || true
+	${PRETTIER} --single-quote --trailing-comma es5 --tab-width 4 --write "./client/**/*.js" || true
+	${PRETTIER} --single-quote --write "./client/**/*.scss" || true
+	${PRETTIER} --write "./*.md" || true
 
 format-all: format-php format-client
 

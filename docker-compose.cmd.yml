@@ -22,7 +22,7 @@ services:
     <<: *command
     image: composer:1.8.6
     volumes:
-      - ./.docker-cache/composer:/opt/composer-cache
+      - ${CACHE_DIR}/composer:/opt/composer-cache
       - ./:/app
     environment:
       COMPOSER_HOME: /opt/composer-cache
@@ -32,7 +32,7 @@ services:
     image: node:8.16.0
     entrypoint: npm
     volumes:
-      - ./.docker-cache/npm:/opt/npm-cache
+      - ${CACHE_DIR}/npm:/opt/npm-cache
       - ./:/app
     environment:
       npm_config_cache: /opt/npm-cache
@@ -42,7 +42,7 @@ services:
     image: node:8.16.0
     entrypoint: node
     volumes:
-      - ./.docker-cache/npm:/opt/npm-cache
+      - ${CACHE_DIR}/docker-cache/npm:/opt/npm-cache
       - ./:/app
     environment:
       npm_config_cache: /opt/npm-cache
