@@ -1,10 +1,26 @@
 ENV_FILE ?= .env
 
+# ----------------------------------------------------------------------------
+# Definitions
+# ----------------------------------------------------------------------------
+
 # Include env vafiables from file (only GNU make)
 include ${ENV_FILE}
 
 DCOM := docker-compose -p "${PROJECT_NAME}" -f docker-compose.yml
 DRUN := ${DCOM} -f docker-compose.cmd.yml run
+
+ifeq (${APP_ENV}, prod)
+	COMPOSER_INSTALL_ARGS := --no-interaction --no-dev --no-scripts --no-suggest --optimize-autoloader
+	NPM_BUILD_COMMAND := build-prod
+else
+	COMPOSER_INSTALL_ARGS :=
+	NPM_BUILD_COMMAND := build
+endif
+
+# ----------------------------------------------------------------------------
+# Commands
+# ----------------------------------------------------------------------------
 
 init:
 	mkdir -p ${DATA_DIR}/mysql/db
@@ -23,8 +39,12 @@ npm: A ?= help
 npm:
 	${DRUN} npm ${A}
 
+console: A ?= help
+console:
+	${DRUN} console ${A}
+
 install-composer: init
-	${DRUN} composer install
+	${DRUN} composer install ${COMPOSER_INSTALL_ARGS}
 
 install-npm: init
 	${DRUN} npm ci
@@ -32,7 +52,7 @@ install-npm: init
 install-dependencies: install-composer install-npm
 
 build-assets:
-	${DRUN} npm run-script build
+	${DRUN} npm run-script ${NPM_BUILD_COMMAND}
 
 build: init build-docker install-dependencies build-assets
 
