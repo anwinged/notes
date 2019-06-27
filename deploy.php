@@ -5,7 +5,7 @@ require 'recipe/common.php';
 
 // Hosts
 
-host('notes.vakhrushev.ru')
+host('notes.vakhrushev.me')
     ->user('notes')
     ->stage('production')
     ->set('deploy_path', '/var/www/notes')
