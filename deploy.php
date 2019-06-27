@@ -31,6 +31,9 @@ set('keep_releases', 2);
 // [Optional] Allocate tty for git clone. Default value is false.
 set('git_tty', true);
 
+// Timeout for script execution
+set('default_timeout', 1800);
+
 task('deploy:copy_env', function () {
     within('{{release_path}}', function () {
         run('cp -f /home/notes/.env .');
