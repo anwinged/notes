@@ -68,7 +68,7 @@ down:
 	${DCOM} down --remove-orphans
 
 migrate:
-	${DRUN} console doctrine:migrations:migrate -n -vv
+	${DRUN} artisan migrate -n -vv
 
 reindex-search-db:
 	${DRUN} console app:search:reindex -n -vv
