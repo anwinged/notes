@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../style/vars.scss';
+@import '../style/vars';
 .action-panel {
   display: flex;
   justify-content: space-between;

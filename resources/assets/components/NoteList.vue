@@ -45,8 +45,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../style/vars.scss';
-@import '../style/mixins.scss';
+@import '../style/vars';
+@import '../style/mixins';
 .list {
   list-style: none;
   margin: 0 0 $gap;

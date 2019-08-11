@@ -52,7 +52,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../style/vars.scss';
+@import '../style/vars';
 .component {
   width: 100%;
   box-sizing: border-box;

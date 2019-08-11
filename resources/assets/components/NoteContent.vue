@@ -13,8 +13,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../style/vars.scss';
-@import '../style/mixins.scss';
+@import '../style/vars';
+@import '../style/mixins';
 .note-content {
   @include panel();
   display: block;

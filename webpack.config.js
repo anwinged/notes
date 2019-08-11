@@ -4,10 +4,10 @@ const webpack = require('webpack');
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: {
-      app: './client/main.js',
+      app: './resources/assets/main.js',
   },
   output: {
-    path: path.resolve(__dirname, './web/assets/'),
+    path: path.resolve(__dirname, './public/assets/'),
     publicPath: '/assets/',
     filename: '[name].js'
   },

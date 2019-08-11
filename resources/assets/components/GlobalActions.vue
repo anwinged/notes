@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../style/vars.scss';
+@import '../style/vars';
 .global-actions {
   list-style: none;
   margin: 0;

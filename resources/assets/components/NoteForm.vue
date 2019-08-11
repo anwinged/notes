@@ -76,8 +76,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../style/vars.scss';
-@import '../style/mixins.scss';
+@import '../style/vars';
+@import '../style/mixins';
 .editor {
   box-sizing: border-box;
   display: flex;

@@ -18,8 +18,7 @@
 /node_modules/
 /vendor/
 
-/web/assets/
-/web/bundles/
+/public/assets/
 
 .env
 .php_cs.cache
