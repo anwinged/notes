@@ -43,9 +43,10 @@ npm: A ?= help
 npm:
 	${DRUN} npm ${A}
 
-console: A ?= help
-console:
-	${DRUN} console ${A}
+.PHONY: artisan
+artisan: A ?= help
+artisan:
+	${DRUN} artisan ${A}
 
 install-composer: init
 	${DRUN} composer install ${COMPOSER_INSTALL_ARGS}

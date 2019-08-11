@@ -13,10 +13,10 @@ services:
     image: ${IMAGE_PREFIX}-php:${IMAGE_VERSION:-latest}
     entrypoint: php
 
-  console:
+  artisan:
     <<: *command
     image: ${IMAGE_PREFIX}-php:${IMAGE_VERSION:-latest}
-    entrypoint: ./bin/console
+    entrypoint: ./artisan
 
   composer:
     <<: *command
