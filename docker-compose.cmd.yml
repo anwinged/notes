@@ -20,7 +20,7 @@ services:
 
   composer:
     <<: *command
-    image: composer:1.8.6
+    image: composer:1.9.0
     volumes:
       - ${CACHE_DIR}/composer:/opt/composer-cache
       - ./:/app

@@ -1,5 +1,5 @@
 /.docker-cache
-/ansible/galaxy.roles/
+/.idea/
 /build/
 /phpunit.xml
 
