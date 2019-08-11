@@ -93,6 +93,12 @@ format-all: format-php format-client
 
 prepare-code: analyse-php test format-all
 
+create-ide-helpers:
+	${DRUN} artisan ide-helper:generate
+	${DRUN} artisan ide-helper:models --write --reset
+	${DRUN} artisan ide-helper:meta
+	${MAKE} format-php
+
 deploy-prod:
 	dep deploy production
 

@@ -24,3 +24,5 @@
 .env
 .php_cs.cache
 *.log
+.phpstorm.meta
+_ide_helper_models.php
