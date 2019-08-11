@@ -1,19 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateNoteTable extends Migration {
-
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up(): void
-	{
+class CreateNoteTable extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
         if (!Schema::hasTable('tblCategory')) {
-            Schema::create('note', static function(Blueprint $table) {
+            Schema::create('note', static function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->text('source');
                 $table->text('html');
@@ -24,17 +24,13 @@ class CreateNoteTable extends Migration {
                 $table->string('short', 1024)->default('');
             });
         }
-	}
+    }
 
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down(): void
-	{
-		Schema::drop('note');
-	}
-
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::drop('note');
+    }
 }
